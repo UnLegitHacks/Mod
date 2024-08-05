@@ -2,7 +2,7 @@
 **is a free Minecraft Fabric hacked client.**
 It can be used along with other mods such as Sodium.
 
-It is currently private right now, so if you're reading this you have access.
+I invited random people into this repo so if you accepted, welcome :D
 
 ## Setup
 This uses Gradle. Here are steps to set it up:
