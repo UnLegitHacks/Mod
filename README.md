@@ -1,6 +1,9 @@
 # UnLegit 3.0
 **is a free Minecraft Fabric hacked client.**
 It can be used along with other mods such as Sodium.
+
+It is currently private right now, so if you're reading this you have access.
+
 ## Setup
 This uses Gradle. Here are steps to set it up:
 1. Clone the repository using `git clone --recurse-submodules https://github.com/UnLegitHacks/Mod`.
