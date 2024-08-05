@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "io.unlegit.mixins",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"MinecraftMixin", "GuiMixin", "LocalPlayerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
