@@ -3,7 +3,7 @@
 It can be used along with other mods such as Sodium.
 
 I invited random people into this repo so if you accepted, welcome :D
-(just free code access)
+(just free code access) and RIP sigma
 
 ## Setup
 This uses Gradle. Here are steps to set it up:
