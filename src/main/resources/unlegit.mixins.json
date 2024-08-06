@@ -3,7 +3,7 @@
 	"package": "io.unlegit.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"MinecraftMixin", "GuiMixin", "LocalPlayerMixin", "KeyHandlerMixin"
+		"MinecraftMixin", "GuiMixin", "LocalPlayerMixin", "KeyHandlerMixin", "ScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
