@@ -1,6 +1,7 @@
 package io.unlegit.events;
 
 import io.unlegit.events.impl.GuiRenderE;
+import io.unlegit.events.impl.KeyE;
 import io.unlegit.events.impl.UpdateE;
 
 public class EventHandler
@@ -12,6 +13,7 @@ public class EventHandler
         {
             case GuiRenderE g: listener.onRender(); break;
             case UpdateE u: listener.onUpdate(); break;
+            case KeyE k: listener.onKey(k); break;
             default: break;
         }
     }

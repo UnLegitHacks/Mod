@@ -10,23 +10,23 @@ import java.util.ArrayList;
  */
 public class EventBus
 {
-    private ArrayList<EventListener> registeredListeners = new ArrayList<>();
+    private ArrayList<EventListener> listeners = new ArrayList<>();
     
     public void register(EventListener listener)
     {
-        registeredListeners.add(listener);
+        if (!listeners.contains(listener)) listeners.add(listener);
     }
     
     public void unregister(EventListener listener)
     {
-        registeredListeners.remove(listener);
+        if (listeners.contains(listener)) listeners.remove(listener);
     }
     
     public void post(Event e)
     {
-        for (int i = 0; i < registeredListeners.size(); i++)
+        for (int i = 0; i < listeners.size(); i++)
         {
-            EventListener listener = registeredListeners.get(i);
+            EventListener listener = listeners.get(i);
             handleEvent(listener, e);
         }
     }

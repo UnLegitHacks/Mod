@@ -15,6 +15,6 @@ public class LocalPlayerMixin
     @Inject(method = "tick", at = @At(value = "INVOKE", target = "tick"))
     public void updateEvent(CallbackInfo info)
     {
-        UnLegit.eventBus.post(UpdateE.EVENT);
+        UnLegit.events.post(UpdateE.get());
     }
 }

@@ -16,13 +16,13 @@ public class SoundUtil
     
     public static void playSound(String path)
     {
-        File file = new File("sounds/" + path);
+        File file = new File("unlegit/sounds/" + path);
         
         if (!file.exists())
         {
             file.getParentFile().mkdirs();
             
-            try (InputStream inputStream = SoundUtil.class.getClassLoader().getResourceAsStream("assets/minecraft/unlegit/sounds/" + path))
+            try (InputStream inputStream = SoundUtil.class.getClassLoader().getResourceAsStream("assets/unlegit/sounds/" + path))
             {
                 FileUtil.extract(inputStream, file);
             } catch (Exception e) {}

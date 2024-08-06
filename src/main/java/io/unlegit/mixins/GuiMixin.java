@@ -16,6 +16,6 @@ public class GuiMixin
     @Inject(method = "render", at = @At(value = "INVOKE", target = "render", shift = Shift.AFTER))
     public void renderEvent(CallbackInfo info)
     {
-        UnLegit.eventBus.post(GuiRenderE.EVENT);
+        UnLegit.events.post(GuiRenderE.get());
     }
 }
