@@ -25,7 +25,7 @@ import net.minecraft.resources.ResourceLocation;
 /**
  * If any mods add buttons to the main menu,
  * unfortunately this screen won't have it.
- * However this looks aesthestically better than
+ * However this looks aesthetically better than
  * the vanilla main menu, so it's worth it.
  */
 public class UnTitleScreen extends Screen implements IGui
@@ -47,26 +47,26 @@ public class UnTitleScreen extends Screen implements IGui
         String titleText = "Minecraft " + SharedConstants.getCurrentVersion().getName();
         
         if (minecraft.isDemo()) titleText += " Demo";
-        else titleText += ("release".equalsIgnoreCase(this.minecraft.getVersionType()) ? "" : "/" + this.minecraft.getVersionType());
+        else titleText += ("release".equalsIgnoreCase(minecraft.getVersionType()) ? "" : "/" + minecraft.getVersionType());
         if (Minecraft.checkModStatus().shouldReportAsModified()) { titleText += I18n.get("menu.modded"); }
         
-        IFont.NORMAL.drawString(guiGraphics, titleText, 0, height - 13, Color.WHITE);
-        IFont.NORMAL.drawString(guiGraphics, COPYRIGHT_TEXT.getString(), width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, Color.WHITE);
+        IFont.NORMAL.drawStringWithShadow(guiGraphics, titleText, 0, height - 13, Color.WHITE);
+        IFont.NORMAL.drawStringWithShadow(guiGraphics, COPYRIGHT_TEXT.getString(), width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, Color.WHITE);
         guiGraphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
         
         if (mouseOver((int) mouseX, (int) mouseY, width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, width, height))
             guiGraphics.fill(width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 2, width, height - 1, -1);
     }
     
-    public boolean mouseClicked(double mouseX, double mouseY, int action)
+    public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
         if (mouseOver((int) mouseX, (int) mouseY, width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, width, height))
             minecraft.setScreen(new CreditsAndAttributionScreen(this));
         
-        for (UnButton button : buttons)
-            button.mouseClicked(mouseX, mouseY, action);
+        for (UnButton buttonComponent : buttons)
+            buttonComponent.mouseClicked(mouseX, mouseY, button);
         
-        return super.mouseClicked(mouseX, mouseY, action);
+        return super.mouseClicked(mouseX, mouseY, button);
     }
     
     protected void init()

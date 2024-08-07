@@ -2,6 +2,7 @@ package io.unlegit.modules;
 
 import java.util.ArrayList;
 
+import io.unlegit.UnLegit;
 import io.unlegit.modules.impl.player.AutoSprint;
 
 public class ModuleManager
@@ -11,7 +12,7 @@ public class ModuleManager
     public ModuleManager()
     {
         add(new AutoSprint());
-        modules.get(0).setEnabled(true);
+        UnLegit.settings.call(this);
     }
     
     public ArrayList<ModuleU> get(CategoryM category)
@@ -25,6 +26,17 @@ public class ModuleManager
         }
         
         return modules;
+    }
+    
+    public ModuleU get(String name)
+    {
+        for (ModuleU module : this.modules)
+        {
+            if (module.name.replace(" ", "").equalsIgnoreCase(name.replace(" ", "")))
+                return module;
+        }
+        
+        return null;
     }
     
     public void add(ModuleU... modules)

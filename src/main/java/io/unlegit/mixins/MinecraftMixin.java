@@ -11,6 +11,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.unlegit.UnLegit;
 import io.unlegit.gui.UnTitleScreen;
+import io.unlegit.gui.font.IFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -29,4 +30,7 @@ public class MinecraftMixin
     {
         return builder.insert(0, UnLegit.NAME + " - ");
     }
+    
+    @Inject(method = "updateFontOptions", at = @At(value = "TAIL"))
+    private void initializeFont(CallbackInfo info) { IFont.init(); }
 }

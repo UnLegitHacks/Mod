@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.unlegit.interfaces.IGui;
 import net.minecraft.client.Minecraft;
@@ -30,15 +31,20 @@ public class ScreenMixin implements IGui
     @Overwrite
     public void renderPanorama(GuiGraphics guiGraphics, float f)
     {
-        if (flag) { background = withLinearScaling(background); flag = false; }
-        int bW = 1280, bH = 398, mouseX = (int) (minecraft.mouseHandler.xpos() / minecraft.getWindow().getGuiScale());
+        PoseStack poseStack = guiGraphics.pose();
+        float scale = (float) minecraft.getWindow().getGuiScale();
         
-        // If they're too small, make them bigger while maintaining the aspect ratio.
-        while (bW < width || bH < height) { bW *= 1.25F; bH *= 1.25F; } 
+        poseStack.pushPose();
+        poseStack.last().pose().scale(1 / scale);
+        
+        if (flag) { background = withLinearScaling(background); flag = false; }
+        int bH = (int) (height * scale), bW = (int) Math.max(bH * 3.21F, width * scale), mouseX = (int) minecraft.mouseHandler.xpos();
         
         GlStateManager._enableBlend();
         guiGraphics.setColor(1, 1, 1, 1);
-        guiGraphics.blit(background, -mouseX / 6, 0, bW, bH, bW, bH, bW, bH);
+        guiGraphics.blit(background, -mouseX / 3, 0, bW, bH, bW, bH, bW, bH);
+        poseStack.popPose();
+        
         guiGraphics.fill(0, 0, width, height, new Color(0, 0, 0, 50).getRGB());
     }
     

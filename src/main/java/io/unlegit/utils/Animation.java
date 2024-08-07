@@ -9,12 +9,23 @@ public class Animation
     
     public int wrap(int input)
     {
-        value = (System.currentTimeMillis() - time) / (float) interval;
-        value = value > 1 ? 1 : value;
-        value = reverse ? (interval - (interval * value)) / (float) interval : value;
+        update();
         return (int) (input * value);
     }
     
-    public boolean finished() { return value == 1; }
+    public float get()
+    {
+        update();
+        return value;
+    }
+    
+    private void update()
+    {
+        value = (System.currentTimeMillis() - time) / (float) interval;
+        value = value > 1 ? 1 : value;
+        value = reverse ? (interval - (interval * value)) / (float) interval : value;
+    }
+    
+    public boolean finished() { return value == (reverse ? 0 : 1); }
     public Animation(int interval) { this.interval = interval; }
 }

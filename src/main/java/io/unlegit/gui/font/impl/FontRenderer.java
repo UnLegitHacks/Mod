@@ -11,9 +11,11 @@ import io.unlegit.gui.font.GlyphPage;
 import io.unlegit.interfaces.IMinecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.ResourceLocation;
 
 public class FontRenderer implements IMinecraft
 {
+    private static ResourceLocation shadow = ResourceLocation.fromNamespaceAndPath("unlegit", "text_shadow.png");
     private float prevScaleFactor, posX, posY;
     private GlyphPage page;
     private String path;
@@ -45,16 +47,6 @@ public class FontRenderer implements IMinecraft
         return page;
     }
     
-    public int drawString(GuiGraphics guiGraphics, String text, int x, int y, Color color)
-    {
-        return renderString(guiGraphics, text, x, y, color);
-    }
-    
-    public int drawCenteredString(GuiGraphics graphics, String text, int x, int y, Color color)
-    {
-        return drawString(graphics, text, x - getStringWidth(text) / 2, y, color);
-    }
-    
     private int renderString(GuiGraphics graphics, String text, int x, int y, Color color)
     {
         if (text == null) return 0;
@@ -82,7 +74,7 @@ public class FontRenderer implements IMinecraft
         pose.pushPose(); pose.last().pose().scale(1 / scaleFactor);
         float posX = this.posX * scaleFactor, posY = this.posY * scaleFactor;
         GlStateManager._enableBlend();
-        RenderSystem.setShader(() -> GameRenderer.getPositionTexColorShader());
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         page.bind();
         
         for (int i = 0; i < text.length(); ++i)
@@ -107,6 +99,30 @@ public class FontRenderer implements IMinecraft
         }
         
         return (int) (width / scaleFactor);
+    }
+    
+    public int drawString(GuiGraphics guiGraphics, String text, int x, int y, Color color)
+    {
+        return renderString(guiGraphics, text, x, y, color);
+    }
+    
+    public int drawStringWithShadow(GuiGraphics guiGraphics, String text, int x, int y, Color color)
+    {
+        int width = getStringWidth(text) + 1, height = size + 2;
+        guiGraphics.setColor(1, 1, 1, color.getAlpha() / 255F);
+        guiGraphics.blit(shadow, x, y, width, height, width, height, width, height);
+        guiGraphics.setColor(1, 1, 1, 1);
+        return renderString(guiGraphics, text, x, y, color);
+    }
+    
+    public int drawCenteredString(GuiGraphics graphics, String text, int x, int y, Color color)
+    {
+        return drawString(graphics, text, x - getStringWidth(text) / 2, y, color);
+    }
+    
+    public int drawCenteredStringWithShadow(GuiGraphics graphics, String text, int x, int y, Color color)
+    {
+        return drawStringWithShadow(graphics, text, x - getStringWidth(text) / 2, y, color);
     }
     
     public FontRenderer(GlyphPage page) { this.page = page; }

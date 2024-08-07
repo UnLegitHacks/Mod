@@ -45,4 +45,5 @@ public class SoundUtil
     
     public static void playEnableSound() { playSound("enable.wav"); }
     public static void playDisableSound() { playSound("disable.wav"); }
+    public static void playActionSound() { playSound("action.wav"); }
 }
