@@ -3,6 +3,7 @@ package io.unlegit.modules;
 import java.util.ArrayList;
 
 import io.unlegit.UnLegit;
+import io.unlegit.modules.impl.movement.Speed;
 import io.unlegit.modules.impl.player.AutoSprint;
 
 public class ModuleManager
@@ -11,7 +12,7 @@ public class ModuleManager
     
     public ModuleManager()
     {
-        add(new AutoSprint());
+        add(new AutoSprint(), new Speed() /*, new AutoTotem() */);
         UnLegit.settings.call(this);
     }
     

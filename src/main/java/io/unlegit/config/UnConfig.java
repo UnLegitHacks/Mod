@@ -129,6 +129,7 @@ public class UnConfig
                         {
                             ToggleSetting toggleSetting = (ToggleSetting) setting;
                             toggleSetting.enabled = element.getAsBoolean();
+                            toggleSetting.onChange();
                         }
                         
                         else if (setting instanceof SliderSetting)
@@ -157,6 +158,7 @@ public class UnConfig
                         {
                             ModeSetting modeSetting = (ModeSetting) setting;
                             modeSetting.currentMode = element.getAsString();
+                            modeSetting.onChange();
                         }
                     }
                 }

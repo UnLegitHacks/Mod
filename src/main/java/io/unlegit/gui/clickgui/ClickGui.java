@@ -84,14 +84,15 @@ public class ClickGui extends Screen implements IGui
         
         if (temp)
         {
-            int y = (height / 2) - 164 /* Magic value */, margin = Math.min(y, 50), x = margin, i = 0;
+            int y = 10, x = 10, i = 0;
+            categories.clear();;
             
             for (CategoryM category : CategoryM.values())
             {
                 if (i != 0 && i % 4 == 0)
                 {
                     y += 168;
-                    x = margin;
+                    x = 10;
                 }
                 
                 categories.add(new RenderCategory(category, x, y));

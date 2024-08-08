@@ -1,6 +1,6 @@
 package io.unlegit.events;
 
-import io.unlegit.events.impl.KeyE;
+import io.unlegit.events.impl.*;
 
 /**
  * If you want to listen to events,
@@ -9,4 +9,5 @@ import io.unlegit.events.impl.KeyE;
 public interface EventListener
 {
     default void onRender() {} default void onUpdate() {} default void onKey(KeyE e) {}
+    default void onMove(MoveE e) {}
 }
