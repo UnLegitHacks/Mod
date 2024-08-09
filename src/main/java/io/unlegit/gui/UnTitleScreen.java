@@ -34,15 +34,15 @@ public class UnTitleScreen extends Screen implements IGui
     private ArrayList<UnButton> buttons = new ArrayList<>();
     private ResourceLocation logo = null;
     
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
     {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        this.renderPanorama(guiGraphics, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderPanorama(graphics, partialTicks);
         GlStateManager._enableBlend();
-        guiGraphics.setColor(1, 1, 1, 1);
+        graphics.setColor(1, 1, 1, 1);
         
         for (UnButton button : buttons)
-            button.render(guiGraphics, mouseX, mouseY);
+            button.render(graphics, mouseX, mouseY);
         
         String titleText = "Minecraft " + SharedConstants.getCurrentVersion().getName();
         
@@ -50,12 +50,12 @@ public class UnTitleScreen extends Screen implements IGui
         else titleText += ("release".equalsIgnoreCase(minecraft.getVersionType()) ? "" : "/" + minecraft.getVersionType());
         if (Minecraft.checkModStatus().shouldReportAsModified()) { titleText += I18n.get("menu.modded"); }
         
-        IFont.NORMAL.drawStringWithShadow(guiGraphics, titleText, 0, height - 13, Color.WHITE);
-        IFont.NORMAL.drawStringWithShadow(guiGraphics, COPYRIGHT_TEXT.getString(), width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, Color.WHITE);
-        guiGraphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
+        IFont.NORMAL.drawStringWithShadow(graphics, titleText, 0, height - 13, Color.WHITE);
+        IFont.NORMAL.drawStringWithShadow(graphics, COPYRIGHT_TEXT.getString(), width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, Color.WHITE);
+        graphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
         
         if (mouseOver((int) mouseX, (int) mouseY, width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, width, height))
-            guiGraphics.fill(width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 2, width, height - 1, -1);
+            graphics.fill(width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 2, width, height - 1, -1);
     }
     
     public boolean mouseClicked(double mouseX, double mouseY, int button)

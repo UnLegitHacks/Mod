@@ -19,16 +19,34 @@ public class ClickGui extends Screen implements IGui
 {
     private ArrayList<RenderCategory> categories = new ArrayList<>();
     private static ClickGui INSTANCE = new ClickGui();
-    private boolean closingGui = false, temp = true;
     protected RenderSettings renderSettings = null;
     protected Animation animation = null;
+    private boolean closingGui = false;
     
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
+    public ClickGui()
+    {
+        super(Component.literal("Click Gui"));
+        int y = 10, x = 10, i = 0;
+        
+        for (CategoryM category : CategoryM.values())
+        {
+            if (i != 0 && i % 4 == 0)
+            {
+                y += 168;
+                x = 10;
+            }
+            
+            categories.add(new RenderCategory(category, x, y));
+            x += 118; i++;
+        }
+    }
+    
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
     {
         renderBlurredBackground(partialTicks);
-        PoseStack poseStack = guiGraphics.pose();
+        PoseStack poseStack = graphics.pose();
         float scale = 1 + (1 - animation.get());
-        guiGraphics.fill(0, 0, width, height, new Color(0, 0, 0, animation.wrap(50)).getRGB());
+        graphics.fill(0, 0, width, height, new Color(0, 0, 0, animation.wrap(50)).getRGB());
         
         if (!animation.finished())
         {
@@ -39,7 +57,7 @@ public class ClickGui extends Screen implements IGui
         if (renderSettings != null)
         {
             for (RenderCategory category : categories)
-                category.render(guiGraphics, 0, 0, partialTicks);
+                category.render(graphics, 0, 0, partialTicks);
 //            
 //            renderSettings.drawScreen(mouseX, mouseY, partialTicks);
         }
@@ -47,7 +65,7 @@ public class ClickGui extends Screen implements IGui
         else
         {
             for (RenderCategory category : categories)
-                category.render(guiGraphics, mouseX, mouseY, partialTicks);
+                category.render(graphics, mouseX, mouseY, partialTicks);
         }
         
         if (!animation.finished()) poseStack.popPose();
@@ -81,26 +99,6 @@ public class ClickGui extends Screen implements IGui
     {
         closingGui = false;
         animation = new Animation(144);
-        
-        if (temp)
-        {
-            int y = 10, x = 10, i = 0;
-            categories.clear();;
-            
-            for (CategoryM category : CategoryM.values())
-            {
-                if (i != 0 && i % 4 == 0)
-                {
-                    y += 168;
-                    x = 10;
-                }
-                
-                categories.add(new RenderCategory(category, x, y));
-                x += 118; i++;
-            }
-            
-            temp = false;
-        }
     }
     
     // Exists to control the blur fade-in and fade-out.
@@ -129,5 +127,4 @@ public class ClickGui extends Screen implements IGui
     
     public boolean isPauseScreen() { return false; }
     public static ClickGui get() { return INSTANCE; }
-    public ClickGui() { super(Component.literal("Click Gui")); }
 }

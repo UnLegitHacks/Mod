@@ -8,15 +8,16 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.unlegit.gui.font.GlyphPage;
+import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IMinecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-public class FontRenderer implements IMinecraft
+public class FontRenderer implements IMinecraft, IGui
 {
-    private static ResourceLocation shadow = ResourceLocation.fromNamespaceAndPath("unlegit", "text_shadow.png");
     private float prevScaleFactor, posX, posY;
+    private ResourceLocation shadow;
     private GlyphPage page;
     private String path;
     private int size;
@@ -108,10 +109,15 @@ public class FontRenderer implements IMinecraft
     
     public int drawStringWithShadow(GuiGraphics guiGraphics, String text, int x, int y, Color color)
     {
-        int width = getStringWidth(text) + 1, height = size + 2;
+        if (shadow == null) shadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "text_shadow.png"));
+        int width = getStringWidth(text) + 2, height = size + 2;
+        x -= 5; width += 10; y -= 3; height += 6;
         guiGraphics.setColor(1, 1, 1, color.getAlpha() / 255F);
-        guiGraphics.blit(shadow, x, y, width, height, width, height, width, height);
+        guiGraphics.blit(shadow, x, y, 40, height, 10, height, 20, height);
+        guiGraphics.blit(shadow, x + 10, y, width - 20, height, 60, height, 1, height, 40, height);
+        guiGraphics.blit(shadow, x + width - 10, y, 30, height, 10, height, 20, height);
         guiGraphics.setColor(1, 1, 1, 1);
+        x += 5; y += 3;
         return renderString(guiGraphics, text, x, y, color);
     }
     

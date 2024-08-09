@@ -3,8 +3,11 @@ package io.unlegit.modules;
 import java.util.ArrayList;
 
 import io.unlegit.UnLegit;
+import io.unlegit.modules.impl.combat.killaura.KillAura;
+import io.unlegit.modules.impl.gui.ActiveMods;
+import io.unlegit.modules.impl.item.AutoTotem;
 import io.unlegit.modules.impl.movement.Speed;
-import io.unlegit.modules.impl.player.AutoSprint;
+import io.unlegit.modules.impl.player.*;
 
 public class ModuleManager
 {
@@ -12,7 +15,8 @@ public class ModuleManager
     
     public ModuleManager()
     {
-        add(new AutoSprint(), new Speed() /*, new AutoTotem() */);
+        add(new AutoSprint(), new Speed(), new AutoTotem(), new Cooldown(),
+            new AutoRespawn(), new ActiveMods(), new KillAura());
         UnLegit.settings.call(this);
     }
     

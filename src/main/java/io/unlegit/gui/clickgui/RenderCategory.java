@@ -29,7 +29,7 @@ public class RenderCategory implements IGui
         modules.sort(Comparator.comparing(module -> module.name));
     }
     
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
     {
         if (dragging)
         {
@@ -42,11 +42,11 @@ public class RenderCategory implements IGui
         int alpha = parent.animation.wrap(255);
         int x = (int) (this.x - ((scale - 1) * 220));
         int y = (int) (this.y - ((scale - 1) * 82.5F));
-        guiGraphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, parent.animation.wrap(235)).getRGB());
+        graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, parent.animation.wrap(235)).getRGB());
         String name = StringUtils.capitalize(category.name().toLowerCase());
-        IFont.BIG.drawString(guiGraphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
-        guiGraphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, alpha).getRGB());
-        guiGraphics.enableScissor(x, y + 30, x + 110, y + 160);
+        IFont.BIG.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
+        graphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, alpha).getRGB());
+        graphics.enableScissor(x, y + 30, x + 110, y + 160);
         int offset = scroll;
         
         for (ModuleU module : modules)
@@ -54,18 +54,18 @@ public class RenderCategory implements IGui
             if (module.isEnabled())
             {
                 if (mouseOver(mouseX, mouseY, x, y + 30 + offset, x + 110, y + 45 + offset))
-                    guiGraphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(0, 175, 255, alpha).getRGB());
+                    graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(0, 175, 255, alpha).getRGB());
                 else
-                    guiGraphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(0, 150, 255, alpha).getRGB());
+                    graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(0, 150, 255, alpha).getRGB());
             } else if (mouseOver(mouseX, mouseY, x, y + 30 + offset, x + 110, y + 45 + offset))
-                guiGraphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(24, 24, 24, alpha).getRGB());
+                graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(24, 24, 24, alpha).getRGB());
             
-            IFont.NORMAL.drawString(guiGraphics, module.name, x + (module.isEnabled() ? 15 : 10), y + 32 + offset, module.isEnabled() ? new Color(0, 0, 0, alpha) : new Color(255, 255, 255, alpha));
+            IFont.NORMAL.drawString(graphics, module.name, x + (module.isEnabled() ? 15 : 10), y + 32 + offset, module.isEnabled() ? new Color(0, 0, 0, alpha) : new Color(255, 255, 255, alpha));
             offset += 15;
         }
         
-        guiGraphics.disableScissor();
-        guiGraphics.setColor(1, 1, 1, alpha / 255F);
+        graphics.disableScissor();
+        graphics.setColor(1, 1, 1, alpha / 255F);
 //        mc.getTextureManager().bindTexture(new ResourceLocation("unlegit/shadow/category/maximized.png"));
 //        drawModalRectWithCustomSizedTexture(x - 5.25F, y - 5.25F, 0, 0, 362 / 3F, 527 / 3F, 362 / 3F, 527 / 3F);
     }
