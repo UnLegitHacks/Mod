@@ -46,7 +46,7 @@ public class RenderCategory implements IGui
         String name = StringUtils.capitalize(category.name().toLowerCase());
         IFont.BIG.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
         graphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, alpha).getRGB());
-        graphics.enableScissor(x, y + 30, x + 110, y + 160);
+        graphics.enableScissor(x, y + (int) (30 * scale), x + (int) (110 * scale), y + (int) (160 * scale));
         int offset = scroll;
         
         for (ModuleU module : modules)

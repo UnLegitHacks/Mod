@@ -8,6 +8,7 @@ import io.unlegit.modules.impl.gui.ActiveMods;
 import io.unlegit.modules.impl.item.AutoTotem;
 import io.unlegit.modules.impl.movement.Speed;
 import io.unlegit.modules.impl.player.*;
+import io.unlegit.modules.impl.render.FPSBooster;
 
 public class ModuleManager
 {
@@ -16,7 +17,7 @@ public class ModuleManager
     public ModuleManager()
     {
         add(new AutoSprint(), new Speed(), new AutoTotem(), new Cooldown(),
-            new AutoRespawn(), new ActiveMods(), new KillAura());
+            new AutoRespawn(), new ActiveMods(), new KillAura(), new FPSBooster());
         UnLegit.settings.call(this);
     }
     

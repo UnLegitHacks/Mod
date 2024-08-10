@@ -13,7 +13,6 @@ import net.minecraft.network.protocol.game.ServerboundPickItemPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -25,7 +24,7 @@ public class AutoTotem extends ModuleU
     
     public void onUpdate()
     {
-        if (!mc.player.getItemInHand(InteractionHand.OFF_HAND).is(Items.TOTEM_OF_UNDYING))
+        if (!mc.player.getOffhandItem().is(Items.TOTEM_OF_UNDYING))
         {
             int totemSlot = getTotemSlot(mc.player.getInventory());
             
