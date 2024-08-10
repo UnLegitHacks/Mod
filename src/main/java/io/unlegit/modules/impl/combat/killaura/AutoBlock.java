@@ -9,13 +9,14 @@ import net.minecraft.world.phys.EntityHitResult;
 
 public class AutoBlock implements IMinecraft
 {
+    // TODO: Fix this
     public static void block(LivingEntity target)
     {
         if (mc.player.getMainHandItem().getItem() instanceof SwordItem)
         {
-            InteractionResult result = mc.gameMode.interactAt(mc.player, target, new EntityHitResult(target), InteractionHand.MAIN_HAND);
-            if (!result.consumesAction()) result = mc.gameMode.interact(mc.player, target, InteractionHand.MAIN_HAND);
-            if (result.consumesAction() && result.shouldSwing()) mc.player.swing(InteractionHand.MAIN_HAND);
+            InteractionResult result = mc.gameMode.interactAt(mc.player, target, new EntityHitResult(target), InteractionHand.OFF_HAND);
+            if (!result.consumesAction()) result = mc.gameMode.interact(mc.player, target, InteractionHand.OFF_HAND);
+            if (result.consumesAction() && result.shouldSwing()) mc.player.swing(InteractionHand.OFF_HAND);
         }
     }
     

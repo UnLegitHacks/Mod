@@ -1,0 +1,33 @@
+package io.unlegit.mixins;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+
+import io.unlegit.UnLegit;
+import io.unlegit.modules.ModuleU;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
+
+@Mixin(Player.class)
+public class PlayerMixin
+{
+    private Minecraft minecraft = Minecraft.getInstance();
+    
+    @Redirect(method = "attack", at = @At(value = "INVOKE", target = "setSprinting"))
+    public void keepSprint(Player player, boolean bl)
+    {
+        ModuleU keepSprint = UnLegit.modules.get("Keep Sprint");
+        if (!keepSprint.isEnabled() || !player.is(minecraft.player)) player.setSprinting(bl);
+    }
+    
+    @WrapWithCondition(method = "attack", at = @At(value = "INVOKE", target = "setDeltaMovement", ordinal = 0))
+    private boolean hookSlowVelocity(Player player, Vec3 vec3)
+    {
+        ModuleU keepSprint = UnLegit.modules.get("Keep Sprint");
+        return !(player.is(minecraft.player) && keepSprint.isEnabled());
+    }
+}

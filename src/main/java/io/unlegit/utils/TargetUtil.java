@@ -8,7 +8,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 
 public class TargetUtil implements IMinecraft
 {
@@ -57,10 +56,9 @@ public class TargetUtil implements IMinecraft
     
     public static float distanceToEntity(LivingEntity entity, LocalPlayer player)
     {
-        Vec3 entityPosition = entity.position(), playerPosition = player.position();
-        double f = playerPosition.x - entityPosition.x;
-        double f1 = playerPosition.y - entityPosition.y;
-        double f2 = playerPosition.z - entityPosition.z;
+        double f = entity.getX() - player.getX();
+        double f1 = entity.getY() - player.getY();
+        double f2 = entity.getZ() - player.getZ();
         return Mth.sqrt((float) (f * f + f1 * f1 + f2 * f2));
     }
 }

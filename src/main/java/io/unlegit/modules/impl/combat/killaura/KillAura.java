@@ -44,7 +44,7 @@ public class KillAura extends ModuleU
         float range = distance.currentValue;
         
         if (smartRange.enabled && !mc.hasSingleplayerServer())
-            range += mc.getConnection().getPlayerInfo(mc.getUser().getName()).getLatency() / 750F;
+            range += mc.getConnection().getPlayerInfo(mc.getUser().getName()).getLatency() / 1000F;
         
         target = TargetUtil.getTarget(mc.player, range, priority.currentMode);
         Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");

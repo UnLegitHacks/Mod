@@ -9,6 +9,7 @@ import com.mojang.realmsclient.RealmsMainScreen;
 import io.unlegit.gui.buttons.UnButton;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
+import io.unlegit.utils.ReflectionUtil;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,12 +22,11 @@ import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import ru.vidtu.ias.screen.AccountScreen;
 
 /**
- * If any mods add buttons to the main menu,
- * unfortunately this screen won't have it.
- * However this looks aesthetically better than
- * the vanilla main menu, so it's worth it.
+ * Looks aesthetically better
+ * than the vanilla main menu.
  */
 public class UnTitleScreen extends Screen implements IGui
 {
@@ -84,7 +84,13 @@ public class UnTitleScreen extends Screen implements IGui
         
         buttons.add(new UnButton(Component.translatable("menu.online").getString(), "realms", x += 64, y, () -> minecraft.setScreen(new RealmsMainScreen(this))));
         buttons.add(new UnButton(Component.translatable("menu.options").getString(), "settings", x += 64, y, () -> minecraft.setScreen(new OptionsScreen(this, minecraft.options))));
-        buttons.add(new UnButton("Alt Manager", "altmanager", x += 64, y, () -> {}));
+        
+        buttons.add(new UnButton("Alt Manager", "altmanager", x += 64, y, () ->
+        {
+            if (ReflectionUtil.classExists("ru.vidtu.ias.screen.AccountScreen"))
+                minecraft.setScreen(new AccountScreen(this));
+        }));
+        
         logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "main_menu/unlegit.png"));
     }
     
