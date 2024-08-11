@@ -6,9 +6,9 @@ public class TextSetting extends Setting
 {
     public String text;
     
-    public TextSetting(String name, String text)
+    public TextSetting(String name, String description, String text)
     {
-        super(name);
+        super(name, description);
         this.text = text;
     }
 }

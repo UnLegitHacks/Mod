@@ -2,11 +2,11 @@ package io.unlegit.modules.settings;
 
 public class Setting
 {
+    public String name, description;
     public boolean hidden;
-    public String name;
     
-    protected Setting(String name)
+    protected Setting(String name, String description)
     {
-        this.name = name;
+        this.name = name; this.description = description;
     }
 }

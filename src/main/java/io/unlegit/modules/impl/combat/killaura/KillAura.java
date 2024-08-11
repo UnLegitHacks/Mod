@@ -22,14 +22,13 @@ import net.minecraft.world.phys.EntityHitResult;
 @IModule(name = "Kill Aura", description = "Automatically attacks entities for you.")
 public class KillAura extends ModuleU
 {
-    public SliderSetting minCPS = new SliderSetting("Min CPS", 1, 8, 20),
-                         maxCPS = new SliderSetting("Max CPS", 1, 12, 20),
-                         distance = new SliderSetting("Distance", 3, 3, 5);
+    public SliderSetting minCPS = new SliderSetting("Min CPS", "The minimum CPS in randomization.", 1, 8, 20),
+                         maxCPS = new SliderSetting("Max CPS", "The maximum CPS in randomization.", 1, 12, 20),
+                         distance = new SliderSetting("Distance", "The distance the target should be in.", 3, 3, 5);
     
-    public ToggleSetting swing = new ToggleSetting("Swing", true),
-                         // Will increase your range depending on your ping.
-                         smartRange = new ToggleSetting("Smart Range", false),
-                         teams = new ToggleSetting("Teams", false);
+    public ToggleSetting swing = new ToggleSetting("Swing", "Swings the held item client-side.", true),
+                         smartRange = new ToggleSetting("Smart Range", "Increases the range depending on your ping.", false),
+                         teams = new ToggleSetting("Teams", "Don't attack players on your team.", false);
                          // targetESP = new ToggleSetting("Target ESP", true);
     
     /**
@@ -37,9 +36,9 @@ public class KillAura extends ModuleU
      * raytrace) especially while fighting multiple targets; however, hits are less
      * accurate, so smooth is not recommended for HvHs.
      */
-    public ModeSetting rotationsMode = new ModeSetting("Rotations Mode", new String[] {"Vanilla", "Smooth"}),
-                       priority = new ModeSetting("Priority", new String[] {"Hurt Time", "Distance", "Health"}),
-                       autoBlock = new ModeSetting("Auto Block", new String[] {"None", "Vanilla", "Fake"});
+    public ModeSetting rotationsMode = new ModeSetting("Rotations Mode", "The mode for rotations.", new String[] {"Vanilla", "Smooth"}),
+                       priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
+                       autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
     
     private ElapTime elapTime = new ElapTime();
     public float CPS = 0, yaw, pitch;
@@ -99,7 +98,7 @@ public class KillAura extends ModuleU
                 pitch = rotations[1];
             }
             
-            e.yaw = yaw; e.pitch = pitch; mc.player.yHeadRot = yaw; mc.player.yBodyRot = yaw;
+            e.yaw = yaw; e.pitch = pitch;
         }
         
         else if (yaw != mc.player.getYRot() || pitch != mc.player.getXRot())

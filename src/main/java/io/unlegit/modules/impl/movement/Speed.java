@@ -10,8 +10,8 @@ import net.minecraft.world.phys.Vec3;
 @IModule(name = "Speed", description = "Vroom vroom!")
 public class Speed extends ModuleU
 {
-    public ModeSetting mode = new ModeSetting("Mode", new String[] {"Vanilla"});
-    public SliderSetting speed = new SliderSetting("Speed", 1, 1, 2);
+    public ModeSetting mode = new ModeSetting("Mode", "The mode for speed.", new String[] {"Vanilla"});
+    public SliderSetting speed = new SliderSetting("Speed", "How fast you should go.", 1, 1, 2);
     
     public Speed()
     {

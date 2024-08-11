@@ -7,9 +7,9 @@ public class ToggleSetting extends Setting
     private Runnable runnable;
     public boolean enabled;
 
-    public ToggleSetting(String name, boolean enabled)
+    public ToggleSetting(String name, String description, boolean enabled)
     {
-        super(name);
+        super(name, description);
         this.enabled = enabled;
     }
 

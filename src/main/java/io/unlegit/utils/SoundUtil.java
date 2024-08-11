@@ -10,6 +10,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 
+import io.unlegit.UnLegit;
+
 public class SoundUtil
 {
     private static long time = System.currentTimeMillis();
@@ -25,7 +27,7 @@ public class SoundUtil
             try (InputStream inputStream = SoundUtil.class.getClassLoader().getResourceAsStream("assets/unlegit/sounds/" + path))
             {
                 FileUtil.extract(inputStream, file);
-            } catch (Exception e) {}
+            } catch (Exception e) { UnLegit.LOGGER.error("Sound file " + file.getName() + " failed to load. :("); }
         }
         
         // If multiple modules are turned on at once, don't play several sounds at once

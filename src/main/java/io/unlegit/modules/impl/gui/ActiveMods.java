@@ -16,20 +16,14 @@ import io.unlegit.modules.settings.impl.ToggleSetting;
 @IModule(name = "Active Mods", description = "Shows the enabled mods.")
 public class ActiveMods extends ModuleU
 {
-    public ToggleSetting rainbowColor = new ToggleSetting("Rainbow Color", false);
+    public ToggleSetting rainbowColor = new ToggleSetting("Rainbow Color", "Makes the modules a rainbow color.", false);
     private ArrayList<ModuleU> modules;
     
     public void onGuiRender(GuiRenderE e)
     {
+        if (modules == null) { initializeModules(); }
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
-        
-        if (modules == null)
-        {
-            modules = new ArrayList<>(UnLegit.modules.get());
-            modules.sort(Comparator.comparingInt(module -> -IFont.NORMAL.getStringWidth(module.name)));
-        }
-        
         int offset = 0;
         
         for (ModuleU module : modules)
@@ -47,5 +41,11 @@ public class ActiveMods extends ModuleU
     public Color getSpectrum(int offset)
     {
         return Color.getHSBColor((((System.currentTimeMillis() / 25) + offset) % 255) / 255F, 0.75F, 1);
+    }
+    
+    public void initializeModules()
+    {
+        modules = new ArrayList<>(UnLegit.modules.get());
+        modules.sort(Comparator.comparingInt(module -> -IFont.NORMAL.getStringWidth(module.name)));
     }
 }

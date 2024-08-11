@@ -9,9 +9,9 @@ public class ModeSetting extends Setting
     public String[] modes;
     public int index;
     
-    public ModeSetting(String name, String[] modes)
+    public ModeSetting(String name, String description, String[] modes)
     {
-        super(name);
+        super(name, description);
         this.modes = modes;
         this.currentMode = modes[0];
     }
