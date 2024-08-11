@@ -7,6 +7,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.realmsclient.RealmsMainScreen;
 
 import io.unlegit.gui.buttons.UnButton;
+import io.unlegit.gui.buttons.UnPlainTextButton;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.ReflectionUtil;
@@ -32,6 +33,7 @@ public class UnTitleScreen extends Screen implements IGui
 {
     private static final Component COPYRIGHT_TEXT = Component.translatable("title.credits");
     private ArrayList<UnButton> buttons = new ArrayList<>();
+    private UnPlainTextButton plainTextButton;
     private ResourceLocation logo = null;
     
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
@@ -53,19 +55,15 @@ public class UnTitleScreen extends Screen implements IGui
         IFont.NORMAL.drawStringWithShadow(graphics, titleText, 0, height - 13, Color.WHITE);
         IFont.NORMAL.drawStringWithShadow(graphics, COPYRIGHT_TEXT.getString(), width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, Color.WHITE);
         graphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
-        
-        if (mouseOver((int) mouseX, (int) mouseY, width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, width, height))
-            graphics.fill(width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 2, width, height - 1, -1);
+        plainTextButton.render(graphics, mouseX, mouseY);
     }
     
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
-        if (mouseOver((int) mouseX, (int) mouseY, width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, width, height))
-            minecraft.setScreen(new CreditsAndAttributionScreen(this));
-        
         for (UnButton buttonComponent : buttons)
             buttonComponent.mouseClicked(mouseX, mouseY, button);
         
+        plainTextButton.mouseClicked(mouseX, mouseY, button);
         return super.mouseClicked(mouseX, mouseY, button);
     }
     
@@ -91,6 +89,7 @@ public class UnTitleScreen extends Screen implements IGui
                 minecraft.setScreen(new AccountScreen(this));
         }));
         
+        plainTextButton = new UnPlainTextButton(COPYRIGHT_TEXT.getString(), width, height, () -> minecraft.setScreen(new CreditsAndAttributionScreen(this)));
         logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "main_menu/unlegit.png"));
     }
     

@@ -28,7 +28,7 @@ public class UnButton implements IMinecraft, IGui
         this.y = y;
     }
     
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY)
+    public void render(GuiGraphics graphics, int mouseX, int mouseY)
     {
         int x = this.x, y = this.y, size = 64;
         boolean mouseOver = mouseOver(mouseX, mouseY, x, y, x + size, y + size);
@@ -37,10 +37,10 @@ public class UnButton implements IMinecraft, IGui
         if (animation != null)
         {
             size += animation.wrap(16); x -= animation.wrap(8); y -= animation.wrap(8);
-            IFont.NORMAL.drawCenteredStringWithShadow(guiGraphics, displayName, x + (size / 2), (y + size) - 8, new Color(255, 255, 255, animation.wrap(255)));
+            IFont.NORMAL.drawCenteredStringWithShadow(graphics, displayName, x + (size / 2), (y + size) - 8, new Color(255, 255, 255, animation.wrap(255)));
         }
         
-        guiGraphics.blit(buttonTexture, x, y, size, size, size, size, size, size);
+        graphics.blit(buttonTexture, x, y, size, size, size, size, size, size);
         prevHover = mouseOver;
     }
     

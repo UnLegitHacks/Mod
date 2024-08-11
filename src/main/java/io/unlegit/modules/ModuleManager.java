@@ -19,7 +19,7 @@ public class ModuleManager
     {
         add(new AutoSprint(), new Speed(), new AutoTotem(), new Cooldown(),
             new AutoRespawn(), new ActiveMods(), new KillAura(), new FPSBooster(),
-            new KeepSprint());
+            new KeepSprint(), new Criticals());
         UnLegit.settings.call(this);
     }
     
@@ -29,8 +29,7 @@ public class ModuleManager
         
         for (ModuleU module : this.modules)
         {
-            if (module.category.equals(category))
-                modules.add(module);
+            if (module.category.equals(category)) modules.add(module);
         }
         
         return modules;

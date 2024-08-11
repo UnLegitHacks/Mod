@@ -11,9 +11,11 @@ import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.ElapTime;
 import io.unlegit.utils.RotationUtil;
 import io.unlegit.utils.TargetUtil;
+import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.EntityHitResult;
 
 @IModule(name = "Kill Aura", description = "Automatically attacks entities for you.")
 public class KillAura extends ModuleU
@@ -44,18 +46,27 @@ public class KillAura extends ModuleU
         float range = distance.currentValue;
         
         if (smartRange.enabled && !mc.hasSingleplayerServer())
-            range += mc.getConnection().getPlayerInfo(mc.getUser().getName()).getLatency() / 1000F;
+        {
+            PlayerInfo playerInfo = mc.getConnection().getPlayerInfo(mc.getUser().getName());
+            if (playerInfo != null) range += playerInfo.getLatency() / 1000F;
+            // Null check for Bedrock servers
+        }
         
         target = TargetUtil.getTarget(mc.player, range, priority.currentMode);
-        Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
         
-        if (target != null && ((elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || !cooldown.cancelHit()))
+        if (target != null)
         {
-            if (autoBlock.equals("Vanilla")) AutoBlock.unblock();
-            mc.gameMode.attack(mc.player, target);
-            swingItem();
-            CPS = updateCPS();
-            if (autoBlock.equals("Vanilla")) AutoBlock.block(target);
+            Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
+            
+            if (elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled() || (cooldown.isEnabled() && !cooldown.cancelHit()))
+            {
+                mc.hitResult = new EntityHitResult(target);
+                if (autoBlock.equals("Vanilla")) AutoBlock.unblock();
+                mc.gameMode.attack(mc.player, target);
+                swingItem();
+                CPS = updateCPS();
+                if (autoBlock.equals("Vanilla")) AutoBlock.block();
+            }
         }
     }
     

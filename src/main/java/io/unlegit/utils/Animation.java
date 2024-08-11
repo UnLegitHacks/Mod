@@ -26,6 +26,6 @@ public class Animation
         value = reverse ? (interval - (interval * value)) / (float) interval : value;
     }
     
-    public boolean finished() { return value == (reverse ? 0 : 1); }
+    public boolean finished() { update(); return value == (reverse ? 0 : 1); }
     public Animation(int interval) { this.interval = interval; }
 }
