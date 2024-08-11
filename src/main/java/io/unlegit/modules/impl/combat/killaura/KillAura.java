@@ -28,7 +28,9 @@ public class KillAura extends ModuleU
     
     public ToggleSetting swing = new ToggleSetting("Swing", true),
                          // Will increase your range depending on your ping.
-                         smartRange = new ToggleSetting("Smart Range", false), targetESP = new ToggleSetting("Target ESP", true);
+                         smartRange = new ToggleSetting("Smart Range", false),
+                         teams = new ToggleSetting("Teams", false);
+                         // targetESP = new ToggleSetting("Target ESP", true);
     
     /**
      * If the rotation mode is smooth, K.A. does not flag at all (along with

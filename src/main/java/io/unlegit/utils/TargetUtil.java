@@ -3,9 +3,10 @@ package io.unlegit.utils;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
+import io.unlegit.modules.impl.combat.killaura.KillAura;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -21,11 +22,11 @@ public class TargetUtil implements IMinecraft
             {
                 LivingEntity target = (LivingEntity) entity;
                 
-                if (distanceToEntity(target, player) <= distance && valid(target, player))
+                if (player.distanceTo(target) <= distance && valid(target, player))
                     targets.add(target);
             }
         }
-
+        
         if (targets.isEmpty()) return null;
         
         switch (priority)
@@ -35,7 +36,7 @@ public class TargetUtil implements IMinecraft
                 break;
                 
             case "Distance":
-                targets.sort(Comparator.comparingDouble(entity -> distanceToEntity(entity, player)));
+                targets.sort(Comparator.comparingDouble(entity -> player.distanceTo(entity)));
                 break;
                 
             case "Health":
@@ -48,17 +49,11 @@ public class TargetUtil implements IMinecraft
     
     public static boolean valid(LivingEntity entity, LocalPlayer player)
     {
+        KillAura killAura = (KillAura) UnLegit.modules.get("Kill Aura");
 //        return !entity.isEntityEqual(player) && entity.isEntityAlive() && !entity.isInvisibleToPlayer(player)
 //                && (!entity.isOnSameTeam(player) || !UnLegit.CLIENT.moduleManager.getModule("Teams").isEnabled())
 //                && (!NoBot.isBot(entity) || !UnLegit.CLIENT.moduleManager.getModule("No Bot").isEnabled());
-        return !entity.is(player) && entity.isAlive() && !entity.isInvisibleTo(player);
-    }
-    
-    public static float distanceToEntity(LivingEntity entity, LocalPlayer player)
-    {
-        double f = entity.getX() - player.getX();
-        double f1 = entity.getY() - player.getY();
-        double f2 = entity.getZ() - player.getZ();
-        return Mth.sqrt((float) (f * f + f1 * f1 + f2 * f2));
+        return !entity.is(player) && entity.isAlive() && !entity.isInvisibleTo(player)
+                && (entity.getTeam() == null || player.getTeam() == null || (!entity.getTeam().isAlliedTo(player.getTeam()) || !killAura.teams.enabled));
     }
 }
