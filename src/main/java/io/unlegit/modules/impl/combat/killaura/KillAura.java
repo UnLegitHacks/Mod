@@ -1,9 +1,11 @@
 package io.unlegit.modules.impl.combat.killaura;
 
 import io.unlegit.UnLegit;
+import io.unlegit.events.impl.AttackE;
 import io.unlegit.events.impl.MotionE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
+import io.unlegit.modules.impl.combat.Criticals;
 import io.unlegit.modules.impl.player.Cooldown;
 import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.SliderSetting;
@@ -60,10 +62,12 @@ public class KillAura extends ModuleU
             
             if (elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled() || (cooldown.isEnabled() && !cooldown.cancelHit()))
             {
+                Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
                 mc.hitResult = new EntityHitResult(target);
                 if (autoBlock.equals("Vanilla")) AutoBlock.unblock();
                 mc.gameMode.attack(mc.player, target);
                 swingItem();
+                criticals.onAttack(AttackE.get());
                 CPS = updateCPS();
                 if (autoBlock.equals("Vanilla")) AutoBlock.block();
             }
