@@ -22,9 +22,9 @@ public class Velocity extends ModuleU
             
             if (packet.getId() != mc.player.getId()) return;
             e.cancelled = true;
-            if (horizontal.currentValue == 0 && vertical.currentValue == 0) return;
+            if (horizontal.value == 0 && vertical.value == 0) return;
             
-            float horizontal = this.horizontal.currentValue / 100, vertical = this.vertical.currentValue / 100;
+            float horizontal = this.horizontal.value / 100, vertical = this.vertical.value / 100;
             Vec3 vec3 = new Vec3(packet.getXa() * horizontal, packet.getYa() * vertical, packet.getZa() * horizontal);
             packet = new ClientboundSetEntityMotionPacket(mc.player.getId(), vec3);
             try { packet.handle(mc.getConnection()); }

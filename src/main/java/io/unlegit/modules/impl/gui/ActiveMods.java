@@ -21,7 +21,12 @@ public class ActiveMods extends ModuleU
     
     public void onGuiRender(GuiRenderE e)
     {
-        if (modules == null) { initializeModules(); }
+        if (modules == null)
+        {
+            modules = new ArrayList<>(UnLegit.modules.get());
+            modules.sort(Comparator.comparingInt(module -> -IFont.NORMAL.getStringWidth(module.name)));
+        }
+        
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         int offset = 0;
@@ -41,11 +46,5 @@ public class ActiveMods extends ModuleU
     public Color getSpectrum(int offset)
     {
         return Color.getHSBColor((((System.currentTimeMillis() / 25) + offset) % 255) / 255F, 0.75F, 1);
-    }
-    
-    public void initializeModules()
-    {
-        modules = new ArrayList<>(UnLegit.modules.get());
-        modules.sort(Comparator.comparingInt(module -> -IFont.NORMAL.getStringWidth(module.name)));
     }
 }

@@ -3,12 +3,18 @@ package io.unlegit.modules;
 import java.util.ArrayList;
 
 import io.unlegit.UnLegit;
-import io.unlegit.modules.impl.combat.*;
+import io.unlegit.modules.impl.combat.Criticals;
+import io.unlegit.modules.impl.combat.KeepSprint;
+import io.unlegit.modules.impl.combat.Velocity;
 import io.unlegit.modules.impl.combat.killaura.KillAura;
 import io.unlegit.modules.impl.gui.ActiveMods;
-import io.unlegit.modules.impl.item.*;
+import io.unlegit.modules.impl.item.AutoTotem;
+import io.unlegit.modules.impl.item.ChestStealer;
 import io.unlegit.modules.impl.movement.Speed;
-import io.unlegit.modules.impl.player.*;
+import io.unlegit.modules.impl.player.AutoRespawn;
+import io.unlegit.modules.impl.player.AutoSprint;
+import io.unlegit.modules.impl.player.Cooldown;
+import io.unlegit.modules.impl.player.OldHitting;
 import io.unlegit.modules.impl.render.FPSBooster;
 
 public class ModuleManager
@@ -19,7 +25,8 @@ public class ModuleManager
     {
         add(new AutoSprint(), new Speed(), new AutoTotem(), new Cooldown(),
             new AutoRespawn(), new ActiveMods(), new KillAura(), new FPSBooster(),
-            new KeepSprint(), new Criticals(), new Velocity(), new ChestStealer());
+            new KeepSprint(), new Criticals(), new Velocity(), new ChestStealer(),
+            new OldHitting());
         UnLegit.settings.call(this);
     }
     

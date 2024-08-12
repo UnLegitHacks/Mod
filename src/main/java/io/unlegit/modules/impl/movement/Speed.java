@@ -22,7 +22,7 @@ public class Speed extends ModuleU
     {
         if (mode.equals("Vanilla"))
         {
-            float speed = this.speed.currentValue;
+            float speed = this.speed.value;
             e.vec3 = new Vec3(e.vec3.x * speed, e.vec3.y, e.vec3.z * speed);
         }
     }

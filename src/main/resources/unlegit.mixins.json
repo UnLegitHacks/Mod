@@ -4,7 +4,8 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"MinecraftMixin", "GuiMixin", "LocalPlayerMixin", "KeyHandlerMixin",
-		"ScreenMixin", "GameRendererAccessor", "ConnectionMixin", "PlayerMixin"
+		"ScreenMixin", "GameRendererAccessor", "ConnectionMixin", "PlayerMixin",
+		"ItemInHandRendererMixin", "ItemInHandRendererInvoker"
 	],
 	"injectors": {
 		"defaultRequire": 1

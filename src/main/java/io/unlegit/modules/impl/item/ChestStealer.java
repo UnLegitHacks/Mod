@@ -48,7 +48,7 @@ public class ChestStealer extends ModuleU
     
     private int updateDelay()
     {
-        int min = (int) minDelay.currentValue, max = (int) maxDelay.currentValue;
+        int min = (int) minDelay.value, max = (int) maxDelay.value;
         return (int) (min + (max - min) * Math.random());
     }
 }

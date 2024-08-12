@@ -46,7 +46,7 @@ public class KillAura extends ModuleU
     
     public void onUpdate()
     {
-        float range = distance.currentValue;
+        float range = distance.value;
         
         if (smartRange.enabled && !mc.hasSingleplayerServer())
         {
@@ -55,7 +55,7 @@ public class KillAura extends ModuleU
             // Null check for Bedrock servers
         }
         
-        target = TargetUtil.getTarget(mc.player, range, priority.currentMode);
+        target = TargetUtil.getTarget(mc.player, range, priority.mode);
         
         if (target != null)
         {
@@ -113,7 +113,7 @@ public class KillAura extends ModuleU
     
     private float updateCPS()
     {
-        float min = minCPS.currentValue, max = maxCPS.currentValue;
+        float min = minCPS.value, max = maxCPS.value;
         return (float) (min + (max - min) * Math.random());
     }
 }

@@ -69,7 +69,7 @@ public class UnConfig
                 else if (setting instanceof SliderSetting)
                 {
                     SliderSetting sliderSetting = (SliderSetting) setting;
-                    jsonModule.addProperty(setting.name, sliderSetting.currentValue);
+                    jsonModule.addProperty(setting.name, sliderSetting.value);
                 }
                 
                 else if (setting instanceof ColorSetting)
@@ -87,7 +87,7 @@ public class UnConfig
                 else if (setting instanceof ModeSetting)
                 {
                     ModeSetting modeSetting = (ModeSetting) setting;
-                    jsonModule.addProperty(setting.name, modeSetting.currentMode);
+                    jsonModule.addProperty(setting.name, modeSetting.mode);
                 }
             }
         }
@@ -135,7 +135,7 @@ public class UnConfig
                         else if (setting instanceof SliderSetting)
                         {
                             SliderSetting sliderSetting = (SliderSetting) setting;
-                            sliderSetting.currentValue = element.getAsFloat();
+                            sliderSetting.value = element.getAsFloat();
                         }
                         
                         else if (setting instanceof ColorSetting)
@@ -157,7 +157,7 @@ public class UnConfig
                         else if (setting instanceof ModeSetting)
                         {
                             ModeSetting modeSetting = (ModeSetting) setting;
-                            modeSetting.currentMode = element.getAsString();
+                            modeSetting.mode = element.getAsString();
                             modeSetting.onChange();
                         }
                     }
