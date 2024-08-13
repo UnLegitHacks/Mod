@@ -1,4 +1,4 @@
-package io.unlegit.mixins;
+package io.unlegit.mixins.render;
 
 import java.awt.Color;
 

@@ -5,8 +5,8 @@ import java.awt.Color;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IMinecraft;
-import io.unlegit.utils.Animation;
 import io.unlegit.utils.SoundUtil;
+import io.unlegit.utils.render.Animation;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 

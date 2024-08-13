@@ -1,6 +1,6 @@
 package io.unlegit.interfaces;
 
-import io.unlegit.utils.ScreenUtil;
+import io.unlegit.utils.render.ScreenUtil;
 import net.minecraft.resources.ResourceLocation;
 
 /**

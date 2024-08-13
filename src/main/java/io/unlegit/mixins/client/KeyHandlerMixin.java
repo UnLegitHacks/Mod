@@ -1,4 +1,4 @@
-package io.unlegit.mixins;
+package io.unlegit.mixins.client;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.KeyE;
+import io.unlegit.events.impl.client.KeyE;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 

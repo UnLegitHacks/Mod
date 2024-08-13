@@ -1,4 +1,4 @@
-package io.unlegit.utils;
+package io.unlegit.utils.render;
 
 public class Animation
 {

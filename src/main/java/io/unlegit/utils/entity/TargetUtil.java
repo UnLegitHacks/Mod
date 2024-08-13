@@ -1,4 +1,4 @@
-package io.unlegit.utils;
+package io.unlegit.utils.entity;
 
 import java.util.ArrayList;
 import java.util.Comparator;

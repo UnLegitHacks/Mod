@@ -3,9 +3,10 @@
 	"package": "io.unlegit.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"MinecraftMixin", "GuiMixin", "LocalPlayerMixin", "KeyHandlerMixin",
-		"ScreenMixin", "GameRendererAccessor", "ConnectionMixin", "PlayerMixin",
-		"ItemInHandRendererMixin", "ItemInHandRendererInvoker"
+		"client.MinecraftMixin", "render.GuiMixin", "entity.LocalPlayerMixin",
+		"client.KeyHandlerMixin", "render.ScreenMixin", "render.AccGameRenderer",
+		"network.ConnectionMixin", "entity.PlayerMixin", "item.ItemRendererMixin",
+		"item.InvItemRenderer"
 	],
 	"injectors": {
 		"defaultRequire": 1

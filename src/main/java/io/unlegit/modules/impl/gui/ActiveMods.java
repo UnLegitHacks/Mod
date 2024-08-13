@@ -7,7 +7,7 @@ import java.util.Comparator;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.GuiRenderE;
+import io.unlegit.events.impl.render.GuiRenderE;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;

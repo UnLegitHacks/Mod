@@ -8,7 +8,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import io.unlegit.config.UnConfig;
 import io.unlegit.events.EventBus;
 import io.unlegit.events.EventListener;
-import io.unlegit.events.impl.KeyE;
+import io.unlegit.events.impl.client.KeyE;
 import io.unlegit.gui.clickgui.ClickGui;
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.modules.ModuleManager;

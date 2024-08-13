@@ -1,4 +1,4 @@
-package io.unlegit.mixins;
+package io.unlegit.mixins.entity;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,8 +11,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.MotionE;
-import io.unlegit.events.impl.MoveE;
+import io.unlegit.events.impl.entity.MotionE;
+import io.unlegit.events.impl.entity.MoveE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.phys.Vec3;

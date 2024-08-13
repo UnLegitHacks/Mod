@@ -1,4 +1,4 @@
-package io.unlegit.mixins;
+package io.unlegit.mixins.render;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,7 +10,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.GuiRenderE;
+import io.unlegit.events.impl.render.GuiRenderE;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 

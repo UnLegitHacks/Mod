@@ -4,8 +4,8 @@ import java.awt.Color;
 
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
-import io.unlegit.utils.Animation;
 import io.unlegit.utils.SoundUtil;
+import io.unlegit.utils.render.Animation;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class UnPlainTextButton implements IGui

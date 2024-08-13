@@ -1,4 +1,4 @@
-package io.unlegit.events.impl;
+package io.unlegit.events.impl.entity;
 
 import io.unlegit.events.Event;
 import net.minecraft.world.phys.Vec3;

@@ -1,6 +1,6 @@
 package io.unlegit.modules.impl.movement;
 
-import io.unlegit.events.impl.MoveE;
+import io.unlegit.events.impl.entity.MoveE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ModeSetting;

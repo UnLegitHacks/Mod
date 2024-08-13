@@ -1,12 +1,12 @@
 package io.unlegit.events;
 
-import io.unlegit.events.impl.AttackE;
-import io.unlegit.events.impl.GuiRenderE;
-import io.unlegit.events.impl.KeyE;
-import io.unlegit.events.impl.MotionE;
-import io.unlegit.events.impl.MoveE;
-import io.unlegit.events.impl.PacketReceiveE;
-import io.unlegit.events.impl.PacketSendE;
+import io.unlegit.events.impl.client.KeyE;
+import io.unlegit.events.impl.entity.AttackE;
+import io.unlegit.events.impl.entity.MotionE;
+import io.unlegit.events.impl.entity.MoveE;
+import io.unlegit.events.impl.network.PacketReceiveE;
+import io.unlegit.events.impl.network.PacketSendE;
+import io.unlegit.events.impl.render.GuiRenderE;
 
 /**
  * If you want to listen to events,

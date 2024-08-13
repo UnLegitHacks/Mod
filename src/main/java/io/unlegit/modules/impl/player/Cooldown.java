@@ -1,7 +1,7 @@
 package io.unlegit.modules.impl.player;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.AttackE;
+import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.impl.combat.killaura.KillAura;

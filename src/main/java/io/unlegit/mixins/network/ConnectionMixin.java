@@ -1,4 +1,4 @@
-package io.unlegit.mixins;
+package io.unlegit.mixins.network;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,8 +9,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.PacketReceiveE;
-import io.unlegit.events.impl.PacketSendE;
+import io.unlegit.events.impl.network.PacketReceiveE;
+import io.unlegit.events.impl.network.PacketSendE;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 

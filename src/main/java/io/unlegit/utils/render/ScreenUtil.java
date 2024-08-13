@@ -1,4 +1,4 @@
-package io.unlegit.utils;
+package io.unlegit.utils.render;
 
 import io.unlegit.interfaces.IMinecraft;
 import net.minecraft.client.renderer.texture.TextureManager;

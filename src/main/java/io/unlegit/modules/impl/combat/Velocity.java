@@ -1,6 +1,6 @@
 package io.unlegit.modules.impl.combat;
 
-import io.unlegit.events.impl.PacketReceiveE;
+import io.unlegit.events.impl.network.PacketReceiveE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.SliderSetting;

@@ -1,8 +1,8 @@
 package io.unlegit.modules.impl.combat.killaura;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.AttackE;
-import io.unlegit.events.impl.MotionE;
+import io.unlegit.events.impl.entity.AttackE;
+import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.impl.combat.Criticals;
@@ -11,8 +11,8 @@ import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.SliderSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.ElapTime;
-import io.unlegit.utils.RotationUtil;
-import io.unlegit.utils.TargetUtil;
+import io.unlegit.utils.entity.RotationUtil;
+import io.unlegit.utils.entity.TargetUtil;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.world.InteractionHand;

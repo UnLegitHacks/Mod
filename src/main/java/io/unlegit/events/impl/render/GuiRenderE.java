@@ -1,4 +1,4 @@
-package io.unlegit.events.impl;
+package io.unlegit.events.impl.render;
 
 import io.unlegit.events.Event;
 import net.minecraft.client.gui.GuiGraphics;

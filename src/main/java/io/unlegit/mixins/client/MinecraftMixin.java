@@ -1,4 +1,4 @@
-package io.unlegit.mixins;
+package io.unlegit.mixins.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -12,8 +12,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.AttackE;
-import io.unlegit.events.impl.UpdateE;
+import io.unlegit.events.impl.client.UpdateE;
+import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.gui.UnTitleScreen;
 import io.unlegit.gui.font.IFont;
 import net.minecraft.client.Minecraft;

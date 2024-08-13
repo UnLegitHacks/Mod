@@ -1,6 +1,9 @@
 package io.unlegit.events;
 
-import io.unlegit.events.impl.*;
+import io.unlegit.events.impl.client.*;
+import io.unlegit.events.impl.entity.*;
+import io.unlegit.events.impl.network.*;
+import io.unlegit.events.impl.render.*;
 
 public class EventHandler
 {

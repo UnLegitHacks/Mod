@@ -1,4 +1,4 @@
-package io.unlegit.events.impl;
+package io.unlegit.events.impl.network;
 
 import io.unlegit.events.Event;
 import net.minecraft.network.protocol.Packet;
