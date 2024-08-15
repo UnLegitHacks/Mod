@@ -21,7 +21,7 @@ public class UnButton implements IMinecraft, IGui
     
     public UnButton(String displayName, String textureName, int x, int y, Runnable action)
     {
-        buttonTexture = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "main_menu/buttons/" + textureName + ".png"));
+        buttonTexture = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/buttons/" + textureName + ".png"));
         this.displayName = displayName;
         this.action = action;
         this.x = x;

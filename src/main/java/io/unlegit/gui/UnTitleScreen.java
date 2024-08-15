@@ -90,7 +90,7 @@ public class UnTitleScreen extends Screen implements IGui
         }));
         
         plainTextButton = new UnPlainTextButton(COPYRIGHT_TEXT.getString(), width, height, () -> minecraft.setScreen(new CreditsAndAttributionScreen(this)));
-        logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "main_menu/unlegit.png"));
+        logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/unlegit.png"));
     }
     
     public void onClose() {}

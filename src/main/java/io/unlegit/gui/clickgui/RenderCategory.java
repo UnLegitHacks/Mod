@@ -6,6 +6,8 @@ import java.util.Comparator;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import io.unlegit.UnLegit;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
@@ -19,12 +21,14 @@ public class RenderCategory implements IGui
     private ArrayList<ModuleU> modules;
     private boolean dragging = false;
     private CategoryM category;
+    private ClickGui parent;
     
-    public RenderCategory(CategoryM category, int x, int y)
+    public RenderCategory(CategoryM category, int x, int y, ClickGui parent)
     {
         this.category = category;
         this.x = x;
         this.y = y;
+        this.parent = parent;
         modules = UnLegit.modules.get(category);
         modules.sort(Comparator.comparing(module -> module.name));
     }
@@ -37,11 +41,13 @@ public class RenderCategory implements IGui
             y = prevY + (mouseY - prevMouseY);
         }
         
-        ClickGui parent = ClickGui.get();
         float scale = 1 + (2 - (parent.animation.get() * 2));
         int alpha = parent.animation.wrap(255);
         int x = (int) (this.x - ((scale - 1) * 220));
         int y = (int) (this.y - ((scale - 1) * 82.5F));
+        GlStateManager._enableBlend();
+        graphics.setColor(1, 1, 1, 1);
+        graphics.blit(parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);
         graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, parent.animation.wrap(235)).getRGB());
         String name = StringUtils.capitalize(category.name().toLowerCase());
         IFont.BIG.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
@@ -66,8 +72,6 @@ public class RenderCategory implements IGui
         
         graphics.disableScissor();
         graphics.setColor(1, 1, 1, alpha / 255F);
-//        mc.getTextureManager().bindTexture(new ResourceLocation("unlegit/shadow/category/maximized.png"));
-//        drawModalRectWithCustomSizedTexture(x - 5.25F, y - 5.25F, 0, 0, 362 / 3F, 527 / 3F, 362 / 3F, 527 / 3F);
     }
     
     public boolean mouseClicked(double mouseX, double mouseY, int button)
@@ -91,7 +95,7 @@ public class RenderCategory implements IGui
                     if (mouseOver((int) mouseX, (int) mouseY, x, y + 30 + offset, x + 110, y + 45 + offset))
                     {
                         if (button == 0) module.toggle();
-                        //else parent.renderSettings = new RenderSettings(module);
+                        // else parent.renderSettings = new RenderSettings(module);
                         return true;
                     }
                     

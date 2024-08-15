@@ -14,9 +14,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class ClickGui extends Screen implements IGui
 {
+    protected final ResourceLocation categoryShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "clickgui/category_shadow.png"));
     private ArrayList<RenderCategory> categories = new ArrayList<>();
     private static ClickGui INSTANCE = new ClickGui();
     protected RenderSettings renderSettings = null;
@@ -36,7 +38,7 @@ public class ClickGui extends Screen implements IGui
                 x = 10;
             }
             
-            categories.add(new RenderCategory(category, x, y));
+            categories.add(new RenderCategory(category, x, y, this));
             x += 118; i++;
         }
     }
