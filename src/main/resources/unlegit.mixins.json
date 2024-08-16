@@ -6,7 +6,7 @@
 		"client.MinecraftMixin", "render.GuiMixin", "entity.LocalPlayerMixin",
 		"client.KeyHandlerMixin", "render.ScreenMixin", "render.AccGameRenderer",
 		"network.ConnectionMixin", "entity.PlayerMixin", "item.ItemRendererMixin",
-		"item.InvItemRenderer"
+		"item.InvItemRenderer", "render.LightTextureMixin", "render.LevelRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
