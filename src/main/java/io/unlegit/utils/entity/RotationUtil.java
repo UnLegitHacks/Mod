@@ -3,6 +3,9 @@ package io.unlegit.utils.entity;
 import io.unlegit.interfaces.IMinecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 public class RotationUtil implements IMinecraft
 {
@@ -15,6 +18,15 @@ public class RotationUtil implements IMinecraft
         float yaw = (float) (Mth.atan2(z, x) * 180 / Math.PI) - 90;
         float pitch = (float) -(Mth.atan2(y, hypot) * 180 / Math.PI);
         return GCDFix.get(new float[] {yaw, pitch});
+    }
+    
+    public static boolean rayTrace(LivingEntity target, float yaw, float pitch, float distance)
+    {
+        Vec3 camera = mc.player.getEyePosition(),
+             rotation = mc.player.calculateViewVector(pitch, yaw),
+             position = camera.add(rotation.x * distance, rotation.y * distance, rotation.z * distance);
+        AABB box = target.getBoundingBox().expandTowards(rotation.scale(distance)).expandTowards(1, 1, 1);
+        return ProjectileUtil.getEntityHitResult(mc.player, camera, position, box, entity -> !entity.isSpectator(), Mth.square(distance)) != null;
     }
 }
 

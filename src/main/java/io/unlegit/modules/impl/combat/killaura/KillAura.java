@@ -17,7 +17,6 @@ import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.EntityHitResult;
 
 @IModule(name = "Kill Aura", description = "Automatically attacks entities for you.")
 public class KillAura extends ModuleU
@@ -51,24 +50,24 @@ public class KillAura extends ModuleU
         if (smartRange.enabled && !mc.hasSingleplayerServer())
         {
             PlayerInfo playerInfo = mc.getConnection().getPlayerInfo(mc.getUser().getName());
+            // Null check for bedrock servers (which is coming soon with ViaBedrock)
             if (playerInfo != null) range += playerInfo.getLatency() / 1000F;
-            // Null check for Bedrock servers
         }
         
         target = TargetUtil.getTarget(mc.player, range, priority.mode);
         
         if (target != null)
         {
+            Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             
             if (elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled() || (cooldown.isEnabled() && !cooldown.cancelHit()))
             {
-                Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
-                mc.hitResult = new EntityHitResult(target);
+                if (!RotationUtil.rayTrace(target, yaw, pitch, range)) return;
                 if (autoBlock.equals("Vanilla")) AutoBlock.unblock();
                 mc.gameMode.attack(mc.player, target);
                 swingItem();
-                criticals.onAttack(AttackE.get());
+                if (criticals.isEnabled()) criticals.onAttack(AttackE.get());
                 CPS = updateCPS();
                 if (autoBlock.equals("Vanilla")) AutoBlock.block();
             }
@@ -100,9 +99,6 @@ public class KillAura extends ModuleU
             
             e.yaw = yaw; e.pitch = pitch;
         }
-        
-        else if (yaw != mc.player.getYRot() || pitch != mc.player.getXRot())
-            yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
     }
     
     public void swingItem()
