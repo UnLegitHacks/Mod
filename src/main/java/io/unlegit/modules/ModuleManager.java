@@ -20,7 +20,7 @@ public class ModuleManager
         add(new AutoSprint(), new Speed(), new AutoTotem(), new Cooldown(),
             new AutoRespawn(), new ActiveMods(), new KillAura(), new FPSBooster(),
             new KeepSprint(), new Criticals(), new Velocity(), new ChestStealer(),
-            new OldHitting(), new FullBright(), new ESP());
+            new OldHitting(), new FullBright(), new ESP(), new NameTags());
         UnLegit.settings.call(this);
     }
     

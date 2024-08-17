@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.world.entity.HumanoidArm;
 
 @Mixin(ItemInHandRenderer.class)
-public interface InvItemRenderer
+public interface InvItemRender
 {
     @Invoker("applyItemArmAttackTransform")
     public void invokeApplyItemArmAttackTransform(PoseStack poseStack, HumanoidArm humanoidArm, float f);

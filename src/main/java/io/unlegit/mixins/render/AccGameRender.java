@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.PostChain;
 
 @Mixin(GameRenderer.class)
-public interface AccGameRenderer
+public interface AccGameRender
 {
     @Accessor
     PostChain getBlurEffect();

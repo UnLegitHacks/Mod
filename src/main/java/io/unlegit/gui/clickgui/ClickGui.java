@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.unlegit.config.UnConfig;
 import io.unlegit.interfaces.IGui;
-import io.unlegit.mixins.render.AccGameRenderer;
+import io.unlegit.mixins.render.AccGameRender;
 import io.unlegit.modules.CategoryM;
 import io.unlegit.utils.render.Animation;
 import net.minecraft.client.gui.GuiGraphics;
@@ -106,7 +106,7 @@ public class ClickGui extends Screen implements IGui
     // Exists to control the blur fade-in and fade-out.
     protected void renderBlurredBackground(float partialTicks)
     {
-        PostChain blurEffect = ((AccGameRenderer) minecraft.gameRenderer).getBlurEffect();
+        PostChain blurEffect = ((AccGameRender) minecraft.gameRenderer).getBlurEffect();
         float blurriness = minecraft.options.getMenuBackgroundBlurriness();
         
         if (blurEffect != null && blurriness >= 1)

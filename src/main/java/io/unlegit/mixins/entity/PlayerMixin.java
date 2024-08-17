@@ -25,7 +25,7 @@ public class PlayerMixin
     }
     
     @WrapWithCondition(method = "attack", at = @At(value = "INVOKE", target = "setDeltaMovement", ordinal = 0))
-    private boolean hookSlowVelocity(Player player, Vec3 vec3)
+    private boolean slowVelocity(Player player, Vec3 vec3)
     {
         ModuleU keepSprint = UnLegit.modules.get("Keep Sprint");
         return !(player.is(minecraft.player) && keepSprint.isEnabled());

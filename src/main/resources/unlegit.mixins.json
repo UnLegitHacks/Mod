@@ -4,9 +4,10 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"client.MinecraftMixin", "render.GuiMixin", "entity.LocalPlayerMixin",
-		"client.KeyHandlerMixin", "render.ScreenMixin", "render.AccGameRenderer",
-		"network.ConnectionMixin", "entity.PlayerMixin", "item.ItemRendererMixin",
-		"item.InvItemRenderer", "render.LightTextureMixin", "render.LevelRendererMixin"
+		"client.KeyHandlerMixin", "render.ScreenMixin", "render.AccGameRender",
+		"network.ConnectionMixin", "entity.PlayerMixin", "item.ItemRenderMixin",
+		"item.InvItemRender", "render.LightTextureMixin", "render.LevelRenderMixin",
+		"render.EntityRenderMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

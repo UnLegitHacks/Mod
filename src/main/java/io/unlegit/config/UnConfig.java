@@ -124,6 +124,7 @@ public class UnConfig
                     if (setting != null)
                     {
                         JsonElement element = jsonModule.get(setting.name);
+                        if (element == null) continue; // Forward compatibility handling
                         
                         if (setting instanceof ToggleSetting)
                         {

@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 
 import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IModule;
-import io.unlegit.mixins.item.InvItemRenderer;
+import io.unlegit.mixins.item.InvItemRender;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.impl.combat.killaura.KillAura;
 import net.minecraft.world.entity.HumanoidArm;
@@ -20,7 +20,7 @@ public class OldHitting extends ModuleU
         
         // Translation
         poseStack.translate(-0.1F, 0.1F, 0.1F);
-        ((InvItemRenderer) mc.gameRenderer.itemInHandRenderer).invokeApplyItemArmAttackTransform(poseStack, HumanoidArm.RIGHT, swingProgress);
+        ((InvItemRender) mc.gameRenderer.itemInHandRenderer).invokeApplyItemArmAttackTransform(poseStack, HumanoidArm.RIGHT, swingProgress);
         
         // Block position.
         poseStack.mulPose(Axis.XP.rotationDegrees(-102.25F));

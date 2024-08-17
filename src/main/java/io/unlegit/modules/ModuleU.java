@@ -36,10 +36,7 @@ public class ModuleU implements IMinecraft, EventListener
         if (enabled) SoundUtil.playEnableSound(); else SoundUtil.playDisableSound();
     }
     
-    public boolean isEnabled()
-    {
-        return enabled;
-    }
+    public boolean isEnabled() { return enabled; }
     
     public void setEnabled(boolean enabled)
     {

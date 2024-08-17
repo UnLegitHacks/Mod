@@ -21,7 +21,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.UseAnim;
 
 @Mixin(ItemInHandRenderer.class)
-public class ItemRendererMixin
+public class ItemRenderMixin
 {
     @Inject(method = "renderArmWithItem", at = @At(value = "HEAD"), cancellable = true)
     private void hideShield(AbstractClientPlayer abstractClientPlayer, float f, float g, InteractionHand interactionHand, float swingProgress, ItemStack itemStack, float equipProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int j, CallbackInfo info)
