@@ -9,14 +9,12 @@ public class Animation
     
     public int wrap(int input)
     {
-        update();
-        return (int) (input * value);
+        update(); return (int) (input * value);
     }
     
     public float get()
     {
-        update();
-        return value;
+        update(); return value;
     }
     
     private void update()

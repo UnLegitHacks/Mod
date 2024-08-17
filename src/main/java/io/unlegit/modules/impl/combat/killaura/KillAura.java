@@ -58,6 +58,7 @@ public class KillAura extends ModuleU
         
         if (target != null)
         {
+            if (mc.player.hasContainerOpen()) mc.player.closeContainer();
             Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             
@@ -76,7 +77,7 @@ public class KillAura extends ModuleU
     
     public void onMotion(MotionE e)
     {
-        if (target != null)
+        if (target != null && mc.player.distanceTo(target) > 0.15F) // Rotations aren't needed when you're inside a player
         {
             float[] rotations = RotationUtil.rotations(target);
             
