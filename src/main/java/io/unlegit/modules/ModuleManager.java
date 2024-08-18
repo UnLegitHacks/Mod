@@ -7,7 +7,7 @@ import io.unlegit.modules.impl.combat.*;
 import io.unlegit.modules.impl.combat.killaura.KillAura;
 import io.unlegit.modules.impl.gui.ActiveMods;
 import io.unlegit.modules.impl.item.*;
-import io.unlegit.modules.impl.movement.Speed;
+import io.unlegit.modules.impl.movement.*;
 import io.unlegit.modules.impl.player.*;
 import io.unlegit.modules.impl.render.*;
 

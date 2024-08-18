@@ -99,8 +99,7 @@ public class ClickGui extends Screen implements IGui
     
     protected void init()
     {
-        closingGui = false;
-        animation = new Animation(144);
+        closingGui = false; animation = new Animation(96);
     }
     
     // Exists to control the blur fade-in and fade-out.
@@ -121,8 +120,7 @@ public class ClickGui extends Screen implements IGui
     public void onClose()
     {
         // if (renderSettings != null) renderSettings.onClose();
-        animation = new Animation(144);
-        animation.reverse = true;
+        animation = new Animation(96); animation.reverse = true;
         UnConfig.saveModules();
         closingGui = true;
     }

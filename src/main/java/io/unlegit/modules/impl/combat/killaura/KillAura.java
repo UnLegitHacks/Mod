@@ -11,6 +11,7 @@ import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.SliderSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.ElapTime;
+import io.unlegit.utils.entity.PlayerUtil;
 import io.unlegit.utils.entity.RotationUtil;
 import io.unlegit.utils.entity.TargetUtil;
 import net.minecraft.client.multiplayer.PlayerInfo;
@@ -47,18 +48,18 @@ public class KillAura extends ModuleU
     {
         float range = distance.value;
         
-        if (smartRange.enabled && !mc.hasSingleplayerServer())
+        if (smartRange.enabled && !mc.hasSingleplayerServer() && PlayerUtil.isMoving())
         {
             PlayerInfo playerInfo = mc.getConnection().getPlayerInfo(mc.getUser().getName());
             // Null check for bedrock servers (which is coming soon with ViaBedrock)
-            if (playerInfo != null) range += playerInfo.getLatency() / 1000F;
+            if (playerInfo != null) range += playerInfo.getLatency() / 1250F;
         }
         
         target = TargetUtil.getTarget(mc.player, range, priority.mode);
         
         if (target != null)
         {
-            if (mc.player.hasContainerOpen()) mc.player.closeContainer();
+            if (mc.screen != null) mc.setScreen(null);
             Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             
@@ -77,28 +78,49 @@ public class KillAura extends ModuleU
     
     public void onMotion(MotionE e)
     {
-        if (target != null && mc.player.distanceTo(target) > 0.15F) // Rotations aren't needed when you're inside a player
+        if (target != null)
         {
             float[] rotations = RotationUtil.rotations(target);
             
+            // Smooth rotations
             if (rotationsMode.equals("Smooth"))
             {
-                /**
-                 * Smooth rotations
-                 */
-                if (yaw < rotations[0]) yaw += (rotations[0] - yaw) / 1.5F;
-                else if (yaw > rotations[0]) yaw -= (yaw - rotations[0]) / 1.5F;
-                if (pitch < rotations[1]) pitch += (rotations[1] - pitch) / 1.5F;
-                else if (pitch > rotations[1]) pitch -= (pitch - rotations[1]) / 1.5F;
+                float yawDifference = Math.abs(rotations[0] - yaw), pitchDifference = Math.abs(rotations[1] - pitch);
+                
+                if (yaw < rotations[0])
+                {
+                    if (yawDifference < 25) yaw = rotations[0];
+                    else yaw += (rotations[0] - yaw) / 2;
+                }
+                
+                else if (yaw > rotations[0])
+                {
+                    if (yawDifference < 25) yaw = rotations[0];
+                    else yaw -= (yaw - rotations[0]) / 2;
+                }
+                
+                if (pitch < rotations[1])
+                {
+                    if (pitchDifference < 25) pitch = rotations[1];
+                    else pitch += (rotations[1] - pitch) / 2;
+                }
+                
+                else if (pitch > rotations[1])
+                {
+                    if (pitchDifference < 25) pitch = rotations[1];
+                    else pitch -= (pitch - rotations[1]) / 2;
+                }
             }
             
             else
             {
-                yaw = rotations[0];
-                pitch = rotations[1];
+                yaw = rotations[0]; pitch = rotations[1];
             }
             
             e.yaw = yaw; e.pitch = pitch;
+        } else if (rotationsMode.equals("Smooth"))
+        {
+            yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
         }
     }
     
