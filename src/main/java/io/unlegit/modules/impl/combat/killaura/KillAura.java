@@ -14,6 +14,7 @@ import io.unlegit.utils.ElapTime;
 import io.unlegit.utils.entity.PlayerUtil;
 import io.unlegit.utils.entity.RotationUtil;
 import io.unlegit.utils.entity.TargetUtil;
+import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.world.InteractionHand;
@@ -59,7 +60,7 @@ public class KillAura extends ModuleU
         
         if (target != null)
         {
-            if (mc.screen != null) mc.setScreen(null);
+            if (mc.screen != null && !(mc.screen instanceof ChatScreen)) mc.setScreen(null);
             Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             

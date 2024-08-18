@@ -13,5 +13,5 @@ public class MotionE implements Event
     {
         e.x = x; e.y = y; e.z = z; e.yaw = yaw; e.pitch = pitch; e.onGround = onGround;
         return e;
-    }
+    } public static MotionE get() { return e; }
 }

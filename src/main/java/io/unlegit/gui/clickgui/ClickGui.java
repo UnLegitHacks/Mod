@@ -99,7 +99,7 @@ public class ClickGui extends Screen implements IGui
     
     protected void init()
     {
-        closingGui = false; animation = new Animation(96);
+        animation = new Animation(96); closingGui = false;
     }
     
     // Exists to control the blur fade-in and fade-out.

@@ -13,6 +13,7 @@ import io.unlegit.modules.impl.render.ESP;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(LevelRenderer.class)
 public class LevelRenderMixin
@@ -22,7 +23,7 @@ public class LevelRenderMixin
     {
         ESP esp = (ESP) UnLegit.modules.get("ESP");
         
-        if (esp.isEnabled() && esp.mode.equals("Chams"))
+        if (esp.isEnabled() && esp.mode.equals("Chams") && entity instanceof LivingEntity)
         {
             GlStateManager._enablePolygonOffset();
             GlStateManager._polygonOffset(1, -1000000);
@@ -34,7 +35,7 @@ public class LevelRenderMixin
     {
         ESP esp = (ESP) UnLegit.modules.get("ESP");
         
-        if (esp.isEnabled() && esp.mode.equals("Chams"))
+        if (esp.isEnabled() && esp.mode.equals("Chams") && entity instanceof LivingEntity)
         {
             GlStateManager._polygonOffset(1, 1000000);
             GlStateManager._disablePolygonOffset();
