@@ -38,8 +38,9 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
+	// Temporarily removed until it updates to 1.21.1
 	// In-Game-Account-Switcher (why reinvent the wheel when a mod for alts exists?)
-	modImplementation "maven.modrinth:in-game-account-switcher:RQG6VufY" // Version 1.21
+	// modImplementation "maven.modrinth:in-game-account-switcher:RQG6VufY" // Version 1.21
 }
 
 processResources {

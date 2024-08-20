@@ -46,8 +46,9 @@ public class RenderCategory implements IGui
         int x = (int) (this.x - ((scale - 1) * 110));
         int y = (int) (this.y - ((scale - 1) * 41.25F));
         GlStateManager._enableBlend();
-        graphics.setColor(1, 1, 1, 1);
+        graphics.setColor(1, 1, 1, alpha / 255F);
         graphics.blit(parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);
+        graphics.setColor(1, 1, 1, 1);
         graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, parent.animation.wrap(235)).getRGB());
         String name = StringUtils.capitalize(category.name().toLowerCase());
         IFont.BIG.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
@@ -71,7 +72,6 @@ public class RenderCategory implements IGui
         }
         
         graphics.disableScissor();
-        graphics.setColor(1, 1, 1, alpha / 255F);
     }
     
     public boolean mouseClicked(double mouseX, double mouseY, int button)

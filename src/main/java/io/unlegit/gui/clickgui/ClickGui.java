@@ -49,8 +49,9 @@ public class ClickGui extends Screen implements IGui
         PoseStack poseStack = graphics.pose();
         float scale = 1 + (1 - animation.get());
         graphics.fill(0, 0, width, height, new Color(0, 0, 0, animation.wrap(50)).getRGB());
+        boolean finished = animation.finished();
         
-        if (!animation.finished())
+        if (!finished)
         {
             poseStack.pushPose();
             poseStack.scale(scale, scale, scale);
@@ -70,7 +71,7 @@ public class ClickGui extends Screen implements IGui
                 category.render(graphics, mouseX, mouseY, partialTicks);
         }
         
-        if (!animation.finished()) poseStack.popPose();
+        if (!finished) poseStack.popPose();
     }
     
     public boolean mouseClicked(double mouseX, double mouseY, int button)
