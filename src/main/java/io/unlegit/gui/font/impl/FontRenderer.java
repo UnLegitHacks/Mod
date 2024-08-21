@@ -61,15 +61,8 @@ public class FontRenderer implements IMinecraft, IGui
     
     private void renderStringAtPos(GuiGraphics graphics, String text, Color color)
     {
-        float scaleFactor = (float) mc.getWindow().getGuiScale();
-        
-        if (prevScaleFactor != scaleFactor)
-        {
-            page = init(path, (int) (size * scaleFactor));
-            prevScaleFactor = scaleFactor;
-        }
-        
-        float red = color.getRed() / 255F, green = color.getGreen() / 255F, blue = color.getBlue() / 255F, alpha = color.getAlpha() / 255F;
+        float red = color.getRed() / 255F, green = color.getGreen() / 255F, blue = color.getBlue() / 255F, alpha = color.getAlpha() / 255F,
+                scaleFactor = checkGuiScaleUpdate();
         if (alpha == 0) return;
         PoseStack pose = graphics.pose();
         pose.pushPose(); pose.last().pose().scale(1 / scaleFactor);
@@ -91,7 +84,7 @@ public class FontRenderer implements IMinecraft, IGui
     {
         if (text == null) return 0;
         int width = 0, size = text.length();
-        float scaleFactor = (float) mc.getWindow().getGuiScale();
+        float scaleFactor = checkGuiScaleUpdate();
         
         for (int i = 0; i < size; i++)
         {
@@ -129,6 +122,17 @@ public class FontRenderer implements IMinecraft, IGui
     public int drawCenteredStringWithShadow(GuiGraphics graphics, String text, int x, int y, Color color)
     {
         return drawStringWithShadow(graphics, text, x - getStringWidth(text) / 2, y, color);
+    }
+    
+    public float checkGuiScaleUpdate()
+    {
+        float scaleFactor = (float) mc.getWindow().getGuiScale();
+        
+        if (prevScaleFactor != scaleFactor)
+        {
+            page = init(path, (int) (size * scaleFactor));
+            prevScaleFactor = scaleFactor;
+        } return scaleFactor;
     }
     
     public FontRenderer(GlyphPage page) { this.page = page; }

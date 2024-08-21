@@ -7,7 +7,8 @@
 		"client.KeyHandlerMixin", "render.ScreenMixin", "render.AccGameRender",
 		"network.ConnectionMixin", "entity.PlayerMixin", "item.ItemRenderMixin",
 		"item.InvItemRender", "render.LightTextureMixin", "render.LevelRenderMixin",
-		"render.EntityRenderMixin", "client.KeyMapAccessor", "client.KeyInputMixin"
+		"render.EntityRenderMixin", "client.KeyMapAccessor", "client.KeyInputMixin",
+		"client.PauseScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -8,7 +8,8 @@ public class PlayerUtil implements IMinecraft
 {
     public static boolean isCloseToEdge(Vec3 position)
     {
-        return mc.level.isEmptyBlock(BlockPos.containing(position.subtract(0, 1, 0)));
+        return mc.level.isEmptyBlock(BlockPos.containing(position.subtract(0, 1, 0)))
+                && mc.level.isEmptyBlock(BlockPos.containing(position.subtract(0, 2, 0)));
     }
     
     public static boolean isMoving()

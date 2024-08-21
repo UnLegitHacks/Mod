@@ -40,20 +40,21 @@ public class RenderCategory implements IGui
             x = prevX + (mouseX - prevMouseX);
             y = prevY + (mouseY - prevMouseY);
         }
-        
-        float scale = 1 + (2 - (parent.animation.get() * 2));
+
+        float scale = 1 + (1 - parent.animation.get());
         int alpha = parent.animation.wrap(255);
-        int x = (int) (this.x - ((scale - 1) * 110));
-        int y = (int) (this.y - ((scale - 1) * 41.25F));
+        int x = (int) (this.x - (165 * (scale - 1)));
+        int y = (int) (this.y - (82.5F * (scale - 1)));
         GlStateManager._enableBlend();
         graphics.setColor(1, 1, 1, alpha / 255F);
         graphics.blit(parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);
         graphics.setColor(1, 1, 1, 1);
         graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, parent.animation.wrap(235)).getRGB());
         String name = StringUtils.capitalize(category.name().toLowerCase());
-        IFont.BIG.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
+        IFont.MEDIUM.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
         graphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, alpha).getRGB());
-        graphics.enableScissor(x, y + (int) (30 * scale), x + (int) (110 * scale), y + (int) (160 * scale));
+        graphics.enableScissor((int) (x * scale), (int) (y * scale),
+                (int) ((x * scale) + (110 * scale)), (int) ((y * scale) + (160 * scale)));
         int offset = scroll;
         
         for (ModuleU module : modules)

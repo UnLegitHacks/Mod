@@ -24,12 +24,13 @@ import net.minecraft.client.player.LocalPlayer;
 @Mixin(Minecraft.class)
 public class MinecraftMixin
 {
+    @Shadow private volatile boolean pause;
     @Shadow public LocalPlayer player;
     
     @Inject(method = "tick", at = @At(value = "HEAD"))
     public void updateEvent(CallbackInfo info)
     {
-        if (player != null) UnLegit.events.post(UpdateE.get());
+        if (player != null && !pause) UnLegit.events.post(UpdateE.get());
     }
     
     @Inject(method = "startAttack", at = @At(value = "HEAD"), cancellable = true)

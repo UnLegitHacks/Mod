@@ -8,6 +8,7 @@ import com.mojang.realmsclient.RealmsMainScreen;
 
 import io.unlegit.gui.buttons.UnButton;
 import io.unlegit.gui.buttons.UnPlainTextButton;
+import io.unlegit.gui.buttons.UnPlainTextButton.UnStyle;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.ReflectionUtil;
@@ -33,7 +34,7 @@ public class UnTitleScreen extends Screen implements IGui
 {
     private static final Component COPYRIGHT_TEXT = Component.translatable("title.credits");
     private ArrayList<UnButton> buttons = new ArrayList<>();
-    private UnPlainTextButton plainTextButton;
+    private UnPlainTextButton copyrightButton, exitButton;
     private ResourceLocation logo = null;
     
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
@@ -52,10 +53,11 @@ public class UnTitleScreen extends Screen implements IGui
         else titleText += ("release".equalsIgnoreCase(minecraft.getVersionType()) ? "" : "/" + minecraft.getVersionType());
         if (Minecraft.checkModStatus().shouldReportAsModified()) { titleText += I18n.get("menu.modded"); }
         
-        IFont.NORMAL.drawStringWithShadow(graphics, titleText, 0, height - 13, Color.WHITE);
-        IFont.NORMAL.drawStringWithShadow(graphics, COPYRIGHT_TEXT.getString(), width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 1, height - 13, Color.WHITE);
+        IFont.NORMAL.drawStringWithShadow(graphics, titleText, 2, height - 14, Color.WHITE);
         graphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
-        plainTextButton.render(graphics, mouseX, mouseY);
+        
+        copyrightButton.render(graphics, mouseX, mouseY);
+        exitButton.render(graphics, mouseX, mouseY);
     }
     
     public boolean mouseClicked(double mouseX, double mouseY, int button)
@@ -63,14 +65,22 @@ public class UnTitleScreen extends Screen implements IGui
         for (UnButton buttonComponent : buttons)
             buttonComponent.mouseClicked(mouseX, mouseY, button);
         
-        plainTextButton.mouseClicked(mouseX, mouseY, button);
+        copyrightButton.mouseClicked(mouseX, mouseY, button);
+        exitButton.mouseClicked(mouseX, mouseY, button);
         return super.mouseClicked(mouseX, mouseY, button);
     }
     
     protected void init()
     {
-        int numOfButtons = 5, x = (width / 2) - (32 * numOfButtons),
-                y = (height / 2) + 20;
+        repositionElements();
+        logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/unlegit.png"));
+    }
+    
+    protected void repositionElements()
+    {
+        int numOfButtons = 5, x = (width / 2) - (32 * numOfButtons), y = (height / 2) + 20;
+        Component quitText = Component.translatable("menu.quit");
+        
         buttons.clear();
         buttons.add(new UnButton(Component.translatable("menu.singleplayer").getString(), "singleplayer", x, y, () -> minecraft.setScreen(new SelectWorldScreen(this))));
         
@@ -89,8 +99,13 @@ public class UnTitleScreen extends Screen implements IGui
                 minecraft.setScreen(new AccountScreen(this));
         }));
         
-        plainTextButton = new UnPlainTextButton(COPYRIGHT_TEXT.getString(), width, height, () -> minecraft.setScreen(new CreditsAndAttributionScreen(this)));
-        logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/unlegit.png"));
+        copyrightButton = new UnPlainTextButton(COPYRIGHT_TEXT.getString(),
+                width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 2,
+                height - 14, UnStyle.UNDERLINE, () -> minecraft.setScreen(
+                        new CreditsAndAttributionScreen(this)));
+        
+        exitButton = new UnPlainTextButton(quitText.getString(), 3, 2,
+                UnStyle.FADE, () -> minecraft.stop());
     }
     
     public void onClose() {}

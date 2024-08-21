@@ -7,5 +7,5 @@ public class IFont
     public static void init() {}
     private static final String font = "assets/unlegit/font.ttf";
     public static final FontRenderer NORMAL = FontRenderer.create(font, 10),
-            BIG = FontRenderer.create(font, 15);
+            MEDIUM = FontRenderer.create(font, 15), LARGE = FontRenderer.create(font, 20);
 }

@@ -2,6 +2,8 @@ package io.unlegit.gui.buttons;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.SoundUtil;
@@ -12,20 +14,22 @@ public class UnPlainTextButton implements IGui
 {
     private Animation hoverAnimation = null;
     private boolean flag = false;
-    private int width, height;
     private Runnable action;
+    private UnStyle style;
     private String name;
+    private int x, y;
     
-    public UnPlainTextButton(String name, int width, int height, Runnable action)
+    public UnPlainTextButton(String name, int x, int y, UnStyle style, Runnable action)
     {
         this.name = name;
+        this.style = style;
         this.action = action;
-        this.width = width; this.height = height;
+        this.x = x; this.y = y;
     }
     
     public void render(GuiGraphics graphics, int mouseX, int mouseY)
     {
-        if (mouseOver((int) mouseX, (int) mouseY, width - IFont.NORMAL.getStringWidth(name) - 1, height - 13, width, height))
+        if (mouseOver((int) mouseX, (int) mouseY, x, y, x + IFont.NORMAL.getStringWidth(name), y + 13))
         {
             if (!flag)
             {
@@ -43,16 +47,31 @@ public class UnPlainTextButton implements IGui
             } if (hoverAnimation.finished()) hoverAnimation = null;
         }
         
-        if (hoverAnimation != null)
-            graphics.fill(width + (25 - hoverAnimation.wrap(25)) - IFont.NORMAL.getStringWidth(name) - 1, height - 2, width - (25 - hoverAnimation.wrap(25)), height - 1, new Color(255, 255, 255, hoverAnimation.wrap(255)).getRGB());
+        int width = IFont.NORMAL.getStringWidth(name);
+        GlStateManager._enableBlend();
+        
+        if (style == UnStyle.UNDERLINE)
+        {
+            IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, Color.WHITE);
+            if (hoverAnimation == null) return;
+            graphics.fill(x + (int) (24 * (1 - hoverAnimation.get())), y + 11, (x + width) - (int) (24 * (1 - hoverAnimation.get())), y + 12, new Color(255, 255, 255, hoverAnimation.wrap(160)).getRGB());
+        }
+        
+        else
+        {
+            int alpha = 160 + (hoverAnimation == null ? 0 : hoverAnimation.wrap(95));
+            IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, new Color(255, 255, 255, alpha));
+        }
     }
     
     public void mouseClicked(double mouseX, double mouseY, int button)
     {
-        if (mouseOver((int) mouseX, (int) mouseY, width - IFont.NORMAL.getStringWidth(name) - 1, height - 13, width, height))
+        if (mouseOver((int) mouseX, (int) mouseY, x, y, x + IFont.NORMAL.getStringWidth(name), y + 13))
         {
             action.run();
             SoundUtil.playActionSound();
         }
     }
+    
+    public static enum UnStyle { UNDERLINE, FADE }
 }

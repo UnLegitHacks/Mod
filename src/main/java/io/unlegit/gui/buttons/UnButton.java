@@ -4,13 +4,12 @@ import java.awt.Color;
 
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
-import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.utils.SoundUtil;
 import io.unlegit.utils.render.Animation;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-public class UnButton implements IMinecraft, IGui
+public class UnButton implements IGui
 {
     private ResourceLocation buttonTexture;
     private Animation animation = null;
