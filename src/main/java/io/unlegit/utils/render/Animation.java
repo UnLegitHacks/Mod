@@ -4,7 +4,7 @@ public class Animation
 {
     private long time = System.currentTimeMillis();
     public boolean reverse = false;
-    private int interval = 0;
+    public int interval = 0;
     private float value = 0;
     
     public int wrap(int input)

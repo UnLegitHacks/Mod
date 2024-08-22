@@ -3,6 +3,7 @@ package io.unlegit.modules.impl.combat.killaura;
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.events.impl.entity.MotionE;
+import io.unlegit.gui.clickgui.ClickGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.impl.combat.Criticals;
@@ -15,6 +16,7 @@ import io.unlegit.utils.entity.PlayerUtil;
 import io.unlegit.utils.entity.RotationUtil;
 import io.unlegit.utils.entity.TargetUtil;
 import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.world.InteractionHand;
@@ -60,7 +62,7 @@ public class KillAura extends ModuleU
         
         if (target != null)
         {
-            if (mc.screen != null && !(mc.screen instanceof ChatScreen)) mc.setScreen(null);
+            if (mc.screen != null && !(mc.screen instanceof ChatScreen) && !(mc.screen instanceof PauseScreen) && !(mc.screen instanceof ClickGui)) mc.setScreen(null);
             Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             

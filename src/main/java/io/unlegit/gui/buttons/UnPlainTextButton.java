@@ -59,8 +59,8 @@ public class UnPlainTextButton implements IGui
         
         else
         {
-            int alpha = 160 + (hoverAnimation == null ? 0 : hoverAnimation.wrap(95));
-            IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, new Color(255, 255, 255, alpha));
+            int alpha = 200 + (hoverAnimation == null ? 0 : hoverAnimation.wrap(55));
+            IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, new Color(alpha, alpha, alpha, alpha));
         }
     }
     

@@ -7,10 +7,12 @@ public class GuiRenderE implements Event
 {
     private static GuiRenderE e = new GuiRenderE();
     public GuiGraphics graphics;
+    public float partialTicks;
     
-    public static GuiRenderE get(GuiGraphics graphics)
+    public static GuiRenderE get(GuiGraphics graphics, float partialTicks)
     {
         e.graphics = graphics;
+        e.partialTicks = partialTicks;
         return e;
     }
 }

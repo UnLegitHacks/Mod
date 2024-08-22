@@ -11,6 +11,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.render.GuiRenderE;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -18,8 +19,8 @@ import net.minecraft.client.gui.GuiGraphics;
 public class GuiMixin
 {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "render", shift = Shift.AFTER))
-    public void renderEvent(CallbackInfo info, @Local LocalRef<GuiGraphics> graphics)
+    public void renderEvent(CallbackInfo info, @Local LocalRef<GuiGraphics> graphics, @Local LocalRef<DeltaTracker> deltaTracker)
     {
-        UnLegit.events.post(GuiRenderE.get(graphics.get()));
+        UnLegit.events.post(GuiRenderE.get(graphics.get(), deltaTracker.get().getGameTimeDeltaTicks()));
     }
 }
