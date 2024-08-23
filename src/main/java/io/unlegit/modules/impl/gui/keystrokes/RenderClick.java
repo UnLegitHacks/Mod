@@ -11,9 +11,9 @@ import net.minecraft.client.gui.GuiGraphics;
 
 public class RenderClick extends RenderKey
 {
-    public RenderClick(KeyMapping keyMapping, int x, int y)
+    public RenderClick(KeyStrokes parent, KeyMapping keyMapping, int x, int y)
     {
-        super(keyMapping, x, y);
+        super(parent, keyMapping, x, y);
     }
     
     public void render(GuiGraphics graphics, float partialTicks)
@@ -21,14 +21,23 @@ public class RenderClick extends RenderKey
         boolean keyPressed = keyMapping.isDown();
         updateAnimation(keyPressed);
         int x = this.x + 7, y = this.y + 5;
-        Color color;
-        
-        if (animation != null)
-            color = new Color(animation.wrap(96), animation.wrap(96), animation.wrap(96), 96 + animation.wrap(32));
-        else color = new Color(0, 0, 0, 96);
-        
-        graphics.fill(x, y, x + 37, y + 24, color.getRGB());
+        float alpha = animation != null ? animation.get() : 0;
+        graphics.fill(x, y, x + 37, y + 24, new Color(0, 0, 0, 96).getRGB());
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
+        GlStateManager._enableBlend();
+        graphics.setColor(1, 1, 1, 1);
+        graphics.blit(parent.clickShadow, x - 8, y - 8, 53, 40, 53, 40, 53, 40);
+        
+        if (alpha != 0)
+        {
+            int size = animation.wrap(45);
+            graphics.enableScissor(x, y, x + 37, y + 24);
+            graphics.setColor(1, 1, 1, animation.get() / 4);
+            graphics.blit(circle, x - (size - 37) / 2, y - (size - 24) / 2, size, size, size, size, size, size);
+            graphics.disableScissor();
+        }
+        
+        graphics.setColor(1, 1, 1, 1);
         IFont.NORMAL.drawCenteredString(graphics, keyMapping.getTranslatedKeyMessage().getString().substring(0, 1), x + 17, y + 6, Color.WHITE);
         prevPressed = keyPressed;
         GlStateManager._disableBlend();

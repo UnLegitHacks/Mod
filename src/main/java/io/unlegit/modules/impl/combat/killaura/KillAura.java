@@ -66,7 +66,7 @@ public class KillAura extends ModuleU
             Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             
-            if (elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled() || (cooldown.isEnabled() && !cooldown.cancelHit()))
+            if ((elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || (cooldown.isEnabled() && !cooldown.cancelHit()))
             {
                 if (!RotationUtil.rayTrace(target, yaw, pitch, range)) return;
                 if (autoBlock.equals("Vanilla")) AutoBlock.unblock();
