@@ -6,12 +6,14 @@ import io.unlegit.events.impl.render.GuiRenderE;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 @IModule(name = "Key Strokes", description = "Shows your key strokes on the screen.")
 public class KeyStrokes extends ModuleU implements IGui
 {
     private ArrayList<RenderKey> keys = new ArrayList<>();
+    private GuiGraphics dummy = new GuiGraphics(mc, null);
     protected ResourceLocation keyShadow, clickShadow;
     
     public void onGuiRender(GuiRenderE e)
@@ -29,8 +31,13 @@ public class KeyStrokes extends ModuleU implements IGui
             clickShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/keystrokes/click.png"));
         }
         
-        for (RenderKey key : keys)
-            key.render(e.graphics, e.partialTicks);
+        for (RenderKey key : keys) key.render(e.graphics, e.partialTicks);
+    }
+    
+    public void onUpdate()
+    {
+        // Fixes the edges of the blur
+        for (RenderKey key : keys) key.renderBlur(dummy, mc.options.getMenuBackgroundBlurriness() * 2, mc.getTimer().getGameTimeDeltaPartialTick(false));
     }
     
     public void add(RenderKey... keys)

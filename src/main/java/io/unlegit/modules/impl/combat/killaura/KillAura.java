@@ -31,7 +31,8 @@ public class KillAura extends ModuleU
     
     public ToggleSetting swing = new ToggleSetting("Swing", "Swings the held item client-side.", true),
                          smartRange = new ToggleSetting("Smart Range", "Increases the range depending on your ping.", false),
-                         teams = new ToggleSetting("Teams", "Don't attack players on your team.", false);
+                         teams = new ToggleSetting("Teams", "Don't attack players on your team.", false),
+                         predict = new ToggleSetting("Predict", "Predicts the movement of the target.", true);
                          // targetESP = new ToggleSetting("Target ESP", true);
     
     /**
@@ -92,25 +93,25 @@ public class KillAura extends ModuleU
                 
                 if (yaw < rotations[0])
                 {
-                    if (yawDifference < 25) yaw = rotations[0];
+                    if (yawDifference < 5) yaw = rotations[0];
                     else yaw += (rotations[0] - yaw) / 2;
                 }
                 
                 else if (yaw > rotations[0])
                 {
-                    if (yawDifference < 25) yaw = rotations[0];
+                    if (yawDifference < 5) yaw = rotations[0];
                     else yaw -= (yaw - rotations[0]) / 2;
                 }
                 
                 if (pitch < rotations[1])
                 {
-                    if (pitchDifference < 25) pitch = rotations[1];
+                    if (pitchDifference < 5) pitch = rotations[1];
                     else pitch += (rotations[1] - pitch) / 2;
                 }
                 
                 else if (pitch > rotations[1])
                 {
-                    if (pitchDifference < 25) pitch = rotations[1];
+                    if (pitchDifference < 5) pitch = rotations[1];
                     else pitch -= (pitch - rotations[1]) / 2;
                 }
             }

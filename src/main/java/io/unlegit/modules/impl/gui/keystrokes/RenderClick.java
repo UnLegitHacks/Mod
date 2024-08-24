@@ -22,7 +22,8 @@ public class RenderClick extends RenderKey
         updateAnimation(keyPressed);
         int x = this.x + 7, y = this.y + 5;
         float alpha = animation != null ? animation.get() : 0;
-        graphics.fill(x, y, x + 37, y + 24, new Color(0, 0, 0, 96).getRGB());
+        renderBlur(graphics, 0, partialTicks);
+        graphics.fill(x, y, x + 37, y + 24, new Color(0, 0, 0, getAlpha()).getRGB());
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         GlStateManager._enableBlend();
         graphics.setColor(1, 1, 1, 1);
@@ -55,5 +56,13 @@ public class RenderClick extends RenderKey
             animation = new Animation(128);
             animation.reverse = true;
         }
+    }
+    
+    public void renderBlur(GuiGraphics graphics, int sizeOffset, float partialTicks)
+    {
+        int x = this.x + 7, y = this.y + 5;
+        graphics.enableScissor(x - sizeOffset, y - sizeOffset, x + 37 + sizeOffset, y + 24 + sizeOffset);
+        blur(2, partialTicks);
+        graphics.disableScissor();
     }
 }

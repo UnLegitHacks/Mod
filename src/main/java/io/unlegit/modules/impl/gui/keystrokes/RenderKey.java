@@ -6,12 +6,13 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
+import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.utils.render.Animation;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-public class RenderKey implements IGui
+public class RenderKey implements IGui, IMinecraft
 {
     protected ResourceLocation circle = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/circle.png"));
     protected boolean prevPressed = false;
@@ -34,7 +35,8 @@ public class RenderKey implements IGui
         updateAnimation(keyPressed);
         int x = this.x + 7, y = this.y + 5;
         float alpha = animation != null ? animation.get() : 0;
-        graphics.fill(x, y, x + 24, y + 24, new Color(0, 0, 0, 96).getRGB());
+        renderBlur(graphics, 0, partialTicks);
+        graphics.fill(x, y, x + 24, y + 24, new Color(0, 0, 0, getAlpha()).getRGB());
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         GlStateManager._enableBlend();
         graphics.setColor(1, 1, 1, 1);
@@ -68,4 +70,15 @@ public class RenderKey implements IGui
             animation.reverse = true;
         }
     }
+    
+    public void renderBlur(GuiGraphics graphics, int sizeOffset, float partialTicks)
+    {
+        int x = this.x + 7, y = this.y + 5;
+        graphics.enableScissor(x - sizeOffset, y - sizeOffset, x + 24 + sizeOffset, y + 24 + sizeOffset);
+        blur(2, partialTicks);
+        graphics.disableScissor();
+    }
+    
+    // The darkness of the key reduces as the blur gets higher.
+    protected int getAlpha() { return (int) (96 * ((10 - mc.options.getMenuBackgroundBlurriness()) / 10F)); }
 }

@@ -34,8 +34,5 @@ public class PlayerMixin
     }
     
     @ModifyExpressionValue(method = "attack", at = @At(value = "INVOKE", target = "getYRot"))
-    public float getYaw(float yaw)
-    {
-        return MotionE.get().yaw;
-    }
+    public float getYaw(float yaw) { return MotionE.get().yaw; }
 }

@@ -22,7 +22,7 @@ public class ModuleManager
             new AutoRespawn(), new ActiveMods(), new KillAura(), new FPSBooster(),
             new KeepSprint(), new Criticals(), new Velocity(), new ChestStealer(),
             new OldHitting(), new FullBright(), new ESP(), new NameTags(),
-            new InvMove(), new SafeWalk(), new KeyStrokes());
+            new InvMove(), new SafeWalk(), new KeyStrokes(), new Strafe());
         UnLegit.settings.call(this);
     }
     

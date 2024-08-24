@@ -9,23 +9,37 @@ import net.minecraft.world.phys.Vec3;
 
 public class RotationUtil implements IMinecraft
 {
-    public static float[] rotations(LivingEntity target)
+    public static float[] rotations(LivingEntity target, boolean predict)
     {
-        double x = target.getX() - mc.player.getX();
-        double y = target.getY() - mc.player.getY() - (mc.player.getEyeHeight() - target.getEyeHeight());
-        double z = target.getZ() - mc.player.getZ();
+        double x, y, z;
+        
+        if (predict)
+        {
+            x = (target.getX() + (target.getX() - target.xo)) - mc.player.getX();
+            z = (target.getZ() + (target.getZ() - target.zo)) - mc.player.getZ();
+        }
+        
+        else
+        {
+            x = target.getX() - mc.player.getX();
+            z = target.getZ() - mc.player.getZ();
+        }
+        
+        y = target.getY() - mc.player.getY() - (mc.player.getEyeHeight() - target.getEyeHeight());
         double hypot = Math.sqrt(x * x + z * z);
         float yaw = (float) (Mth.atan2(z, x) * 180 / Math.PI) - 90;
         float pitch = (float) -(Mth.atan2(y, hypot) * 180 / Math.PI);
         return GCDFix.get(new float[] {yaw, pitch});
     }
     
+    public static float[] rotations(LivingEntity target) { return rotations(target, false); }
+    
     public static boolean rayTrace(LivingEntity target, float yaw, float pitch, float distance)
     {
         Vec3 camera = mc.player.getEyePosition(),
              rotation = mc.player.calculateViewVector(pitch, yaw),
              position = camera.add(rotation.x * distance, rotation.y * distance, rotation.z * distance);
-        AABB box = target.getBoundingBox().expandTowards(rotation.scale(distance)).expandTowards(1, 1, 1);
+        AABB box = target.getBoundingBox().expandTowards(rotation.scale(distance));
         return ProjectileUtil.getEntityHitResult(mc.player, camera, position, box, entity -> !entity.isSpectator(), Mth.square(distance)) != null;
     }
 }
