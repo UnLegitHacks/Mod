@@ -47,13 +47,15 @@ public class UnTitleScreen extends Screen implements IGui
         for (UnButton button : buttons)
             button.render(graphics, mouseX, mouseY);
         
-        String titleText = "Minecraft " + SharedConstants.getCurrentVersion().getName();
+        String titleText = "Minecraft " + SharedConstants.getCurrentVersion().getName(),
+               accountText = "Logged into " + minecraft.getUser().getName();
         
         if (minecraft.isDemo()) titleText += " Demo";
         else titleText += ("release".equalsIgnoreCase(minecraft.getVersionType()) ? "" : "/" + minecraft.getVersionType());
         if (Minecraft.checkModStatus().shouldReportAsModified()) { titleText += I18n.get("menu.modded"); }
         
         IFont.NORMAL.drawStringWithShadow(graphics, titleText, 2, height - 14, Color.WHITE);
+        IFont.NORMAL.drawStringWithShadow(graphics, accountText, width - IFont.NORMAL.getStringWidth(accountText) - 3, 2, new Color(200, 200, 200, 200));
         graphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
         
         copyrightButton.render(graphics, mouseX, mouseY);

@@ -37,7 +37,10 @@ public class KeyStrokes extends ModuleU implements IGui
     public void onUpdate()
     {
         // Fixes the edges of the blur
-        for (RenderKey key : keys) key.renderBlur(dummy, mc.options.getMenuBackgroundBlurriness() * 2, mc.getTimer().getGameTimeDeltaPartialTick(false));
+        if (mc.screen == null)
+        {
+            for (RenderKey key : keys) key.renderBlur(dummy, mc.options.getMenuBackgroundBlurriness() * 2, mc.getTimer().getGameTimeDeltaPartialTick(false));
+        }
     }
     
     public void add(RenderKey... keys)
