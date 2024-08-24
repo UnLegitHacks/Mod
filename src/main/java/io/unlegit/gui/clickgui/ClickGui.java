@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.unlegit.config.UnConfig;
+import io.unlegit.gui.clickgui.category.RenderCategory;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.modules.CategoryM;
 import io.unlegit.utils.render.Animation;
@@ -16,12 +17,12 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ClickGui extends Screen implements IGui
 {
-    protected final ResourceLocation categoryShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "clickgui/category_shadow.png"));
+    public final ResourceLocation categoryShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "clickgui/category_shadow.png"));
     private ArrayList<RenderCategory> categories = new ArrayList<>();
     private static ClickGui INSTANCE = new ClickGui();
     protected RenderSettings renderSettings = null;
-    protected Animation animation = null;
     private boolean closingGui = false;
+    public Animation animation = null;
     
     public ClickGui()
     {

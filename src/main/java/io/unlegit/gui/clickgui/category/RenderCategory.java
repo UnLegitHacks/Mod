@@ -1,4 +1,4 @@
-package io.unlegit.gui.clickgui;
+package io.unlegit.gui.clickgui.category;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.unlegit.UnLegit;
+import io.unlegit.gui.clickgui.ClickGui;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.modules.CategoryM;
@@ -40,7 +41,7 @@ public class RenderCategory implements IGui
             x = prevX + (mouseX - prevMouseX);
             y = prevY + (mouseY - prevMouseY);
         }
-
+        
         float scale = 1 + (1 - parent.animation.get());
         int alpha = parent.animation.wrap(255);
         int x = (int) (this.x - (165 * (scale - 1)));
