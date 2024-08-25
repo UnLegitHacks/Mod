@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
+import io.unlegit.utils.entity.InvUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.Packet;
@@ -13,8 +14,6 @@ import net.minecraft.network.protocol.game.ServerboundPickItemPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 @IModule(name = "Auto Totem", description = "Automatically equips a totem in your offhand.")
@@ -26,7 +25,8 @@ public class AutoTotem extends ModuleU
     {
         if (!mc.player.getOffhandItem().is(Items.TOTEM_OF_UNDYING))
         {
-            int totemSlot = getTotemSlot(mc.player.getInventory());
+            int totemSlot = InvUtil.getSlot(mc.player.getInventory(),
+                    Items.TOTEM_OF_UNDYING);
             
             if (totemSlot != -1 && packetDeque.isEmpty())
             {
@@ -57,17 +57,6 @@ public class AutoTotem extends ModuleU
         
         // Sends packets tick-by-tick which also avoids flagging Timer
         if (!packetDeque.isEmpty()) mc.getConnection().send(packetDeque.poll());
-    }
-    
-    public int getTotemSlot(Inventory inventory)
-    {
-        for (int i = 0; i < inventory.items.size(); i++)
-        {
-            ItemStack stack = inventory.items.get(i);
-            if (!stack.isEmpty() && stack.is(Items.TOTEM_OF_UNDYING)) return i;
-        }
-        
-        return -1;
     }
     
     public void queue(Packet<?>... packets)

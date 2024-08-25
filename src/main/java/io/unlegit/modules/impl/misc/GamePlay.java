@@ -1,17 +1,23 @@
 package io.unlegit.modules.impl.misc;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import io.unlegit.events.impl.client.MessageE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
+import io.unlegit.utils.entity.InvUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.Items;
 
 @IModule(name = "Game Play", description = "Manages your experience for you.")
 public class GamePlay extends ModuleU
 {
+    public ToggleSetting autoQueue = new ToggleSetting("Auto Queue", "Automatically queues a new game.", false);
     public ToggleSetting autoL = new ToggleSetting("Auto L", "Automatically says L when you kill a player.", false);
     public ModeSetting autoLMode = new ModeSetting("Auto L Mode", "The mode for Auto L.", new String[]
     {
@@ -51,7 +57,7 @@ public class GamePlay extends ModuleU
         "don't use UnLegit? ok boomer",
         "What? You've never downloaded UnLegit 3.0? You know it's the best right?",
         "I don't hack I just UnLegit",
-        "You have been offed by UnLegit oof oof",
+        "You have been oofed by UnLegit oof oof",
         "I don't hack I just have the brand new UnLegit Gaming Chair",
         "UnLegit will help you! Oops, I killed you instead.",
         "Technoblade never dies",
@@ -65,6 +71,21 @@ public class GamePlay extends ModuleU
     };
     
     private ArrayList<String> alreadySaidMessages = new ArrayList<>();
+    private Deque<Runnable> actionDeque = new ConcurrentLinkedDeque<>();
+    
+    public void onUpdate()
+    {
+        if (autoQueue.enabled)
+        {
+            int paperSlot = InvUtil.getSlot(mc.player.getInventory(), Items.PAPER);
+            
+            if (paperSlot != -1)
+                queue(() -> mc.player.getInventory().selected = paperSlot,
+                      () -> mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND));
+            
+            if (!actionDeque.isEmpty()) actionDeque.poll().run();
+        }
+    }
     
     // Should work with most English servers
     public void onMessageReceive(MessageE e)
@@ -129,5 +150,10 @@ public class GamePlay extends ModuleU
         }
         
         return message;
+    }
+    
+    public void queue(Runnable... actions)
+    {
+        for (Runnable runnable : actions) actionDeque.add(runnable);
     }
 }

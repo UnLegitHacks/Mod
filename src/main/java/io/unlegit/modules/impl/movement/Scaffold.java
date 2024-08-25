@@ -127,8 +127,6 @@ public class Scaffold extends ModuleU
         else pitch = rotations[1];
         if (!this.rotations.equals("Pitch Only")) e.yaw = yaw;
         e.pitch = pitch;
-        this.rotations.mode = "Smooth";
-        mc.player.setYHeadRot(yaw);
     }
     
     public void onPacketSend(PacketSendE e)
@@ -151,7 +149,8 @@ public class Scaffold extends ModuleU
     
     private Direction getDirection()
     {
-        return PlayerUtil.isInMotion() ? Direction.fromYRot(PlayerUtil.getDirection()).getOpposite() : Direction.UP;
+        return PlayerUtil.isInMotion() ? Direction.fromYRot(PlayerUtil.getDirection()).getOpposite()
+                : jumpKeyDown() ? Direction.UP : mc.player.getDirection().getOpposite();
     }
     
     public double getBlockX()
