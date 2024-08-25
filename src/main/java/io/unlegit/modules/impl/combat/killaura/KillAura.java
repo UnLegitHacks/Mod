@@ -40,7 +40,7 @@ public class KillAura extends ModuleU
      * raytrace) especially while fighting multiple targets; however, hits are less
      * accurate, so smooth is not recommended for HvHs.
      */
-    public ModeSetting rotationsMode = new ModeSetting("Rotations Mode", "The mode for rotations.", new String[] {"Vanilla", "Smooth"}),
+    public ModeSetting rotations = new ModeSetting("Rotations", "The mode for rotations.", new String[] {"Vanilla", "Smooth"}),
                        priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
                        autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
     
@@ -87,7 +87,7 @@ public class KillAura extends ModuleU
             float[] rotations = RotationUtil.rotations(target);
             
             // Smooth rotations
-            if (rotationsMode.equals("Smooth"))
+            if (this.rotations.equals("Smooth"))
             {
                 float yawDifference = Math.abs(rotations[0] - yaw), pitchDifference = Math.abs(rotations[1] - pitch);
                 
@@ -122,7 +122,7 @@ public class KillAura extends ModuleU
             }
             
             e.yaw = yaw; e.pitch = pitch;
-        } else if (rotationsMode.equals("Smooth"))
+        } else if (rotations.equals("Smooth"))
         {
             yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
         }

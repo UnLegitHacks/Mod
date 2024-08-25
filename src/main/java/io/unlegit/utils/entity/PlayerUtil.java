@@ -19,6 +19,12 @@ public class PlayerUtil implements IMinecraft
                 || mc.options.keyRight.isDown();
     }
     
+    public static boolean isInMotion()
+    {
+        Vec3 deltaMovement = mc.player.getDeltaMovement();
+        return deltaMovement.x != 0 || deltaMovement.z != 0;
+    }
+    
     public static Vec3 strafe(Vec3 vec3, float speed)
     {
         float yaw = getDirection() * Mth.DEG_TO_RAD;

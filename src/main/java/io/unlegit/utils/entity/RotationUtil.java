@@ -1,6 +1,7 @@
 package io.unlegit.utils.entity;
 
 import io.unlegit.interfaces.IMinecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -26,6 +27,17 @@ public class RotationUtil implements IMinecraft
         }
         
         y = target.getY() - mc.player.getY() - (mc.player.getEyeHeight() - target.getEyeHeight());
+        double hypot = Math.sqrt(x * x + z * z);
+        float yaw = (float) (Mth.atan2(z, x) * 180 / Math.PI) - 90;
+        float pitch = (float) -(Mth.atan2(y, hypot) * 180 / Math.PI);
+        return GCDFix.get(new float[] {yaw, pitch});
+    }
+    
+    public static float[] rotations(BlockPos block)
+    {
+        double x = block.getX() + 0.5D - mc.player.getX();
+        double y = block.getY() - 0.5D - mc.player.getY();
+        double z = block.getZ() - 0.5D - mc.player.getZ();
         double hypot = Math.sqrt(x * x + z * z);
         float yaw = (float) (Mth.atan2(z, x) * 180 / Math.PI) - 90;
         float pitch = (float) -(Mth.atan2(y, hypot) * 180 / Math.PI);
