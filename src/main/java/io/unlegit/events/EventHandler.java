@@ -17,9 +17,10 @@ public class EventHandler
             case KeyE k: listener.onKey(k); break;
             case MoveE m: listener.onMove(m); break;
             case AttackE a: listener.onAttack(a); break;
-            case MotionE m: listener.onMotion(m); break;
+            case MotionE mo: listener.onMotion(mo); break;
             case PacketSendE ps: listener.onPacketSend(ps); break;
             case PacketReceiveE pr: listener.onPacketReceive(pr); break;
+            case MessageE me: listener.onMessageReceive(me);
             default: break;
         }
     }
