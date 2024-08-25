@@ -8,7 +8,7 @@
 		"network.ConnectionMixin", "entity.PlayerMixin", "item.ItemRenderMixin",
 		"item.InvItemRender", "render.LightTextureMixin", "render.LevelRenderMixin",
 		"render.EntityRenderMixin", "client.KeyMapAccessor", "client.KeyInputMixin",
-		"client.PauseScreenMixin", "client.ChatCompMixin"
+		"client.PauseScreenMixin", "client.ChatCompMixin", "render.FogRenderMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

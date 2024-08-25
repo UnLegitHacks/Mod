@@ -45,6 +45,8 @@ public class Scaffold extends ModuleU
     public void onEnable()
     {
         super.onEnable();
+        if (mc.player == null) { toggle(); return; }
+        
         y = mc.player.getY();
         yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
         
@@ -62,7 +64,7 @@ public class Scaffold extends ModuleU
         
         if (autoJump.enabled) mc.options.keyJump.setDown(true);
         
-        if (jumpKeyDown()) y = mc.player.getY();
+        if (jumpKeyDown() || (int) mc.player.getY() == mc.player.getY()) y = mc.player.getY();
         
         Vec3 block = new Vec3(getBlockX(), y, getBlockZ());
         pos = new BlockPos((int) mc.player.getX(), (int) block.y - 1, (int) mc.player.getZ()).relative(getDirection()).mutable();

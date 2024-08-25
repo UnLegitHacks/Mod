@@ -9,4 +9,3 @@ import io.unlegit.modules.ModuleU;
  */
 @IModule(name = "Anti Blind", description = "Does not let blindness effects affect you.")
 public class AntiBlind extends ModuleU {}
-// TODO: Make it work
