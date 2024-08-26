@@ -18,6 +18,7 @@ import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket.Action;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -73,7 +74,7 @@ public class Scaffold extends ModuleU
         {
             ItemStack itemStack = mc.player.getMainHandItem();
             
-            if (!itemStack.isEmpty())
+            if (!itemStack.isEmpty() && itemStack.getItem() instanceof BlockItem)
             {
                 int i = itemStack.getCount();
                 BlockHitResult hitResult = new BlockHitResult(block, getDirection().getOpposite(), pos, false);
@@ -91,7 +92,7 @@ public class Scaffold extends ModuleU
         float[] rotations = new float[] {getDirection().toYRot(), 80};
         ItemStack itemStack = mc.player.getMainHandItem();
         
-        if (!itemStack.isEmpty() && this.rotations.equals("Vanilla"))
+        if (!itemStack.isEmpty() && itemStack.getItem() instanceof BlockItem && this.rotations.equals("Vanilla"))
         {
             Direction direction = getDirection();
             if (direction != Direction.UP) yaw = rotations[0];

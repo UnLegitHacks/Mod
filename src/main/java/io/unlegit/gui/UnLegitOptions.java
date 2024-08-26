@@ -5,8 +5,8 @@ import net.minecraft.network.chat.Component;
 
 public class UnLegitOptions extends Screen
 {
+    public static boolean WATER_MARK = false, INTRO_SOUND = false;
     private static UnLegitOptions INSTANCE = new UnLegitOptions();
-    public static boolean WATER_MARK = false;
     
     protected UnLegitOptions()
     {

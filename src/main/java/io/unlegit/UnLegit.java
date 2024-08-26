@@ -36,8 +36,8 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         modules = new ModuleManager();
         events.register(this);
         UnConfig.init();
-        // Extracts the sound files.
-        SoundUtil.playEnableSound(); SoundUtil.playDisableSound();
+        // Fixes an issue.
+        SoundUtil.playActionSound();
         LOGGER.info("Successfully loaded up.");
     }
     

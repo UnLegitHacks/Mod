@@ -12,6 +12,7 @@ import io.unlegit.gui.buttons.UnPlainTextButton.UnStyle;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.ReflectionUtil;
+import io.unlegit.utils.SoundUtil;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -74,8 +75,8 @@ public class UnTitleScreen extends Screen implements IGui
     
     protected void init()
     {
+        if (UnLegitOptions.INTRO_SOUND) SoundUtil.playSound("modern/intro.wav");
         repositionElements();
-        logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/unlegit.png"));
     }
     
     protected void repositionElements()
@@ -108,6 +109,8 @@ public class UnTitleScreen extends Screen implements IGui
         
         exitButton = new UnPlainTextButton(quitText.getString(), 3, 2,
                 UnStyle.FADE, () -> minecraft.stop());
+        
+        logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/unlegit.png"));
     }
     
     public void onClose() {}
