@@ -24,7 +24,8 @@ public class ModuleManager
             new KeepSprint(), new Criticals(), new Velocity(), new ChestStealer(),
             new OldHitting(), new FullBright(), new ESP(), new NameTags(),
             new InvMove(), new SafeWalk(), new KeyStrokes(), new Strafe(),
-            new GamePlay(), new Scaffold(), new Spammer(), new AntiBlind());
+            new GamePlay(), new Scaffold(), new Spammer(), new AntiBlind(),
+            new LowFire());
         UnLegit.settings.call(this);
     }
     
