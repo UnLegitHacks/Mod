@@ -26,7 +26,7 @@ public class AutoTotem extends ModuleU
         if (!mc.player.getOffhandItem().is(Items.TOTEM_OF_UNDYING))
         {
             int totemSlot = InvUtil.getSlot(mc.player.getInventory(),
-                    Items.TOTEM_OF_UNDYING);
+                    stack -> stack.is(Items.TOTEM_OF_UNDYING));
             
             if (totemSlot != -1 && packetDeque.isEmpty())
             {

@@ -77,7 +77,7 @@ public class GamePlay extends ModuleU
     {
         if (autoQueue.enabled)
         {
-            int paperSlot = InvUtil.getSlot(mc.player.getInventory(), Items.PAPER);
+            int paperSlot = InvUtil.getSlot(mc.player.getInventory(), stack -> stack.is(Items.PAPER));
             
             if (paperSlot != -1)
                 queue(() -> mc.player.getInventory().selected = paperSlot,

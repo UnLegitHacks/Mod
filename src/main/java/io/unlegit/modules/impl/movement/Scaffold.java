@@ -9,6 +9,7 @@ import io.unlegit.mixins.client.KeyMapAccessor;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
+import io.unlegit.utils.entity.InvUtil;
 import io.unlegit.utils.entity.PlayerUtil;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
@@ -16,6 +17,7 @@ import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket.Action;
+import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
@@ -39,7 +41,14 @@ public class Scaffold extends ModuleU
         "Vanilla", "Smooth", "Pitch Only"
     });
     
+    public ModeSetting switchItem = new ModeSetting("Switch Item", "How to switch items.", new String[]
+    {
+        "Normal", "Spoof"
+    });
+    
+    private int prevSlot = 0, blockSlot = 0;
     private MutableBlockPos pos;
+    private ItemStack prevItem;
     private float yaw, pitch;
     private double y = 0;
     
@@ -50,6 +59,7 @@ public class Scaffold extends ModuleU
         
         y = mc.player.getY();
         yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
+        prevSlot = mc.player.getInventory().selected;
         
         if (sprint.equals("Bypass") && mc.player.isSprinting())
             mc.getConnection().send(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.STOP_SPRINTING));;
@@ -57,6 +67,18 @@ public class Scaffold extends ModuleU
     
     public void onUpdate()
     {
+        blockSlot = InvUtil.getSlot(mc.player.getInventory(), stack -> stack.getItem() instanceof BlockItem);
+        
+        if (blockSlot != -1 && prevSlot != blockSlot)
+        {
+            if (switchItem.equals("Normal")) mc.player.getInventory().selected = blockSlot;
+            else
+            {
+                mc.getConnection().send(new ServerboundSetCarriedItemPacket(blockSlot));
+                prevSlot = blockSlot;
+            }
+        }
+        
         if (sprint.equals("None"))
         {
             mc.options.keySprint.setDown(false);
@@ -72,9 +94,10 @@ public class Scaffold extends ModuleU
         
         if (mc.level.isEmptyBlock(pos.relative(getDirection().getOpposite())))
         {
+            preSwitchItem();
             ItemStack itemStack = mc.player.getMainHandItem();
             
-            if (!itemStack.isEmpty() && itemStack.getItem() instanceof BlockItem)
+            if (!itemStack.isEmpty() && itemStack.getItem() instanceof BlockItem && getDirection() != Direction.UP)
             {
                 int i = itemStack.getCount();
                 BlockHitResult hitResult = new BlockHitResult(block, getDirection().getOpposite(), pos, false);
@@ -84,11 +107,14 @@ public class Scaffold extends ModuleU
                 if (itemStack.getCount() != i || mc.gameMode.hasInfiniteItems())
                     mc.gameRenderer.itemInHandRenderer.itemUsed(InteractionHand.MAIN_HAND);
             }
+            
+            postSwitchItem();
         }
     }
     
     public void onMotion(MotionE e)
     {
+        preSwitchItem();
         float[] rotations = new float[] {getDirection().toYRot(), 80};
         ItemStack itemStack = mc.player.getMainHandItem();
         
@@ -130,17 +156,25 @@ public class Scaffold extends ModuleU
         else pitch = rotations[1];
         if (!this.rotations.equals("Pitch Only")) e.yaw = yaw;
         e.pitch = pitch;
+        postSwitchItem();
     }
     
     public void onPacketSend(PacketSendE e)
     {
-        if (sprint.equals("Bypass") && e.packet instanceof ServerboundPlayerCommandPacket)
+        if (e.packet instanceof ServerboundPlayerCommandPacket)
         {
+            if (!sprint.equals("Bypass")) return;
             ServerboundPlayerCommandPacket packet = (ServerboundPlayerCommandPacket) e.packet;
             
             if ((packet.getAction() == Action.START_SPRINTING || packet.getAction() == 
                     Action.STOP_SPRINTING) && packet.getId() == mc.player.getId())
                 e.cancelled = true;
+        }
+        
+        else if (e.packet instanceof ServerboundSetCarriedItemPacket)
+        {
+            ServerboundSetCarriedItemPacket packet = (ServerboundSetCarriedItemPacket) e.packet;
+            if (!switchItem.equals("Normal") && packet.getSlot() != blockSlot) e.cancelled = true;
         }
     }
     
@@ -148,6 +182,11 @@ public class Scaffold extends ModuleU
     {
         super.onDisable();
         if (autoJump.enabled) mc.options.keyJump.setDown(jumpKeyDown());
+        
+        if (switchItem.equals("Normal")) mc.player.getInventory().selected = prevSlot;
+        
+        else if (blockSlot != mc.player.getInventory().selected)
+            mc.getConnection().send(new ServerboundSetCarriedItemPacket(mc.player.getInventory().selected));
     }
     
     private Direction getDirection()
@@ -184,6 +223,19 @@ public class Scaffold extends ModuleU
             default:
                 return playerZ;
         }
+    }
+    
+    public void preSwitchItem()
+    {
+        if (switchItem.equals("Normal")) return;
+        prevItem = mc.player.getMainHandItem();
+        mc.player.setItemInHand(InteractionHand.MAIN_HAND, mc.player.getInventory().getItem(blockSlot));
+    }
+    
+    public void postSwitchItem()
+    {
+        if (switchItem.equals("Normal")) return;
+        mc.player.setItemInHand(InteractionHand.MAIN_HAND, prevItem);
     }
     
     public boolean jumpKeyDown()

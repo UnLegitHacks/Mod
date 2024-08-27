@@ -32,7 +32,7 @@ public class KillAura extends ModuleU
     public ToggleSetting swing = new ToggleSetting("Swing", "Swings the held item client-side.", true),
                          smartRange = new ToggleSetting("Smart Range", "Increases the range depending on your ping.", false),
                          teams = new ToggleSetting("Teams", "Don't attack players on your team.", false),
-                         predict = new ToggleSetting("Predict", "Predicts the movement of the target.", true);
+                         predict = new ToggleSetting("Predict Pos", "Predicts the movement of the target.", true);
                          // targetESP = new ToggleSetting("Target ESP", true);
     
     /**
@@ -45,6 +45,7 @@ public class KillAura extends ModuleU
                        autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
     
     private ElapTime elapTime = new ElapTime();
+    private boolean stopBlocking = false;
     public float CPS = 0, yaw, pitch;
     public LivingEntity target;
     
@@ -52,11 +53,12 @@ public class KillAura extends ModuleU
     {
         float range = distance.value;
         
-        if (smartRange.enabled && !mc.hasSingleplayerServer() && PlayerUtil.isMoving())
+        if (smartRange.enabled && !mc.hasSingleplayerServer() && PlayerUtil.isInMotion())
         {
             PlayerInfo playerInfo = mc.getConnection().getPlayerInfo(mc.getUser().getName());
             // Null check for bedrock servers (which is coming soon with ViaBedrock)
-            if (playerInfo != null) range += playerInfo.getLatency() / 1250F;
+            if (playerInfo != null) range += PlayerUtil.getSpeed(
+                    mc.player.getDeltaMovement()) * (playerInfo.getLatency() / 200F);
         }
         
         target = TargetUtil.getTarget(mc.player, range, priority.mode);
@@ -67,16 +69,28 @@ public class KillAura extends ModuleU
             Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             
+            if (autoBlock.equals("Vanilla"))
+            {
+                AutoBlock.block();
+                if (!stopBlocking) stopBlocking = true;
+            }
+            
             if ((elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || (cooldown.isEnabled() && !cooldown.cancelHit()))
             {
-                if (!RotationUtil.rayTrace(target, yaw, pitch, range)) return;
                 if (autoBlock.equals("Vanilla")) AutoBlock.unblock();
+                
+                if (!RotationUtil.rayTrace(target, yaw, pitch, range)) return;
+                
                 mc.gameMode.attack(mc.player, target);
                 swingItem();
+                
                 if (criticals.isEnabled()) criticals.onAttack(AttackE.get());
+                
                 CPS = updateCPS();
-                if (autoBlock.equals("Vanilla")) AutoBlock.block();
             }
+        } else if (stopBlocking)
+        {
+            AutoBlock.unblock(); stopBlocking = false;
         }
     }
     
@@ -86,40 +100,8 @@ public class KillAura extends ModuleU
         {
             float[] rotations = RotationUtil.rotations(target);
             
-            // Smooth rotations
-            if (this.rotations.equals("Smooth"))
-            {
-                float yawDifference = Math.abs(rotations[0] - yaw), pitchDifference = Math.abs(rotations[1] - pitch);
-                
-                if (yaw < rotations[0])
-                {
-                    if (yawDifference < 5) yaw = rotations[0];
-                    else yaw += (rotations[0] - yaw) / 2;
-                }
-                
-                else if (yaw > rotations[0])
-                {
-                    if (yawDifference < 5) yaw = rotations[0];
-                    else yaw -= (yaw - rotations[0]) / 2;
-                }
-                
-                if (pitch < rotations[1])
-                {
-                    if (pitchDifference < 5) pitch = rotations[1];
-                    else pitch += (rotations[1] - pitch) / 2;
-                }
-                
-                else if (pitch > rotations[1])
-                {
-                    if (pitchDifference < 5) pitch = rotations[1];
-                    else pitch -= (pitch - rotations[1]) / 2;
-                }
-            }
-            
-            else
-            {
-                yaw = rotations[0]; pitch = rotations[1];
-            }
+            if (this.rotations.equals("Smooth")) smoothenRotations(rotations);
+            else yaw = rotations[0]; pitch = rotations[1];
             
             e.yaw = yaw; e.pitch = pitch;
         } else if (rotations.equals("Smooth"))
@@ -132,6 +114,36 @@ public class KillAura extends ModuleU
     {
         if (swing.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
         else mc.getConnection().send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
+    }
+    
+    // Smooth rotations
+    private void smoothenRotations(float[] rotations)
+    {
+        float yawDifference = Math.abs(rotations[0] - yaw), pitchDifference = Math.abs(rotations[1] - pitch);
+        
+        if (yaw < rotations[0])
+        {
+            if (yawDifference < 5) yaw = rotations[0];
+            else yaw += (rotations[0] - yaw) / 2;
+        }
+        
+        else if (yaw > rotations[0])
+        {
+            if (yawDifference < 5) yaw = rotations[0];
+            else yaw -= (yaw - rotations[0]) / 2;
+        }
+        
+        if (pitch < rotations[1])
+        {
+            if (pitchDifference < 5) pitch = rotations[1];
+            else pitch += (rotations[1] - pitch) / 2;
+        }
+        
+        else if (pitch > rotations[1])
+        {
+            if (pitchDifference < 5) pitch = rotations[1];
+            else pitch -= (pitch - rotations[1]) / 2;
+        }
     }
     
     private float updateCPS()
