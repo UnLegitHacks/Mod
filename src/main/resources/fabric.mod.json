@@ -5,7 +5,7 @@
 	"name": "UnLegit",
 	"description": "A free Minecraft Fabric hacked client.",
 	"authors": [
-		"Anonymous"
+		"The Contributors :D"
 	],
 	"contact": {
 		"homepage": "https://unlegithacks.github.io/",
@@ -24,7 +24,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21",
+		"minecraft": ">=1.21",
 		"java": ">=21",
 		"fabric-api": "*"
 	},

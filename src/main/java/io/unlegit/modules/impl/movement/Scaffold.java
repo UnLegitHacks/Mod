@@ -34,7 +34,8 @@ public class Scaffold extends ModuleU
         "None", "Vanilla", "Bypass"
     });
     
-    public ToggleSetting autoJump = new ToggleSetting("Auto Jump", "Automatically jumps like Bedrock players.", false);
+    public ToggleSetting autoJump = new ToggleSetting("Auto Jump", "Automatically jumps like Bedrock players.", false),
+                         swingHand = new ToggleSetting("Swing Hand", "Swings the hand normally.", true);
     
     public ModeSetting rotations = new ModeSetting("Rotations", "The mode for rotations.", new String[]
     {
@@ -102,9 +103,9 @@ public class Scaffold extends ModuleU
                 int i = itemStack.getCount();
                 BlockHitResult hitResult = new BlockHitResult(block, getDirection().getOpposite(), pos, false);
                 InteractionResult actResult =  mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, hitResult);
-                if (actResult.consumesAction() && actResult.shouldSwing()) mc.player.swing(InteractionHand.MAIN_HAND);
+                if (actResult.consumesAction() && actResult.shouldSwing() && swingHand.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
                 
-                if (itemStack.getCount() != i || mc.gameMode.hasInfiniteItems())
+                if (itemStack.getCount() != i || mc.gameMode.hasInfiniteItems() && swingHand.enabled)
                     mc.gameRenderer.itemInHandRenderer.itemUsed(InteractionHand.MAIN_HAND);
             }
             
