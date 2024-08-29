@@ -18,7 +18,7 @@ import net.minecraft.client.gui.GuiGraphics;
 @Mixin(Gui.class)
 public class GuiMixin
 {
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "render", shift = Shift.AFTER))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "disableDepthTest", shift = Shift.AFTER))
     public void renderEvent(CallbackInfo info, @Local LocalRef<GuiGraphics> graphics, @Local LocalRef<DeltaTracker> deltaTracker)
     {
         UnLegit.events.post(GuiRenderE.get(graphics.get(), deltaTracker.get().getGameTimeDeltaTicks()));

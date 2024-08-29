@@ -10,6 +10,7 @@ import io.unlegit.modules.impl.gui.keystrokes.KeyStrokes;
 import io.unlegit.modules.impl.item.*;
 import io.unlegit.modules.impl.misc.*;
 import io.unlegit.modules.impl.movement.*;
+import io.unlegit.modules.impl.movement.scaffold.Scaffold;
 import io.unlegit.modules.impl.player.*;
 import io.unlegit.modules.impl.render.*;
 

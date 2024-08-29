@@ -4,8 +4,8 @@ import io.unlegit.events.impl.network.PacketReceiveE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.SliderSetting;
+import io.unlegit.utils.network.Packets;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
-import net.minecraft.server.RunningOnDifferentThreadException;
 import net.minecraft.world.phys.Vec3;
 
 @IModule(name = "Velocity", description = "Reduces your knockback.")
@@ -26,10 +26,11 @@ public class Velocity extends ModuleU
             
             float horizontal = this.horizontal.value / 100, vertical = this.vertical.value / 100;
             Vec3 vec3 = new Vec3(packet.getXa() * horizontal, packet.getYa() * vertical, packet.getZa() * horizontal);
-            packet = new ClientboundSetEntityMotionPacket(mc.player.getId(), vec3);
-            try { packet.handle(mc.getConnection()); }
-            // Not sure why they throw this EVEN if the code has been successfully executed lol
-            catch (RunningOnDifferentThreadException ex) {}
+//            packet = new ClientboundSetEntityMotionPacket(mc.player.getId(), vec3);
+//            try { packet.handle(mc.getConnection()); }
+//            // Not sure why they throw this EVEN if the code has been successfully executed lol
+//            catch (RunningOnDifferentThreadException ex) {}
+            Packets.receiveNoEvent(new ClientboundSetEntityMotionPacket(mc.player.getId(), vec3));
         }
     }
 }

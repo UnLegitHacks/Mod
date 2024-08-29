@@ -1,23 +1,22 @@
-package io.unlegit.modules.impl.movement;
+package io.unlegit.modules.impl.movement.scaffold;
 
-import com.mojang.blaze3d.platform.InputConstants;
+import static io.unlegit.modules.impl.movement.scaffold.HelperBlock.*;
 
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.events.impl.network.PacketSendE;
 import io.unlegit.interfaces.IModule;
-import io.unlegit.mixins.client.KeyMapAccessor;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.entity.InvUtil;
-import io.unlegit.utils.entity.PlayerUtil;
-import net.minecraft.client.KeyMapping;
+import io.unlegit.utils.network.Packets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket.Action;
 import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
+import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
@@ -47,9 +46,9 @@ public class Scaffold extends ModuleU
         "Normal", "Spoof"
     });
     
-    private int prevSlot = 0, blockSlot = 0;
+    protected int prevSlot = 0, blockSlot = 0;
+    protected ItemStack prevItem;
     private MutableBlockPos pos;
-    private ItemStack prevItem;
     private float yaw, pitch;
     private double y = 0;
     
@@ -63,7 +62,7 @@ public class Scaffold extends ModuleU
         prevSlot = mc.player.getInventory().selected;
         
         if (sprint.equals("Bypass") && mc.player.isSprinting())
-            mc.getConnection().send(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.STOP_SPRINTING));;
+            Packets.sendNoEvent(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.STOP_SPRINTING));
     }
     
     public void onUpdate()
@@ -75,7 +74,7 @@ public class Scaffold extends ModuleU
             if (switchItem.equals("Normal")) mc.player.getInventory().selected = blockSlot;
             else
             {
-                mc.getConnection().send(new ServerboundSetCarriedItemPacket(blockSlot));
+                Packets.sendNoEvent(new ServerboundSetCarriedItemPacket(blockSlot));
                 prevSlot = blockSlot;
             }
         }
@@ -103,9 +102,14 @@ public class Scaffold extends ModuleU
                 int i = itemStack.getCount();
                 BlockHitResult hitResult = new BlockHitResult(block, getDirection().getOpposite(), pos, false);
                 InteractionResult actResult =  mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, hitResult);
-                if (actResult.consumesAction() && actResult.shouldSwing() && swingHand.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
                 
-                if (itemStack.getCount() != i || mc.gameMode.hasInfiniteItems() && swingHand.enabled)
+                if (actResult.consumesAction() && actResult.shouldSwing())
+                {
+                    if (swingHand.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
+                    else Packets.send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
+                }
+                
+                if ((itemStack.getCount() != i || mc.gameMode.hasInfiniteItems()) && swingHand.enabled)
                     mc.gameRenderer.itemInHandRenderer.itemUsed(InteractionHand.MAIN_HAND);
             }
             
@@ -172,11 +176,9 @@ public class Scaffold extends ModuleU
                 e.cancelled = true;
         }
         
-        else if (e.packet instanceof ServerboundSetCarriedItemPacket)
-        {
-            ServerboundSetCarriedItemPacket packet = (ServerboundSetCarriedItemPacket) e.packet;
-            if (!switchItem.equals("Normal") && packet.getSlot() != blockSlot) e.cancelled = true;
-        }
+        else if (e.packet instanceof ServerboundSetCarriedItemPacket &&
+                !switchItem.equals("Normal"))
+            e.cancelled = true;
     }
     
     public void onDisable()
@@ -187,61 +189,6 @@ public class Scaffold extends ModuleU
         if (switchItem.equals("Normal")) mc.player.getInventory().selected = prevSlot;
         
         else if (blockSlot != mc.player.getInventory().selected)
-            mc.getConnection().send(new ServerboundSetCarriedItemPacket(mc.player.getInventory().selected));
-    }
-    
-    private Direction getDirection()
-    {
-        return PlayerUtil.isInMotion() ? Direction.fromYRot(PlayerUtil.getDirection()).getOpposite()
-                : jumpKeyDown() ? Direction.UP : mc.player.getDirection().getOpposite();
-    }
-    
-    public double getBlockX()
-    {
-        double playerX = mc.player.getX();
-        
-        switch (getDirection())
-        {
-            case WEST:
-                return (int) playerX;
-            case EAST:
-                return (int) playerX + 1;
-            default:
-                return playerX;
-        }
-    }
-    
-    public double getBlockZ()
-    {
-        double playerZ = mc.player.getZ();
-        
-        switch (getDirection())
-        {
-            case NORTH:
-                return (int) playerZ;
-            case SOUTH:
-                return (int) playerZ + 1;
-            default:
-                return playerZ;
-        }
-    }
-    
-    public void preSwitchItem()
-    {
-        if (switchItem.equals("Normal")) return;
-        prevItem = mc.player.getMainHandItem();
-        mc.player.setItemInHand(InteractionHand.MAIN_HAND, mc.player.getInventory().getItem(blockSlot));
-    }
-    
-    public void postSwitchItem()
-    {
-        if (switchItem.equals("Normal")) return;
-        mc.player.setItemInHand(InteractionHand.MAIN_HAND, prevItem);
-    }
-    
-    public boolean jumpKeyDown()
-    {
-        KeyMapping jump = mc.options.keyJump;
-        return InputConstants.isKeyDown(mc.getWindow().getWindow(), ((KeyMapAccessor) jump).getKey().getValue());
+            Packets.sendNoEvent(new ServerboundSetCarriedItemPacket(mc.player.getInventory().selected));
     }
 }

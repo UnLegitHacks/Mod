@@ -6,14 +6,11 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.utils.entity.InvUtil;
+import io.unlegit.utils.network.Packets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ServerboundContainerClosePacket;
-import net.minecraft.network.protocol.game.ServerboundPickItemPacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
-import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.world.item.Items;
 
 @IModule(name = "Auto Totem", description = "Automatically equips a totem in your offhand.")
@@ -56,7 +53,7 @@ public class AutoTotem extends ModuleU
         }
         
         // Sends packets tick-by-tick which also avoids flagging Timer
-        if (!packetDeque.isEmpty()) mc.getConnection().send(packetDeque.poll());
+        if (!packetDeque.isEmpty()) Packets.send(packetDeque.poll());
     }
     
     public void queue(Packet<?>... packets)

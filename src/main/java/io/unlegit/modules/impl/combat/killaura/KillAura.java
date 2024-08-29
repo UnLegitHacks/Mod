@@ -15,6 +15,7 @@ import io.unlegit.utils.ElapTime;
 import io.unlegit.utils.entity.PlayerUtil;
 import io.unlegit.utils.entity.RotationUtil;
 import io.unlegit.utils.entity.TargetUtil;
+import io.unlegit.utils.network.Packets;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.multiplayer.PlayerInfo;
@@ -29,7 +30,7 @@ public class KillAura extends ModuleU
                          maxCPS = new SliderSetting("Max CPS", "The maximum CPS in randomization.", 1, 12, 20),
                          distance = new SliderSetting("Distance", "The distance the target should be in.", 3, 3, 5);
     
-    public ToggleSetting swing = new ToggleSetting("Swing", "Swings the held item client-side.", true),
+    public ToggleSetting swingHand = new ToggleSetting("Swing Hand", "Swings the hand normally.", true),
                          smartRange = new ToggleSetting("Smart Range", "Increases the range depending on your ping.", false),
                          teams = new ToggleSetting("Teams", "Don't attack players on your team.", false),
                          predict = new ToggleSetting("Predict Pos", "Predicts the movement of the target.", true);
@@ -48,6 +49,17 @@ public class KillAura extends ModuleU
     private boolean stopBlocking = false;
     public float CPS = 0, yaw, pitch;
     public LivingEntity target;
+    
+    public void onDisable()
+    {
+        super.onDisable();
+        
+        if (stopBlocking)
+        {
+            AutoBlock.unblock();
+            stopBlocking = false;
+        }
+    }
     
     public void onUpdate()
     {
@@ -71,7 +83,7 @@ public class KillAura extends ModuleU
             
             if (autoBlock.equals("Vanilla"))
             {
-                AutoBlock.block();
+                AutoBlock.block(target);
                 if (!stopBlocking) stopBlocking = true;
             }
             
@@ -112,8 +124,8 @@ public class KillAura extends ModuleU
     
     public void swingItem()
     {
-        if (swing.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
-        else mc.getConnection().send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
+        if (swingHand.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
+        else Packets.send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
     }
     
     // Smooth rotations

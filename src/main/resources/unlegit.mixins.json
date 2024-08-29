@@ -9,7 +9,7 @@
 		"item.InvItemRender", "render.LightTextureMixin", "render.LevelRenderMixin",
 		"render.EntityRenderMixin", "client.KeyMapAccessor", "client.KeyInputMixin",
 		"client.PauseScreenMixin", "client.ChatCompMixin", "render.FogRenderMixin",
-		"render.ScreenEffectMixin"
+		"render.ScreenEffectMixin", "network.AccConnection"
 	],
 	"injectors": {
 		"defaultRequire": 1

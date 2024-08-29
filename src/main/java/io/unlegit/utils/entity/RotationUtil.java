@@ -41,7 +41,7 @@ public class RotationUtil implements IMinecraft
         double hypot = Math.sqrt(x * x + z * z);
         float yaw = (float) (Mth.atan2(z, x) * 180 / Math.PI) - 90;
         float pitch = (float) -(Mth.atan2(y, hypot) * 180 / Math.PI);
-        return GCDFix.get(new float[] {yaw, pitch});
+        return new float[] {yaw, pitch};
     }
     
     public static float[] rotations(LivingEntity target) { return rotations(target, false); }

@@ -1,5 +1,6 @@
 package io.unlegit.mixins.client;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,14 +17,18 @@ import io.unlegit.events.impl.client.UpdateE;
 import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.gui.UnTitleScreen;
 import io.unlegit.gui.font.IFont;
+import io.unlegit.modules.impl.combat.killaura.AutoBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin
 {
+    @Shadow @Nullable public HitResult hitResult;
     @Shadow private volatile boolean pause;
     @Shadow public LocalPlayer player;
     
@@ -51,6 +56,12 @@ public class MinecraftMixin
     private StringBuilder insertClientTitle(StringBuilder builder)
     {
         return builder.insert(0, UnLegit.NAME + " - ");
+    }
+    
+    @Inject(method = "startUseItem", at = @At(value = "HEAD"))
+    public void fixEntityHitResult(CallbackInfo info)
+    {
+        if (AutoBlock.blockingTarget != null) hitResult = new EntityHitResult(AutoBlock.blockingTarget);
     }
     
     @Inject(method = "updateFontOptions", at = @At(value = "TAIL"))
