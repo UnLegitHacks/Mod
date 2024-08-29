@@ -51,7 +51,7 @@ public class HelperBlock implements IMinecraft
     public static void preSwitchItem()
     {
         Scaffold scaffold = getScaffold();
-        if (scaffold.switchItem.equals("Normal")) return;
+        if (scaffold.switchItem.equals("Normal") || scaffold.blockSlot == -1) return;
         scaffold.prevItem = mc.player.getMainHandItem();
         mc.player.setItemInHand(InteractionHand.MAIN_HAND, mc.player.getInventory().getItem(scaffold.blockSlot));
     }
@@ -59,7 +59,7 @@ public class HelperBlock implements IMinecraft
     public static void postSwitchItem()
     {
         Scaffold scaffold = getScaffold();
-        if (scaffold.switchItem.equals("Normal")) return;
+        if (scaffold.switchItem.equals("Normal") || scaffold.blockSlot == -1) return;
         mc.player.setItemInHand(InteractionHand.MAIN_HAND, scaffold.prevItem);
     }
     
