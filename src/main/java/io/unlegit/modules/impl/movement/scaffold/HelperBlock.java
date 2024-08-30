@@ -25,9 +25,9 @@ public class HelperBlock implements IMinecraft
         switch (getDirection())
         {
             case WEST:
-                return (int) playerX;
+                return (int) Math.floor(playerX);
             case EAST:
-                return (int) playerX + 1;
+                return (int) Math.floor(playerX + 1);
             default:
                 return playerX;
         }
@@ -40,9 +40,9 @@ public class HelperBlock implements IMinecraft
         switch (getDirection())
         {
             case NORTH:
-                return (int) playerZ;
+                return (int) Math.floor(playerZ);
             case SOUTH:
-                return (int) playerZ + 1;
+                return (int) Math.floor(playerZ + 1);
             default:
                 return playerZ;
         }

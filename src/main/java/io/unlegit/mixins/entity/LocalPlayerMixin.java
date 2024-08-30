@@ -14,6 +14,7 @@ import io.unlegit.UnLegit;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.events.impl.entity.MoveE;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.phys.Vec3;
 
@@ -21,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 public class LocalPlayerMixin
 {
     @Shadow @Final protected Minecraft minecraft;
+    @Shadow public Input input;
     private float yaw, pitch;
     
     @Inject(method = "move", at = @At(value = "HEAD"))
@@ -29,6 +31,16 @@ public class LocalPlayerMixin
         MoveE e = MoveE.get(vec3.get());
         UnLegit.events.post(e);
         vec3.set(e.vec3);
+    }
+    
+    @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "isUsingItem"))
+    public void noSlowHook(CallbackInfo info)
+    {
+        if (UnLegit.modules.get("No Slow").isEnabled() && isUsingItem())
+        {
+            input.leftImpulse /= 0.2F;
+            input.forwardImpulse /= 0.2F;
+        }
     }
     
     @Inject(method = "sendPosition", at = @At(value = "HEAD"))
@@ -46,4 +58,6 @@ public class LocalPlayerMixin
     {
         minecraft.player.setYRot(yaw); minecraft.player.setXRot(pitch);
     }
+    
+    @Shadow public boolean isUsingItem() { return false; }
 }

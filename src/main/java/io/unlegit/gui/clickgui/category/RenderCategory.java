@@ -45,7 +45,7 @@ public class RenderCategory implements IGui
         float scale = 1 + (1 - parent.animation.get());
         int alpha = parent.animation.wrap(255);
         int x = (int) (this.x - (165 * (scale - 1)));
-        int y = (int) (this.y - (82.5F * (scale - 1)));
+        int y = (int) (this.y - (96 * (scale - 1)));
         GlStateManager._enableBlend();
         graphics.setColor(1, 1, 1, alpha / 255F);
         graphics.blit(parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);

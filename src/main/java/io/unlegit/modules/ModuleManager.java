@@ -3,12 +3,17 @@ package io.unlegit.modules;
 import java.util.ArrayList;
 
 import io.unlegit.UnLegit;
-import io.unlegit.modules.impl.combat.*;
+import io.unlegit.modules.impl.combat.Criticals;
+import io.unlegit.modules.impl.combat.KeepSprint;
+import io.unlegit.modules.impl.combat.Velocity;
 import io.unlegit.modules.impl.combat.killaura.KillAura;
 import io.unlegit.modules.impl.gui.ActiveMods;
+import io.unlegit.modules.impl.gui.Compass;
 import io.unlegit.modules.impl.gui.keystrokes.KeyStrokes;
-import io.unlegit.modules.impl.item.*;
-import io.unlegit.modules.impl.misc.*;
+import io.unlegit.modules.impl.item.AutoTotem;
+import io.unlegit.modules.impl.item.ChestStealer;
+import io.unlegit.modules.impl.misc.GamePlay;
+import io.unlegit.modules.impl.misc.Spammer;
 import io.unlegit.modules.impl.movement.*;
 import io.unlegit.modules.impl.movement.scaffold.Scaffold;
 import io.unlegit.modules.impl.player.*;
@@ -26,7 +31,7 @@ public class ModuleManager
             new OldHitting(), new FullBright(), new ESP(), new NameTags(),
             new InvMove(), new SafeWalk(), new KeyStrokes(), new Strafe(),
             new GamePlay(), new Scaffold(), new Spammer(), new AntiBlind(),
-            new LowFire());
+            new LowFire(), new NoSlow(), new Compass());
         UnLegit.settings.call(this);
     }
     

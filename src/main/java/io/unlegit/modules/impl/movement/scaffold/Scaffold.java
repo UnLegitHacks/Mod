@@ -69,7 +69,9 @@ public class Scaffold extends ModuleU
     {
         blockSlot = InvUtil.getSlot(mc.player.getInventory(), stack -> stack.getItem() instanceof BlockItem);
         
-        if (blockSlot != -1 && prevSlot != blockSlot)
+        if (blockSlot == -1) return;
+        
+        if (prevSlot != blockSlot)
         {
             if (switchItem.equals("Normal")) mc.player.getInventory().selected = blockSlot;
             else
@@ -90,7 +92,7 @@ public class Scaffold extends ModuleU
         if (jumpKeyDown() || (int) mc.player.getY() == mc.player.getY()) y = mc.player.getY();
         
         Vec3 block = new Vec3(getBlockX(), y, getBlockZ());
-        pos = new BlockPos((int) mc.player.getX(), (int) block.y - 1, (int) mc.player.getZ()).relative(getDirection()).mutable();
+        pos = new BlockPos((int) Math.floor(mc.player.getX()), (int) block.y - 1, (int) Math.floor(mc.player.getZ())).relative(getDirection()).mutable();
         
         if (mc.level.isEmptyBlock(pos.relative(getDirection().getOpposite())))
         {
@@ -119,6 +121,7 @@ public class Scaffold extends ModuleU
     
     public void onMotion(MotionE e)
     {
+        if (blockSlot == -1) return;
         preSwitchItem();
         float[] rotations = new float[] {getDirection().toYRot(), 80};
         ItemStack itemStack = mc.player.getMainHandItem();
@@ -166,6 +169,8 @@ public class Scaffold extends ModuleU
     
     public void onPacketSend(PacketSendE e)
     {
+        if (blockSlot == -1) return;
+        
         if (e.packet instanceof ServerboundPlayerCommandPacket)
         {
             if (!sprint.equals("Bypass")) return;
@@ -188,7 +193,7 @@ public class Scaffold extends ModuleU
         
         if (switchItem.equals("Normal")) mc.player.getInventory().selected = prevSlot;
         
-        else if (blockSlot != mc.player.getInventory().selected)
+        else if (blockSlot != mc.player.getInventory().selected && blockSlot != -1)
             Packets.sendNoEvent(new ServerboundSetCarriedItemPacket(mc.player.getInventory().selected));
     }
 }
