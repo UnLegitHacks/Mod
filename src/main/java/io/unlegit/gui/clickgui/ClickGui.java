@@ -47,7 +47,7 @@ public class ClickGui extends Screen implements IGui
         renderBlurredBackground(partialTicks);
         PoseStack poseStack = graphics.pose();
         float scale = 1 + (1 - animation.get());
-        graphics.fill(0, 0, width, height, new Color(0, 0, 0, animation.wrap(50)).getRGB());
+        graphics.fill(0, 0, width, height, new Color(0, 0, 0, animation.wrap(64)).getRGB());
         boolean finished = animation.finished();
         
         if (!finished)

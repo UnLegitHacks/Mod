@@ -1,6 +1,9 @@
 package io.unlegit.utils.entity;
 
+import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
+import io.unlegit.modules.impl.player.InvMove;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -15,8 +18,14 @@ public class PlayerUtil implements IMinecraft
     
     public static boolean isMoving()
     {
-        return mc.options.keyUp.isDown() || mc.options.keyDown.isDown() || mc.options.keyLeft.isDown()
-                || mc.options.keyRight.isDown();
+        return keyHeld(mc.options.keyUp) || keyHeld(mc.options.keyDown) ||
+               keyHeld(mc.options.keyLeft) || keyHeld(mc.options.keyRight);
+    }
+    
+    private static boolean keyHeld(KeyMapping key)
+    {
+        InvMove invMove = (InvMove) UnLegit.modules.get("Inv Move");
+        return invMove.isEnabled() ? invMove.canMove(key) : key.isDown();
     }
     
     public static boolean isInMotion()

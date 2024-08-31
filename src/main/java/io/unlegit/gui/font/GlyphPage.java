@@ -1,10 +1,6 @@
 package io.unlegit.gui.font;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -18,14 +14,9 @@ import javax.imageio.ImageIO;
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 
 import io.unlegit.interfaces.IMinecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -108,7 +99,7 @@ public class GlyphPage implements IMinecraft
         } catch (Exception e) {}
     }
     
-    public float drawChar(GuiGraphics guiGraphics, char character, float x, float y, float red, float blue, float green, float alpha)
+    public float drawChar(BufferBuilder builder, GuiGraphics guiGraphics, char character, float x, float y, float red, float blue, float green, float alpha)
     {
         Glyph glyph = glyphCharacterMap.get(character); if (glyph == null) return 0;
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
@@ -116,13 +107,10 @@ public class GlyphPage implements IMinecraft
               pageWidth = glyph.width / (float) imageSize, pageHeight = glyph.height / (float) imageSize,
               width = glyph.width, height = glyph.height;
         
-        BufferBuilder bufferBuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        GlStateManager._enableBlend();
-        bufferBuilder.addVertex(matrix4f, x, y + height, 0).setColor(red, green, blue, alpha).setUv(pageX, pageY + pageHeight);
-        bufferBuilder.addVertex(matrix4f, x + width, y + height, 0).setColor(red, green, blue, alpha).setUv(pageX + pageWidth, pageY + pageHeight);
-        bufferBuilder.addVertex(matrix4f, x + width, y, 0).setColor(red, green, blue, alpha).setUv(pageX + pageWidth, pageY);
-        bufferBuilder.addVertex(matrix4f, x, y, 0).setColor(red, green, blue, alpha).setUv(pageX, pageY);
-        BufferUploader.drawWithShader(bufferBuilder.build());
+        builder.addVertex(matrix4f, x, y + height, 0).setColor(red, green, blue, alpha).setUv(pageX, pageY + pageHeight);
+        builder.addVertex(matrix4f, x + width, y + height, 0).setColor(red, green, blue, alpha).setUv(pageX + pageWidth, pageY + pageHeight);
+        builder.addVertex(matrix4f, x + width, y, 0).setColor(red, green, blue, alpha).setUv(pageX + pageWidth, pageY);
+        builder.addVertex(matrix4f, x, y, 0).setColor(red, green, blue, alpha).setUv(pageX, pageY);
         return width - 8;
     }
     

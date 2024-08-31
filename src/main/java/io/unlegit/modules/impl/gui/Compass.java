@@ -5,61 +5,95 @@ import java.util.ArrayList;
 
 import io.unlegit.events.impl.render.GuiRenderE;
 import io.unlegit.gui.font.IFont;
+import io.unlegit.gui.font.impl.FontRenderer;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
 
 @IModule(name = "Compass", description = "A simplistic compass that shows directions.")
 public class Compass extends ModuleU
 {
-    private ArrayList<String> cardinals = new ArrayList<>(),
-            ordinals = new ArrayList<>(),
-            numbers = new ArrayList<>();
+    public static final int CARDINALS = 0, ORDINALS = 1, NUMBERS = 2;
+    private ArrayList<String> directions = new ArrayList<>();
+    private FontRenderer font;
     
     public Compass()
     {
-        add(cardinals, "S", "E", "N", "W");
-        add(ordinals, "SE", "NE", "NW", "SW");
+        add("S", "E", "N", "W", "_",
+            
+            "SE", "NE", "NW", "SW", "_",
+            
+            "165", "150", "120", "105",
+            "75", "60", "30", "15",
+            "345", "330", "300", "285",
+            "255", "240", "210", "195");
     }
     
     public void onGuiRender(GuiRenderE e)
     {
-        float rotation = (mc.player.getYRot() % 360F) / 360F;
+        float rotation = Mth.wrapDegrees(mc.player.getYRot()) / 360F;
+        int offset = 0, count = 0, type = 0, prevType = 0;
         int width = mc.getWindow().getGuiScaledWidth();
         GuiGraphics graphics = e.graphics;
-        int offset = 0;
+        switchFont(IFont.LARGE);
         
-        for (String direction : cardinals)
+        for (String direction : directions)
         {
-            int x = 0;
-            IFont.LARGE.drawCenteredString(graphics, direction, x = (offset + -640 + (int) ((width / 2) + (rotation * 640))), 5, getColor(width, x));
-            IFont.LARGE.drawCenteredString(graphics, direction, x = (offset + (int) ((width / 2) + (rotation * 640))), 5, getColor(width, x));
-            IFont.LARGE.drawCenteredString(graphics, direction, x = (offset + 640 + (int) ((width / 2) + (rotation * 640))), 5, getColor(width, x));
-            offset += 160;
-        }
-        
-        offset = 80;
-        
-        for (String direction : ordinals)
-        {
-            int x = 0;
-            IFont.MEDIUM.drawCenteredString(graphics, direction, x = (offset + -640 + (int) ((width / 2) + (rotation * 640))), 8, getColor(width, x));
-            IFont.MEDIUM.drawCenteredString(graphics, direction, x = (offset + (int) ((width / 2) + (rotation * 640))), 8, getColor(width, x));
-            IFont.MEDIUM.drawCenteredString(graphics, direction, x = (offset + 640 + (int) ((width / 2) + (rotation * 640))), 8, getColor(width, x));
-            offset += 160;
+            if (direction.equals("_")) { type++; continue; } // Separator
+            
+            if (type == CARDINALS)
+            {
+                drawString(graphics, width, direction, offset + (int) ((width / 2) + (rotation * 640)), 10, 0.9F);
+                offset += 160;
+            }
+            
+            else if (type == ORDINALS)
+            {
+                if (prevType != type)
+                {
+                    switchFont(IFont.MEDIUM); offset = 80;
+                }
+                
+                drawString(graphics, width, direction, offset + (int) ((width / 2) + (rotation * 640)), 13, 0.8F);
+                offset += 160;
+            }
+            
+            else if (type == NUMBERS)
+            {
+                if (prevType != type)
+                {
+                    switchFont(IFont.NORMAL); offset = 26;
+                }
+                
+                drawString(graphics, width, direction, offset + (int) ((width / 2) + (rotation * 640)), 17, 0.7F);
+                if (++count % 4 == 0) offset += 53;
+                else if (count % 2 == 0) offset += 57;
+                else offset += 25;
+            }
+            
+            prevType = type;
         }
     }
     
-    public void add(ArrayList<String> arrayList, String... degrees)
+    public Color getColor(int width, float x, float alphaMultiplier)
     {
-        for (String degree : degrees)
-            arrayList.add(degree);
-    }
-    
-    public Color getColor(int width, float x)
-    {
-        float alpha = 255 - Math.abs((width / 2) - x) * 2;
+        float alpha = 255 - Math.abs((width / 2) - x) * 1.75F;
         if (alpha < 0) alpha = 0; if (alpha > 255) alpha = 255;
-        return new Color(255, 255, 255, (int) alpha);
+        return new Color(255, 255, 255, (int) (alpha * alphaMultiplier));
     }
+    
+    public void drawString(GuiGraphics graphics, int width, String direction, int x, int y, float alphaMultiplier)
+    {
+        font.drawCenteredString(graphics, direction, x - 640, y, getColor(width, x - 640, alphaMultiplier));
+        font.drawCenteredString(graphics, direction, x, y, getColor(width, x, alphaMultiplier));
+        font.drawCenteredString(graphics, direction, x + 640, y, getColor(width, x + 640, alphaMultiplier));
+    }
+    
+    public void add(String... degrees)
+    {
+        for (String degree : degrees) directions.add(degree);
+    }
+    
+    public void switchFont(FontRenderer font) { this.font = font; }
 }

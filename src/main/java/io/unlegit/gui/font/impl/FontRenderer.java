@@ -5,7 +5,7 @@ import java.awt.Font;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 
 import io.unlegit.gui.font.GlyphPage;
 import io.unlegit.interfaces.IGui;
@@ -62,21 +62,23 @@ public class FontRenderer implements IMinecraft, IGui
     private void renderStringAtPos(GuiGraphics graphics, String text, Color color)
     {
         float red = color.getRed() / 255F, green = color.getGreen() / 255F, blue = color.getBlue() / 255F, alpha = color.getAlpha() / 255F,
-                scaleFactor = checkGuiScaleUpdate();
+              scaleFactor = checkGuiScaleUpdate();
         if (alpha == 0) return;
         PoseStack pose = graphics.pose();
         pose.pushPose(); pose.last().pose().scale(1 / scaleFactor);
         float posX = this.posX * scaleFactor, posY = this.posY * scaleFactor;
         GlStateManager._enableBlend();
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         page.bind();
         
         for (int i = 0; i < text.length(); ++i)
         {
             char character = text.charAt(i);
-            posX += page.drawChar(graphics, character, posX, posY, red, green, blue, alpha);
+            posX += page.drawChar(builder, graphics, character, posX, posY, red, green, blue, alpha);
         }
         
+        BufferUploader.drawWithShader(builder.build());
         pose.popPose();
     }
     
@@ -105,6 +107,7 @@ public class FontRenderer implements IMinecraft, IGui
         if (shadow == null) shadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "text_shadow.png"));
         int width = getStringWidth(text) + 2, height = size + 2;
         x -= 5; width += 10; y -= 3; height += 6;
+        GlStateManager._enableBlend();
         guiGraphics.setColor(1, 1, 1, color.getAlpha() / 255F);
         guiGraphics.blit(shadow, x, y, 40, height, 10, height, 20, height);
         guiGraphics.blit(shadow, x + 10, y, width - 20, height, 60, height, 1, height, 40, height);
