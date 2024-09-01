@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(EntityRenderer.class)
 public class EntityRenderMixin implements IMinecraft
@@ -23,9 +24,9 @@ public class EntityRenderMixin implements IMinecraft
     {
         NameTags nameTags = (NameTags) UnLegit.modules.get("Name Tags");
         
-        if (nameTags.isEnabled())
+        if (nameTags.isEnabled() && entity instanceof LivingEntity)
         {
-            nameTags.renderNameTag(entity, component, poseStack, multiBufferSource, i, f);
+            nameTags.renderNameTag((LivingEntity) entity, component, poseStack, multiBufferSource, i, f);
             info.cancel();
         }
     }

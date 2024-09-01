@@ -20,8 +20,8 @@ import net.minecraft.ChatFormatting;
 
 public class UnLegit implements ModInitializer, EventListener, IMinecraft
 {
+    public static final String NAME = "UnLegit 3.0", PREFIX = getPrefix(), THEME = "Fancy";
     public static final Logger LOGGER = LoggerFactory.getLogger("UnLegit");
-    public static final String NAME = "UnLegit 3.0", PREFIX = getPrefix();
     public static SettingManager settings;
     public static ModuleManager modules;
     public static EventBus events;

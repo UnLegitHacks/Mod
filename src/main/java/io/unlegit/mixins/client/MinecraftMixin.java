@@ -5,7 +5,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -18,6 +17,7 @@ import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.gui.UnTitleScreen;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.modules.impl.combat.killaura.AutoBlock;
+import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -52,10 +52,11 @@ public class MinecraftMixin
         if (screen.get() instanceof TitleScreen) screen.set(new UnTitleScreen());
     }
     
-    @ModifyVariable(method = "createTitle", at = @At(value = "STORE"), ordinal = 0)
-    private StringBuilder insertClientTitle(StringBuilder builder)
+    @Inject(method = "createTitle", at = @At(value = "HEAD"), cancellable = true)
+    private void insertClientTitle(CallbackInfoReturnable<String> infoReturnable)
     {
-        return builder.insert(0, UnLegit.NAME + " - ");
+        String title = UnLegit.NAME + " - MC " + SharedConstants.getCurrentVersion().getName();
+        infoReturnable.setReturnValue(title);
     }
     
     @Inject(method = "startUseItem", at = @At(value = "HEAD"))

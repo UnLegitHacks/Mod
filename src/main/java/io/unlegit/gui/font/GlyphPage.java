@@ -100,7 +100,7 @@ public class GlyphPage implements IMinecraft
         } catch (Exception e) {}
     }
     
-    public float drawChar(BufferBuilder builder, GuiGraphics guiGraphics, char character, float x, float y, float red, float blue, float green, float alpha)
+    public float drawChar(BufferBuilder builder, GuiGraphics guiGraphics, char character, float x, float y, float red, float green, float blue, float alpha)
     {
         Glyph glyph = glyphCharacterMap.get(character); if (glyph == null) return 0;
         Matrix4f matrix4f = guiGraphics.pose().last().pose();

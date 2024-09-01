@@ -20,7 +20,8 @@ public class EventHandler
             case MotionE mo: listener.onMotion(mo); break;
             case PacketSendE ps: listener.onPacketSend(ps); break;
             case PacketReceiveE pr: listener.onPacketReceive(pr); break;
-            case MessageE me: listener.onMessageReceive(me);
+            case MessageE me: listener.onMessageReceive(me); break;
+            case WorldRenderE w: listener.onWorldRender(w); break;
             default: break;
         }
     }

@@ -35,6 +35,7 @@ public class GuiMixin
     public int moveScoreboardDown(int value)
     {
         ActiveMods activeMods = (ActiveMods) UnLegit.modules.get("Active Mods");
-        return activeMods.isEnabled() ? Math.max(value, (int) (value / 2) + activeMods.getHeight() + 15) : value;
+        int lx = (value - (minecraft.getWindow().getGuiScaledHeight() / 2)) * 3;
+        return activeMods.isEnabled() ? Math.max(value, lx + activeMods.getHeight()) : value;
     }
 }

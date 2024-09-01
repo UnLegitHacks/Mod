@@ -1,11 +1,12 @@
 package io.unlegit.modules.impl.render;
 
 import java.awt.Color;
-import java.util.HashMap;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.unlegit.gui.font.IFont;
+import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.mixins.render.AccGraphics;
 import io.unlegit.modules.ModuleU;
@@ -15,68 +16,106 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityAttachment;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
 @IModule(name = "Name Tags", description = "Allows you to customize name tags.")
-public class NameTags extends ModuleU
+public class NameTags extends ModuleU implements IGui
 {
     public ToggleSetting scale = new ToggleSetting("Scale", "Automatically magnifies name tags.", true),
                          infiniteRange = new ToggleSetting("Infinite Range", "Disables the 64 block limit.", true);
-
-    private HashMap<Entity, Float> prevDistances = new HashMap<>();
+    
+    private ResourceLocation leftShadow, centerShadow, rightShadow;
     private GuiGraphics graphics = null;
     
-    public void onUpdate()
-    {
-        if (mc.player.tickCount == 0) prevDistances.clear();
-    }
-    
-    public void renderNameTag(Entity entity, Component component, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float f)
+    public void renderNameTag(LivingEntity entity, Component component, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float partialTicks)
     {
         double d = mc.getEntityRenderDispatcher().distanceToSqr(entity);
         if (d > 4096 && !infiniteRange.enabled) return;
         
         if (graphics == null) graphics = new GuiGraphics(mc, (BufferSource) multiBufferSource);
         ((AccGraphics) graphics).setPose(poseStack);
-        Vec3 vec3 = entity.getAttachments().getNullable(EntityAttachment.NAME_TAG, 0, entity.getViewYRot(f));
+        Vec3 vec3 = entity.getAttachments().getNullable(EntityAttachment.NAME_TAG, 0, entity.getViewYRot(partialTicks));
         
         if (vec3 != null)
         {
-            float scale = this.scale.enabled ? (float) Math.max(1, smoothDistanceTo(entity) / 5) : 1;
-            String health = "Health: " + ((LivingEntity) entity).getHealth();
+            float scale = this.scale.enabled ? (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1,
+                  health = entity.getHealth();
+            
+            String healthText = "Health: " + health;
             int stringWidth = IFont.LARGE.getStringWidth(component.getString()) + 10;
             
             poseStack.pushPose();
             poseStack.translate(vec3.x, vec3.y + (0.75F * (scale / 1.15F)), vec3.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
             poseStack.scale(0.0125F * scale, -0.0125F * scale, 0.0125F * scale);
+            Color healthColor = new Color(0, 255, 75);
             
+            if (health > 10 && health < 20)
+                healthColor = blendColors((health - 10) / 10, Color.ORANGE, new Color(0, 255, 75));
+            else if (health <= 10)
+                healthColor = blendColors(health / 10, new Color(255, 50, 50), Color.ORANGE);
+            
+            drawShadows(stringWidth);
+            
+            GlStateManager._enableDepthTest();
             poseStack.translate(0, 0, -0.0125F);
-            graphics.fill(RenderType.gui(), -stringWidth / 2, 0, stringWidth / 2, 44, new Color(20, 20, 30, 150).getRGB());
+            graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 0, stringWidth / 2, 44, new Color(20, 20, 30, 150).getRGB());
             poseStack.translate(0, 0, 1.0125F);
-            graphics.fill(RenderType.gui(), -stringWidth / 2, 40, stringWidth / 2, 44, new Color(255, 100, 100).getRGB());
+            graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 40, stringWidth / 2, 44, healthColor.getRGB());
+            GlStateManager._disableDepthTest();
             
             IFont.LARGE.drawCenteredString(graphics, component.getString(), -1, 5, Color.WHITE);
-            IFont.NORMAL.drawString(graphics, health, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
+            IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
             
+            GlStateManager._disableBlend();
             poseStack.popPose();
         }
     }
     
-    public float smoothDistanceTo(Entity entity)
+    public void drawShadows(int stringWidth)
     {
-        float distance = mc.player.distanceTo(entity);
-        if (!prevDistances.containsKey(entity)) prevDistances.put(entity, distance);
+        if (leftShadow == null) leftShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/left.png"));
+        if (centerShadow == null) centerShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/center.png"));
+        if (rightShadow == null) rightShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/right.png"));
         
-        float prevDistance = prevDistances.get(entity);
+        GlStateManager._enableBlend();
+        GlStateManager._blendFuncSeparate(770, 771, 1, 1);
+        drawShadow(graphics, leftShadow, -stringWidth / 2 - 8, -9, 27, 62, 27, 62, 27, 62);
+        drawShadow(graphics, centerShadow, -stringWidth / 2 + 19, -9, 1, 62, Math.abs((-stringWidth / 2 - 8) - (stringWidth / 2 - 46)), 62, 1, 62);
+        drawShadow(graphics, rightShadow, stringWidth / 2 - 19, -9, 27, 62, 27, 62, 27, 62);
+    }
+    
+    private Color blendColors(float mixture, Color color1, Color color2)
+    {
+        int red = color1.getRed(), green = color1.getGreen(), blue = color1.getBlue();
         
-        if (prevDistance < distance) prevDistance += (distance - prevDistance) / 2;
-        else if (distance < prevDistance) prevDistance -= (prevDistance - distance) / 2;
+        if (red < color2.getRed()) red += (color2.getRed() - color1.getRed()) * mixture;
+        if (green < color2.getGreen()) green += (color2.getGreen() - color1.getGreen()) * mixture;
+        if (blue < color2.getBlue()) blue += (color2.getBlue() - color1.getBlue()) * mixture;
         
-        if (prevDistance != distance) prevDistances.replace(entity, prevDistance);
-        return prevDistance;
+        if (red > color2.getRed()) red -= (color1.getRed() - color2.getRed()) * mixture;
+        if (green > color2.getGreen()) green -= (color1.getGreen() - color2.getGreen()) * mixture;
+        if (blue > color2.getBlue()) blue -= (color1.getBlue() - color2.getBlue()) * mixture;
+        
+        return new Color(red, green, blue, color1.getAlpha());
+    }
+    
+    public float smoothDistanceTo(Entity entity, float partialTicks)
+    {
+        float x = (float) (Mth.lerp(partialTicks, mc.player.xOld, mc.player.getX())
+                - Mth.lerp(partialTicks, entity.xOld, entity.getX()));
+        
+        float y = (float) (Mth.lerp(partialTicks, mc.player.yOld, mc.player.getY())
+                - Mth.lerp(partialTicks, entity.yOld, entity.getY()));
+        
+        float z = (float) (Mth.lerp(partialTicks, mc.player.zOld, mc.player.getZ())
+                - Mth.lerp(partialTicks, entity.zOld, entity.getZ()));
+        
+        return Mth.sqrt(x * x + y * y + z * z);
     }
 }

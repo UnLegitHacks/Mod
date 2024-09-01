@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 public class UnPlainTextButton implements IGui
 {
     private Animation hoverAnimation = null;
+    public boolean special = false;
     private boolean flag = false;
     private Runnable action;
     private UnStyle style;
@@ -52,8 +53,13 @@ public class UnPlainTextButton implements IGui
         
         if (style == UnStyle.UNDERLINE)
         {
-            IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, Color.WHITE);
+            if (special)
+                IFont.MEDIUM.drawStringWithShadow(graphics, name, x - 1, y, Color.YELLOW);
+            else
+                IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, Color.WHITE);
+            
             if (hoverAnimation == null) return;
+            
             graphics.fill(x + (int) (24 * (1 - hoverAnimation.get())), y + 11, (x + width) - (int) (24 * (1 - hoverAnimation.get())), y + 12, new Color(255, 255, 255, hoverAnimation.wrap(160)).getRGB());
         }
         

@@ -80,6 +80,8 @@ public class Compass extends ModuleU implements IGui
             
             prevType = type;
         }
+        
+        GlStateManager._disableBlend();
     }
     
     public Color getColor(int width, float x, float alphaMultiplier)

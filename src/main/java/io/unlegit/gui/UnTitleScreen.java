@@ -13,6 +13,7 @@ import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.ReflectionUtil;
 import io.unlegit.utils.SoundUtil;
+import io.unlegit.utils.client.Holidays;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -102,10 +103,15 @@ public class UnTitleScreen extends Screen implements IGui
                 minecraft.setScreen(new AccountScreen(this));
         }));
         
-        copyrightButton = new UnPlainTextButton(COPYRIGHT_TEXT.getString(),
-                width - IFont.NORMAL.getStringWidth(COPYRIGHT_TEXT.getString()) - 2,
-                height - 14, UnStyle.UNDERLINE, () -> minecraft.setScreen(
+        boolean holiday = Holidays.todayOne();
+        String copyrightText = holiday ? Holidays.get() : COPYRIGHT_TEXT.getString();
+        
+        copyrightButton = new UnPlainTextButton(copyrightText,
+                width - (holiday ? IFont.MEDIUM : IFont.NORMAL).getStringWidth(copyrightText) - 2,
+                height - (holiday ? 20 : 14), UnStyle.UNDERLINE, () -> minecraft.setScreen(
                         new CreditsAndAttributionScreen(this)));
+        
+        if (holiday) copyrightButton.special = true;
         
         exitButton = new UnPlainTextButton(quitText.getString(), 3, 2,
                 UnStyle.FADE, () -> minecraft.stop());

@@ -63,9 +63,12 @@ public class FontRenderer implements IMinecraft, IGui
     {
         float red = color.getRed() / 255F, green = color.getGreen() / 255F, blue = color.getBlue() / 255F, alpha = color.getAlpha() / 255F,
               scaleFactor = checkGuiScaleUpdate();
+        
         if (alpha == 0) return;
+        
         PoseStack pose = graphics.pose();
         pose.pushPose(); pose.last().pose().scale(1 / scaleFactor);
+        
         float posX = this.posX * scaleFactor, posY = this.posY * scaleFactor;
         GlStateManager._enableBlend();
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
