@@ -47,13 +47,15 @@ public class RenderCategory implements IGui
         int x = (int) (this.x - (165 * (scale - 1)));
         int y = (int) (this.y - (96 * (scale - 1)));
         GlStateManager._enableBlend();
+        
         graphics.setColor(1, 1, 1, alpha / 255F);
-        graphics.blit(parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);
+        drawShadow(graphics, parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);
+        
         graphics.setColor(1, 1, 1, 1);
-        graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, parent.animation.wrap(235)).getRGB());
+        graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, parent.animation.wrap(200)).getRGB());
         String name = StringUtils.capitalize(category.name().toLowerCase());
         IFont.MEDIUM.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
-        graphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, alpha).getRGB());
+        graphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, parent.animation.wrap(200)).getRGB());
         graphics.enableScissor((int) (x * scale), (int) (y * scale),
                 (int) ((x * scale) + (110 * scale)), (int) ((y * scale) + (160 * scale)));
         int offset = scroll;
@@ -67,7 +69,7 @@ public class RenderCategory implements IGui
                 else
                     graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(0, 150, 255, alpha).getRGB());
             } else if (mouseOver(mouseX, mouseY, x, y + 30 + offset, x + 110, y + 45 + offset))
-                graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(24, 24, 24, alpha).getRGB());
+                graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(48, 48, 48, alpha / 2).getRGB());
             
             IFont.NORMAL.drawString(graphics, module.name, x + (module.isEnabled() ? 15 : 10), y + 32 + offset, module.isEnabled() ? new Color(0, 0, 0, alpha) : new Color(255, 255, 255, alpha));
             offset += 15;

@@ -41,9 +41,12 @@ public class KillAura extends ModuleU
      * raytrace) especially while fighting multiple targets; however, hits are less
      * accurate, so smooth is not recommended for HvHs.
      */
-    public ModeSetting rotations = new ModeSetting("Rotations", "The mode for rotations.", new String[] {"Vanilla", "Smooth"}),
-                       priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
-                       autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
+    public ModeSetting rotations = new ModeSetting("Rotations", "The mode for rotations.", new String[]
+    {
+        "Vanilla", "Smooth", "Snap"
+    }),
+    priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
+    autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
     
     private ElapTime elapTime = new ElapTime();
     private boolean stopBlocking = false;
@@ -70,7 +73,7 @@ public class KillAura extends ModuleU
             PlayerInfo playerInfo = mc.getConnection().getPlayerInfo(mc.getUser().getName());
             // Null check for bedrock servers (which is coming soon with ViaBedrock)
             if (playerInfo != null) range += PlayerUtil.getSpeed(
-                    mc.player.getDeltaMovement()) * (playerInfo.getLatency() / 200F);
+                    mc.player.getDeltaMovement()) * (playerInfo.getLatency() / 175F);
         }
         
         target = TargetUtil.getTarget(mc.player, range, priority.mode);
@@ -113,7 +116,15 @@ public class KillAura extends ModuleU
             float[] rotations = RotationUtil.rotations(target);
             
             if (this.rotations.equals("Smooth")) smoothenRotations(rotations);
-            else yaw = rotations[0]; pitch = rotations[1];
+            
+            else if (this.rotations.equals("Snap"))
+            {
+                float yawDifference = Math.abs(yaw - rotations[0]), pitchDifference = Math.abs(pitch - rotations[1]);
+                if (yawDifference > 10) yaw = rotations[0];
+                if (pitchDifference > 10) pitch = rotations[1];
+            }
+            
+            else { yaw = rotations[0]; pitch = rotations[1]; }
             
             e.yaw = yaw; e.pitch = pitch;
         } else if (rotations.equals("Smooth"))

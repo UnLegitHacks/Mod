@@ -40,7 +40,7 @@ public class RenderKey implements IGui, IMinecraft
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         GlStateManager._enableBlend();
         graphics.setColor(1, 1, 1, 1);
-        graphics.blit(parent.keyShadow, x - 8, y - 8, 40, 40, 40, 40, 40, 40);
+        drawShadow(graphics, parent.keyShadow, x - 8, y - 8, 40, 40, 40, 40, 40, 40);
         
         if (alpha != 0)
         {

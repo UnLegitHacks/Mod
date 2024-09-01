@@ -96,6 +96,7 @@ public class GlyphPage implements IMinecraft
             byte[] bytes = outputStream.toByteArray();
             ByteBuffer data = BufferUtils.createByteBuffer(bytes.length).put(bytes).flip();
             loadedTexture = new DynamicTexture(NativeImage.read(data));
+            loadedTexture.setFilter(true, false);
         } catch (Exception e) {}
     }
     

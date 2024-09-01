@@ -7,6 +7,6 @@ public class ReflectionUtil
         try
         {
             return Class.forName(name) != null;
-        } catch (Exception e) { return false; }
+        } catch (Throwable t) { return false; }
     }
 }

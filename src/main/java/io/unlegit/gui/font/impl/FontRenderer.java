@@ -97,24 +97,24 @@ public class FontRenderer implements IMinecraft, IGui
         return (int) (width / scaleFactor);
     }
     
-    public int drawString(GuiGraphics guiGraphics, String text, int x, int y, Color color)
+    public int drawString(GuiGraphics graphics, String text, int x, int y, Color color)
     {
-        return renderString(guiGraphics, text, x, y, color);
+        return renderString(graphics, text, x, y, color);
     }
     
-    public int drawStringWithShadow(GuiGraphics guiGraphics, String text, int x, int y, Color color)
+    public int drawStringWithShadow(GuiGraphics graphics, String text, int x, int y, Color color)
     {
-        if (shadow == null) shadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "text_shadow.png"));
+        if (shadow == null) shadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow.png"));
         int width = getStringWidth(text) + 2, height = size + 2;
         x -= 5; width += 10; y -= 3; height += 6;
         GlStateManager._enableBlend();
-        guiGraphics.setColor(1, 1, 1, color.getAlpha() / 255F);
-        guiGraphics.blit(shadow, x, y, 40, height, 10, height, 20, height);
-        guiGraphics.blit(shadow, x + 10, y, width - 20, height, 60, height, 1, height, 40, height);
-        guiGraphics.blit(shadow, x + width - 10, y, 30, height, 10, height, 20, height);
-        guiGraphics.setColor(1, 1, 1, 1);
+        graphics.setColor(1, 1, 1, color.getAlpha() / 255F);
+        drawShadow(graphics, shadow, x, y, 40, height, 10, height, 20, height);
+        graphics.blit(shadow, x + 10, y, width - 20, height, 60, height, 1, height, 40, height);
+        drawShadow(graphics, shadow, x + width - 10, y, 30, height, 10, height, 20, height);
+        graphics.setColor(1, 1, 1, 1);
         x += 5; y += 3;
-        return renderString(guiGraphics, text, x, y, color);
+        return renderString(graphics, text, x, y, color);
     }
     
     public int drawCenteredString(GuiGraphics graphics, String text, int x, int y, Color color)

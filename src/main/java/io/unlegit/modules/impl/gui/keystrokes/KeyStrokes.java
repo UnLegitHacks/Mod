@@ -15,9 +15,12 @@ public class KeyStrokes extends ModuleU implements IGui
     private ArrayList<RenderKey> keys = new ArrayList<>();
     private GuiGraphics dummy = new GuiGraphics(mc, null);
     protected ResourceLocation keyShadow, clickShadow;
+    private float partialTicks = 0;
     
     public void onGuiRender(GuiRenderE e)
     {
+        partialTicks = e.partialTicks;
+        
         if (keys.isEmpty())
         {
             add(new RenderKey(this, mc.options.keyUp, 24, 0),
@@ -31,7 +34,7 @@ public class KeyStrokes extends ModuleU implements IGui
             clickShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/keystrokes/click.png"));
         }
         
-        for (RenderKey key : keys) key.render(e.graphics, e.partialTicks);
+        for (RenderKey key : keys) key.render(e.graphics, partialTicks);
     }
     
     public void onUpdate()
@@ -39,7 +42,7 @@ public class KeyStrokes extends ModuleU implements IGui
         // Fixes the edges of the blur
         if (mc.screen == null)
         {
-            for (RenderKey key : keys) key.renderBlur(dummy, mc.options.getMenuBackgroundBlurriness() * 2, mc.getTimer().getGameTimeDeltaPartialTick(false));
+            for (RenderKey key : keys) key.renderBlur(dummy, mc.options.getMenuBackgroundBlurriness() * 2, partialTicks);
         }
     }
     

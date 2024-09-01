@@ -21,12 +21,7 @@ public class ActiveMods extends ModuleU
     
     public void onGuiRender(GuiRenderE e)
     {
-        if (modules == null)
-        {
-            modules = new ArrayList<>(UnLegit.modules.get());
-            modules.sort(Comparator.comparingInt(module -> -IFont.NORMAL.getStringWidth(module.name)));
-        }
-        
+        checkModules();
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         int offset = 0;
@@ -41,6 +36,28 @@ public class ActiveMods extends ModuleU
         }
         
         GlStateManager._disableBlend();
+    }
+    
+    public int getHeight()
+    {
+        checkModules();
+        int offset = 0;
+        
+        for (ModuleU module : modules)
+        {
+            if (module.isEnabled()) offset += 13;
+        }
+        
+        return offset;
+    }
+    
+    public void checkModules()
+    {
+        if (modules == null)
+        {
+            modules = new ArrayList<>(UnLegit.modules.get());
+            modules.sort(Comparator.comparingInt(module -> -IFont.NORMAL.getStringWidth(module.name)));
+        }
     }
     
     public Color getSpectrum(int offset)

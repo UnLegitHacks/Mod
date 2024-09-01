@@ -7,7 +7,7 @@ public class InvUtil
 {
     public static int getSlot(Inventory inventory, ItemFilter filter)
     {
-        for (int i = 0; i < inventory.items.size(); i++)
+        for (int i = 0; i < 9; i++)
         {
             ItemStack stack = inventory.items.get(i);
             if (!stack.isEmpty() && filter.process(stack)) return i;

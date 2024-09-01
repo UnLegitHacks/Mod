@@ -68,7 +68,6 @@ public class Scaffold extends ModuleU
     public void onUpdate()
     {
         blockSlot = InvUtil.getSlot(mc.player.getInventory(), stack -> stack.getItem() instanceof BlockItem);
-        
         if (blockSlot == -1) return;
         
         if (prevSlot != blockSlot)
