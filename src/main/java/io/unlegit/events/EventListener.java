@@ -2,9 +2,7 @@ package io.unlegit.events;
 
 import io.unlegit.events.impl.client.KeyE;
 import io.unlegit.events.impl.client.MessageE;
-import io.unlegit.events.impl.entity.AttackE;
-import io.unlegit.events.impl.entity.MotionE;
-import io.unlegit.events.impl.entity.MoveE;
+import io.unlegit.events.impl.entity.*;
 import io.unlegit.events.impl.network.PacketReceiveE;
 import io.unlegit.events.impl.network.PacketSendE;
 import io.unlegit.events.impl.render.GuiRenderE;

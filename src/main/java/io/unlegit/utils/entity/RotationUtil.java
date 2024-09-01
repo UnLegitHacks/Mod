@@ -54,24 +54,24 @@ public class RotationUtil implements IMinecraft
         AABB box = target.getBoundingBox().expandTowards(rotation.scale(distance));
         return ProjectileUtil.getEntityHitResult(mc.player, camera, position, box, entity -> !entity.isSpectator(), Mth.square(distance)) != null;
     }
-}
-
-class GCDFix implements IMinecraft
-{
-    private static float[] prevRotations = null;
     
-    public static float[] get(float[] rotations)
+    public static class GCDFix implements IMinecraft
     {
-        if (prevRotations == null) prevRotations = rotations;
+        private static float[] prevRotations = null;
         
-        float e = (mc.options.sensitivity().get().floatValue() * 0.6F) + 0.2F,
-              GCD = e * e * e * 1.2F;
-        
-        float deltaYaw = rotations[0] - prevRotations[0], deltaPitch = rotations[1] - prevRotations[1];
-        float betaYaw = deltaYaw - (deltaYaw % GCD), betaPitch = deltaPitch - (deltaPitch % GCD);
-        float yaw = prevRotations[0] + betaYaw, pitch = prevRotations[1] + betaPitch;
-        
-        prevRotations = rotations;
-        return new float[] {yaw, pitch};
+        public static float[] get(float[] rotations)
+        {
+            if (prevRotations == null) prevRotations = rotations;
+            
+            float e = (mc.options.sensitivity().get().floatValue() * 0.6F) + 0.2F,
+                  GCD = e * e * e * 1.2F;
+            
+            float deltaYaw = rotations[0] - prevRotations[0], deltaPitch = rotations[1] - prevRotations[1];
+            float betaYaw = deltaYaw - (deltaYaw % GCD), betaPitch = deltaPitch - (deltaPitch % GCD);
+            float yaw = prevRotations[0] + betaYaw, pitch = prevRotations[1] + betaPitch;
+            
+            prevRotations = rotations;
+            return new float[] {yaw, pitch};
+        }
     }
 }

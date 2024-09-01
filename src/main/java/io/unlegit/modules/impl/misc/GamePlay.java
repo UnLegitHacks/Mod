@@ -69,9 +69,10 @@ public class GamePlay extends ModuleU
         "Look a divinity! He definitely uses UnLegit!",
         "In need of a cute present for Christmas? UnLegit is all you need!"
     };
-    
-    private ArrayList<String> alreadySaidMessages = new ArrayList<>();
+
     private Deque<Runnable> actionDeque = new ConcurrentLinkedDeque<>();
+    private ArrayList<String> alreadySaidMessages = new ArrayList<>();
+    private int attemptLimit = 0;
     
     public void onUpdate()
     {
@@ -79,7 +80,7 @@ public class GamePlay extends ModuleU
         {
             int paperSlot = InvUtil.getSlot(mc.player.getInventory(), stack -> stack.is(Items.PAPER));
             
-            if (paperSlot != -1)
+            if (paperSlot != -1 && ++attemptLimit <= 2)
                 queue(() -> mc.player.getInventory().selected = paperSlot,
                       () -> mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND));
             
@@ -91,6 +92,7 @@ public class GamePlay extends ModuleU
     public void onMessageReceive(MessageE e)
     {
         String message = ChatFormatting.stripFormatting(e.message.getString().replaceAll("\r", "\\\\r").replaceAll("\n", "\\\\n"));
+        attemptLimit = 0;
         
         if (!mc.hasSingleplayerServer() && message.contains(" by " + mc.getUser().getName()))
         {

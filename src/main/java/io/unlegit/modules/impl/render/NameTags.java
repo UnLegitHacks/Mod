@@ -11,6 +11,7 @@ import io.unlegit.interfaces.IModule;
 import io.unlegit.mixins.render.AccGraphics;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ToggleSetting;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
@@ -18,9 +19,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityAttachment;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.phys.Vec3;
 
 @IModule(name = "Name Tags", description = "Allows you to customize name tags.")
@@ -49,6 +48,8 @@ public class NameTags extends ModuleU implements IGui
             String healthText = "Health: " + health;
             int stringWidth = IFont.LARGE.getStringWidth(component.getString()) + 10;
             
+            if (stringWidth < 30) return;
+            
             poseStack.pushPose();
             poseStack.translate(vec3.x, vec3.y + (0.75F * (scale / 1.15F)), vec3.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
@@ -69,7 +70,7 @@ public class NameTags extends ModuleU implements IGui
             graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 40, stringWidth / 2, 44, healthColor.getRGB());
             GlStateManager._disableDepthTest();
             
-            IFont.LARGE.drawCenteredString(graphics, component.getString(), -1, 5, Color.WHITE);
+            IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, Color.WHITE);
             IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
             
             GlStateManager._disableBlend();
