@@ -31,11 +31,6 @@ public class UnConfig
     private static final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
     private static final File config = new File("unlegit/config.json");
     
-    static
-    {
-        if (config.exists()) loadModules();
-    }
-    
     public static void saveModules()
     {
         if (!config.exists())
@@ -87,7 +82,7 @@ public class UnConfig
                 else if (setting instanceof ModeSetting)
                 {
                     ModeSetting modeSetting = (ModeSetting) setting;
-                    jsonModule.addProperty(setting.name, modeSetting.mode);
+                    jsonModule.addProperty(setting.name, modeSetting.selected);
                 }
             }
         }
@@ -159,14 +154,19 @@ public class UnConfig
                         else if (setting instanceof ModeSetting)
                         {
                             ModeSetting modeSetting = (ModeSetting) setting;
-                            modeSetting.mode = element.getAsString();
+                            modeSetting.selected = element.getAsString();
                             modeSetting.onChange();
                         }
                     }
                 }
+                
+                module.settingsReload();
             }
         } catch (Exception e) {}
     }
     
-    public static void init() {}
+    public static void init()
+    {
+        if (config.exists()) loadModules();
+    }
 }

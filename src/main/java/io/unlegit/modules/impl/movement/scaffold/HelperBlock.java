@@ -14,7 +14,7 @@ public class HelperBlock implements IMinecraft
 {
     public static Direction getDirection()
     {
-        return PlayerUtil.isInMotion() ? Direction.fromYRot(PlayerUtil.getDirection()).getOpposite()
+        return PlayerUtil.isInMotion() ? Direction.fromYRot(PlayerUtil.getDirection(mc.player.getYRot())).getOpposite()
                 : jumpKeyDown() ? Direction.UP : mc.player.getDirection().getOpposite();
     }
     

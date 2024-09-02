@@ -8,26 +8,23 @@ import net.minecraft.server.RunningOnDifferentThreadException;
 
 public class Packets implements IMinecraft
 {
-    // Sends a packet.
+    /** Sends a packet. */
     public static void send(Packet<?> packet)
     {
         connection().send(packet);
     }
     
-    // Sends a packet without the event triggering.
+    /** Sends a packet without the event triggering. */
     public static void sendNoEvent(Packet<?> packet)
     {
         connection().send(packet, null);
     }
     
-    // Simulates receiving a packet.
+    /** Simulates receiving a packet. */
     public static void receiveNoEvent(Packet<?> packet)
     {
         try { AccConnection.genericsFtw(packet, connection().getPacketListener()); }
-        /**
-         * Not sure why they throw this even if the code
-         * has been successfully executed!
-         */
+        // Not sure why this is sometimes thrown even if the code works
         catch (RunningOnDifferentThreadException ex) {}
     }
     

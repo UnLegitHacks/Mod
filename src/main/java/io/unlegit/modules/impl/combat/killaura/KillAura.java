@@ -1,8 +1,7 @@
 package io.unlegit.modules.impl.combat.killaura;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.entity.AttackE;
-import io.unlegit.events.impl.entity.MotionE;
+import io.unlegit.events.impl.entity.*;
 import io.unlegit.gui.clickgui.ClickGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
@@ -29,7 +28,8 @@ public class KillAura extends ModuleU
     public ToggleSetting swingHand = new ToggleSetting("Swing Hand", "Swings the hand normally.", true),
                          smartRange = new ToggleSetting("Smart Range", "Increases the range depending on your ping.", false),
                          teams = new ToggleSetting("Teams", "Don't attack players on your team.", false),
-                         predict = new ToggleSetting("Predict Pos", "Predicts the movement of the target.", true);
+                         predict = new ToggleSetting("Predict Pos", "Predicts the movement of the target.", true),
+                         strafeFix = new ToggleSetting("Strafe Fix", "Helps bypass prediction anticheats.", false);
                          // targetESP = new ToggleSetting("Target ESP", true);
     
     /**
@@ -39,7 +39,7 @@ public class KillAura extends ModuleU
      */
     public ModeSetting rotations = new ModeSetting("Rotations", "The mode for rotations.", new String[]
     {
-        "Vanilla", "Smooth", "Snap"
+        "Vanilla", "Smooth", "Snap", "None"
     }),
     priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
     autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
@@ -72,7 +72,7 @@ public class KillAura extends ModuleU
                     mc.player.getDeltaMovement()) * (playerInfo.getLatency() / 175F);
         }
         
-        target = TargetUtil.getTarget(mc.player, range, priority.mode);
+        target = TargetUtil.getTarget(mc.player, range, priority.selected);
         
         if (target != null)
         {
@@ -120,6 +120,12 @@ public class KillAura extends ModuleU
                 if (pitchDifference > 10) pitch = rotations[1];
             }
             
+            else if (this.rotations.equals("None"))
+            {
+                yaw = mc.player.getYRot();
+                pitch = mc.player.getXRot();
+            }
+            
             else { yaw = rotations[0]; pitch = rotations[1]; }
             
             e.yaw = yaw; e.pitch = pitch;
@@ -127,6 +133,11 @@ public class KillAura extends ModuleU
         {
             yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
         }
+    }
+    
+    public void onStrafe(StrafeE e)
+    {
+        if (target != null && strafeFix.enabled) e.yaw = yaw;
     }
     
     public void swingItem()

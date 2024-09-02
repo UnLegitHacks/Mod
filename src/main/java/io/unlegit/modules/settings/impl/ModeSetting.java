@@ -5,20 +5,20 @@ import io.unlegit.modules.settings.Setting;
 public class ModeSetting extends Setting
 {
     private Runnable runnable;
+    public String selected;
     public String[] modes;
-    public String mode;
     public int index;
     
     public ModeSetting(String name, String description, String[] modes)
     {
         super(name, description);
         this.modes = modes;
-        mode = modes[0];
+        selected = modes[0];
     }
     
     public boolean equals(String mode)
     {
-        return this.mode.equals(mode);
+        return selected.equals(mode);
     }
     
     public void onChange()

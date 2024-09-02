@@ -22,6 +22,7 @@ public class EventHandler
             case PacketReceiveE pr: listener.onPacketReceive(pr); break;
             case MessageE me: listener.onMessageReceive(me); break;
             case WorldRenderE w: listener.onWorldRender(w); break;
+            case StrafeE s: listener.onStrafe(s);
             default: break;
         }
     }

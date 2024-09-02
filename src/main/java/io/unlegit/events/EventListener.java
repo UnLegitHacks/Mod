@@ -18,4 +18,5 @@ public interface EventListener
     default void onMove(MoveE e) {} default void onAttack(AttackE e) {} default void onMotion(MotionE e) {}
     default void onPacketSend(PacketSendE e) {} default void onPacketReceive(PacketReceiveE e) {}
     default void onMessageReceive(MessageE e) {} default void onWorldRender(WorldRenderE e) {}
+    default void onStrafe(StrafeE e) {}
 }

@@ -16,20 +16,16 @@ public class Velocity extends ModuleU
     
     public void onPacketReceive(PacketReceiveE e)
     {
-        if (e.packet instanceof ClientboundSetEntityMotionPacket && mc.player != null)
+        if (e.packet instanceof ClientboundSetEntityMotionPacket packet && mc.player != null)
         {
-            ClientboundSetEntityMotionPacket packet = (ClientboundSetEntityMotionPacket) e.packet;
-            
             if (packet.getId() != mc.player.getId()) return;
             e.cancelled = true;
+            
             if (horizontal.value == 0 && vertical.value == 0) return;
             
             float horizontal = this.horizontal.value / 100, vertical = this.vertical.value / 100;
             Vec3 vec3 = new Vec3(packet.getXa() * horizontal, packet.getYa() * vertical, packet.getZa() * horizontal);
-//            packet = new ClientboundSetEntityMotionPacket(mc.player.getId(), vec3);
-//            try { packet.handle(mc.getConnection()); }
-//            // Not sure why they throw this EVEN if the code has been successfully executed lol
-//            catch (RunningOnDifferentThreadException ex) {}
+            
             Packets.receiveNoEvent(new ClientboundSetEntityMotionPacket(mc.player.getId(), vec3));
         }
     }

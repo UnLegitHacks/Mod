@@ -1,8 +1,6 @@
 package io.unlegit.modules.impl.misc;
 
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 import io.unlegit.events.impl.client.MessageE;
 import io.unlegit.interfaces.IModule;
@@ -69,8 +67,7 @@ public class GamePlay extends ModuleU
         "Look a divinity! He definitely uses UnLegit!",
         "In need of a cute present for Christmas? UnLegit is all you need!"
     };
-
-    private Deque<Runnable> actionDeque = new ConcurrentLinkedDeque<>();
+    
     private ArrayList<String> alreadySaidMessages = new ArrayList<>();
     private int attemptLimit = 0;
     
@@ -81,10 +78,10 @@ public class GamePlay extends ModuleU
             int paperSlot = InvUtil.getSlot(mc.player.getInventory(), stack -> stack.is(Items.PAPER));
             
             if (paperSlot != -1 && ++attemptLimit <= 2)
-                queue(() -> mc.player.getInventory().selected = paperSlot,
-                      () -> mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND));
-            
-            if (!actionDeque.isEmpty()) actionDeque.poll().run();
+            {
+                mc.player.getInventory().selected = paperSlot;
+                mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
+            }
         }
     }
     
@@ -152,10 +149,5 @@ public class GamePlay extends ModuleU
         }
         
         return message;
-    }
-    
-    public void queue(Runnable... actions)
-    {
-        for (Runnable runnable : actions) actionDeque.add(runnable);
     }
 }

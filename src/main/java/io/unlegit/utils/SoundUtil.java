@@ -1,16 +1,11 @@
 package io.unlegit.utils;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.*;
 
 import io.unlegit.UnLegit;
+import io.unlegit.utils.io.FileUtil;
 
 public class SoundUtil
 {

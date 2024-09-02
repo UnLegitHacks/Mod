@@ -13,10 +13,8 @@ import io.unlegit.utils.network.Packets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket.Action;
-import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
-import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
@@ -170,10 +168,9 @@ public class Scaffold extends ModuleU
     {
         if (blockSlot == -1) return;
         
-        if (e.packet instanceof ServerboundPlayerCommandPacket)
+        if (e.packet instanceof ServerboundPlayerCommandPacket packet)
         {
             if (!sprint.equals("Bypass")) return;
-            ServerboundPlayerCommandPacket packet = (ServerboundPlayerCommandPacket) e.packet;
             
             if ((packet.getAction() == Action.START_SPRINTING || packet.getAction() == 
                     Action.STOP_SPRINTING) && packet.getId() == mc.player.getId())

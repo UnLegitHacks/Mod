@@ -34,10 +34,10 @@ public class PlayerUtil implements IMinecraft
         return deltaMovement.x != 0 || deltaMovement.z != 0;
     }
     
-    public static Vec3 strafe(Vec3 vec3, float speed)
+    public static Vec3 strafe(Vec3 vec3, float yaw, float speed)
     {
-        float yaw = getDirection() * Mth.DEG_TO_RAD;
-        float x = -Mth.sin(yaw) * speed, z = Mth.cos(yaw) * speed;
+        float movementYaw = getDirection(yaw) * Mth.DEG_TO_RAD;
+        float x = -Mth.sin(movementYaw) * speed, z = Mth.cos(movementYaw) * speed;
         return new Vec3(x, vec3.y, z);
     }
     
@@ -46,21 +46,21 @@ public class PlayerUtil implements IMinecraft
         return Mth.sqrt((float) (vec3.x * vec3.x + vec3.z * vec3.z));
     }
     
-    public static float getDirection()
+    public static float getDirection(float yaw)
     {
-        float rotationYaw = mc.player.getYRot(), forward = 1;
+        float movementYaw = yaw, forward = 1;
         
         if (mc.player.input.forwardImpulse < 0)
         {
-            rotationYaw += 180;
+            movementYaw += 180;
             forward = -0.5F;
         }
         
         else if (mc.player.input.forwardImpulse > 0) forward = 0.5F;
-        if (mc.player.input.leftImpulse > 0) rotationYaw -= 90 * forward;
-        else if (mc.player.input.leftImpulse < 0) rotationYaw += 90 * forward;
-        return rotationYaw;
+        if (mc.player.input.leftImpulse > 0) movementYaw -= 90 * forward;
+        else if (mc.player.input.leftImpulse < 0) movementYaw += 90 * forward;
+        return movementYaw;
     }
     
-    public static Vec3 strafe(Vec3 vec3) { return strafe(vec3, getSpeed(vec3)); }
+    public static Vec3 strafe(Vec3 vec3, float yaw) { return strafe(vec3, yaw, getSpeed(vec3)); }
 }

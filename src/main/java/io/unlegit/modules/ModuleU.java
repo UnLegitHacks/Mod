@@ -44,6 +44,9 @@ public class ModuleU implements IMinecraft, EventListener
         else if (!enabled && this.enabled) onDisable();
     }
     
+    // Used by modules to change their settings after the config has loaded
+    public void settingsReload() {}
+    
     /**
      * Gets the category from the package the module is in.
      * Though, if the package is renamed this will break.

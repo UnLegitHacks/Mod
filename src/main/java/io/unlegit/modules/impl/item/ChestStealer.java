@@ -23,14 +23,13 @@ public class ChestStealer extends ModuleU
     
     public void onUpdate()
     {
-        if (mc.player.hasContainerOpen() && mc.player.containerMenu instanceof ChestMenu)
+        if (mc.player.hasContainerOpen() && mc.player.containerMenu instanceof ChestMenu chest)
         {
-            ChestMenu chestMenu = (ChestMenu) mc.player.containerMenu;
             boolean foundItems = false;
             
             for (int i = 0; i < 36; i++)
             {
-                if (chestMenu.getSlot(i) != null && !chestMenu.getSlot(i).getItem().is(Items.AIR))
+                if (chest.getSlot(i) != null && !chest.getSlot(i).getItem().is(Items.AIR))
                 {
                     if (elapTime.passed(delay))
                     {

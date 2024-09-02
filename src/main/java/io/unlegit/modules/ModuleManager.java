@@ -25,10 +25,9 @@ public class ModuleManager
             new AutoRespawn(), new ActiveMods(), new KillAura(), new FPSBooster(),
             new KeepSprint(), new Criticals(), new Velocity(), new ChestStealer(),
             new OldHitting(), new FullBright(), new ESP(), new NameTags(),
-            new InvMove(), new SafeWalk(), new KeyStrokes(), new Strafe(),
-            new GamePlay(), new Scaffold(), new Spammer(), new AntiBlind(),
-            new LowFire(), new NoSlow(), new Compass(), new Scoreboard(),
-            new NoteBlockPlayer());
+            new InvMove(), new SafeWalk(), new KeyStrokes(), new GamePlay(),
+            new Scaffold(), new Spammer(), new AntiBlind(), new LowFire(),
+            new NoSlow(), new Compass(), new Scoreboard(), new NoteBlockPlayer());
         UnLegit.settings.call(this);
     }
     
