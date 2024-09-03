@@ -75,7 +75,7 @@ public class RenderKey implements IGui, IMinecraft
     {
         int x = this.x + 7, y = this.y + 5;
         graphics.enableScissor(x - sizeOffset, y - sizeOffset, x + 24 + sizeOffset, y + 24 + sizeOffset);
-        blur(2, partialTicks);
+        blur(1, partialTicks);
         graphics.disableScissor();
     }
     

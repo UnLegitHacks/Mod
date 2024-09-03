@@ -105,7 +105,7 @@ public class ClickGui extends Screen implements IGui
     // Exists to control the blur fade-in and fade-out.
     protected void renderBlurredBackground(float partialTicks)
     {
-        blur(animation.get() * 2, partialTicks);
+        blur(animation.get(), partialTicks);
     }
     
     public void onClose()

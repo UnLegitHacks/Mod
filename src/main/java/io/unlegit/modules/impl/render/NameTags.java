@@ -62,12 +62,17 @@ public class NameTags extends ModuleU implements IGui
                 healthColor = blendColors(health / 10, new Color(255, 50, 50), Color.ORANGE);
             
             drawShadows(stringWidth);
-            
             GlStateManager._enableDepthTest();
-            poseStack.translate(0, 0, -0.0125F);
+            
+            // Background
+            poseStack.translate(0, 0, -0.0001F);
             graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 0, stringWidth / 2, 44, new Color(20, 20, 30, 150).getRGB());
-            poseStack.translate(0, 0, 1.0125F);
-            graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 40, stringWidth / 2, 44, healthColor.getRGB());
+            poseStack.translate(0, 0, 0.0001F);
+            
+            // Health
+            poseStack.translate(-stringWidth / 2, 0, 0);
+            graphics.fill(RenderType.guiOverlay(), 0, 40, (int) ((stringWidth - 1) * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor.getRGB());
+            poseStack.translate(stringWidth / 2, 0, 0);
             GlStateManager._disableDepthTest();
             
             IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, Color.WHITE);
