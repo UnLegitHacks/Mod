@@ -115,7 +115,12 @@ public class GlyphPage implements IMinecraft
         return width - 8;
     }
     
-    public float getWidth(char ch) { return glyphCharacterMap.get(ch).width; }
+    public float getWidth(char ch)
+    {
+        Glyph glyph = glyphCharacterMap.get(ch);
+        if (glyph != null) return glyph.width;
+        else return 0;
+    }
     public void bind() { RenderSystem.setShaderTexture(0, loadedTexture.getId()); }
     static class Glyph { public int x, y, width, height; }
 }
