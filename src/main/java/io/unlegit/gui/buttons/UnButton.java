@@ -39,7 +39,7 @@ public class UnButton implements IGui
             IFont.NORMAL.drawCenteredStringWithShadow(graphics, displayName, x + (size / 2), (y + size) - 8, new Color(255, 255, 255, animation.wrap(255)));
         }
         
-        drawShadow(graphics, buttonTexture, x, y, size, size, size, size, size, size);
+        graphics.blit(buttonTexture, x, y, size, size, size, size, size, size);
         prevHover = mouseOver;
     }
     

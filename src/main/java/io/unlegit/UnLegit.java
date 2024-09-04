@@ -26,9 +26,7 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
     public static ModuleManager modules;
     public static EventBus events;
     
-    /**
-     * Loads the client.
-     */
+    /** Loads the client. */
     public void onInitialize()
     {
         events = new EventBus();

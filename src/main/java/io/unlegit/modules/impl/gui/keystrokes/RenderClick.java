@@ -27,7 +27,7 @@ public class RenderClick extends RenderKey
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         GlStateManager._enableBlend();
         graphics.setColor(1, 1, 1, 1);
-        graphics.blit(parent.clickShadow, x - 8, y - 8, 53, 40, 53, 40, 53, 40);
+        drawShadow(graphics, parent.clickShadow, x - 8, y - 8, 53, 40, 53, 40, 53, 40);
         
         if (alpha != 0)
         {

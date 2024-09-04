@@ -53,7 +53,7 @@ public class Scaffold extends ModuleU
     public void onEnable()
     {
         super.onEnable();
-        if (mc.player == null) { toggle(); return; }
+        if (mc.player == null) { setEnabled(false); return; }
         
         y = mc.player.getY();
         yaw = mc.player.getYRot(); pitch = mc.player.getXRot();

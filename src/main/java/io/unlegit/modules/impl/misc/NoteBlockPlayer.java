@@ -8,6 +8,7 @@ import com.xxmicloxx.NoteBlockAPI.NBSDecoder;
 import com.xxmicloxx.NoteBlockAPI.model.*;
 
 import io.unlegit.UnLegit;
+import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ModeSetting;
@@ -30,12 +31,13 @@ import net.minecraft.world.phys.Vec3;
 public class NoteBlockPlayer extends ModuleU
 {
     public ModeSetting nbsFile = new ModeSetting("NBS File", "The reference for the player.", new String[] {"404 (none)"}),
-                       mode = new ModeSetting("Mode", "The mode of the player.", new String[]
+                       mode = new ModeSetting("Mode", "Legit is slower but it bypasses servers unlike blatant.", new String[]
                        {
                            "Blatant", "Legit"
                        });
     
-    public ToggleSetting tune = new ToggleSetting("Tune", "Tunes the note blocks. If this is off, you have to manually tune them.", true);
+    public ToggleSetting tune = new ToggleSetting("Tune", "Tunes the note blocks. If this is off, you have to manually tune them.", true),
+                         highNotesOnly = new ToggleSetting("High Notes Only", "Reduces the notes being played by only playing medium-high ones.", false);
     
     public static final File nbsDirectory = new File("unlegit/nbs");
     private HashMap<Integer, RelativeCoord> notes = new HashMap<>();
@@ -43,25 +45,13 @@ public class NoteBlockPlayer extends ModuleU
     private volatile BlockPos pos = null;
     public float yaw, pitch;
     
-    public NoteBlockPlayer()
-    {
-        int i = 0; for (double x = -2.5D; x < 2.5D; x++)
-        {
-            for (double z = -2.5D; z < 2.5D; z++)
-            {
-                notes.put(i, new RelativeCoord(x, z));
-                i++;
-            }
-        }
-    }
-    
     public void onEnable()
     {
         super.onEnable();
         
         if (mc.player == null)
         {
-            toggle();
+            setEnabled(false);
             return;
         }
         
@@ -70,9 +60,14 @@ public class NoteBlockPlayer extends ModuleU
         
         Thread.ofVirtual().name("Note Block Player").start(() ->
         {
-            if (!tune()) return;
+            if (!tune())
+            {
+                setEnabled(false);
+                return;
+            }
             
-            Song song = NBSDecoder.parse(new File(nbsDirectory, nbsFile.selected));
+            File file = new File(nbsDirectory, nbsFile.selected);
+            Song song = NBSDecoder.parse(file);
             int timeSlept = 0, makeUpTime = 0;
             
             if (song == null)
@@ -81,9 +76,13 @@ public class NoteBlockPlayer extends ModuleU
                 
                 "The NBS file is not found. Disabling."));
                 
-                toggle();
+                setEnabled(false);
                 return;
             }
+            
+            mc.player.sendSystemMessage(Component.literal(UnLegit.PREFIX + ChatFormatting.GREEN +
+            
+            "Now playing: " + file.getName().replace(".nbs", "")));
             
             for (int i = 0; i < song.getLength(); i++)
             {
@@ -92,34 +91,37 @@ public class NoteBlockPlayer extends ModuleU
                     Layer lays = layer.getValue();
                     Note note = lays.getNote(i);
                     
-                    if (note != null)
+                    if (note != null && note.getInstrument() != 3 && note.getInstrument() != 4)
                     {
                         int noteBlock = note.getKey() - 33;
-                        RelativeCoord coord = notes.get(noteBlock);
-                        int blockX = (int) Math.round(coord.x() + mc.player.getX()), blockY = (int) Math.round(mc.player.getY()) - 1, blockZ = (int) Math.round(coord.z() + mc.player.getZ());
-                        BlockPos pos = new BlockPos(blockX, blockY, blockZ);
-                        BlockState block = mc.level.getBlockState(pos);
                         
-                        if (block.is(Blocks.NOTE_BLOCK))
+                        if (!(highNotesOnly.enabled && noteBlock < 8))
                         {
-                            this.pos = pos;
-                            float[] rotations = smoothenRotations(RotationUtil.rotations(pos));
-                            mc.player.setYRot(rotations[0]);
-                            mc.player.setXRot(rotations[1]);
+                            RelativeCoord coord = notes.get(noteBlock);
                             
-                            if (mode.equals("Legit"))
+                            int blockX = (int) Math.round(coord.x() + mc.player.getX()), blockY = (int) Math.round(mc.player.getY()) - 1, blockZ = (int) Math.round(coord.z() + mc.player.getZ());
+                            BlockPos pos = new BlockPos(blockX, blockY, blockZ);
+                            BlockState block = mc.level.getBlockState(pos);
+                            
+                            if (block.is(Blocks.NOTE_BLOCK))
                             {
-                                timeSlept += 50;
-                                try { Thread.sleep(50); } catch (InterruptedException e) {}
-                            }
-                            
-                            mc.gameMode.startDestroyBlock(pos, Direction.UP);
-                            mc.player.swing(InteractionHand.MAIN_HAND);
-                            
-                            if (mode.equals("Legit"))
-                            {
-                                timeSlept += 50;
-                                try { Thread.sleep(50); } catch (InterruptedException e) {}
+                                this.pos = pos;
+                                int delay = 30 + (int) (Math.random() * 20);
+                                
+                                if (mode.equals("Legit"))
+                                {
+                                    timeSlept += delay;
+                                    try { Thread.sleep(delay); } catch (InterruptedException e) {}
+                                }
+                                
+                                mc.gameMode.startDestroyBlock(pos, Direction.UP);
+                                mc.player.swing(InteractionHand.MAIN_HAND);
+                                
+                                if (mode.equals("Legit"))
+                                {
+                                    timeSlept += delay;
+                                    try { Thread.sleep(delay); } catch (InterruptedException e) {}
+                                }
                             }
                         }
                     }
@@ -127,7 +129,7 @@ public class NoteBlockPlayer extends ModuleU
                 
                 if (!running) break;
                 
-                int shouldSleep = (int) (800 / (20 / song.getDelay())),
+                int shouldSleep = (int) (1000 / (20 / song.getDelay())),
                     difference = shouldSleep - timeSlept;
                 
                 if (difference > 0)
@@ -147,7 +149,7 @@ public class NoteBlockPlayer extends ModuleU
     {
         int note = 0;
         if (!checkNoteBlocks()) return false;
-        else if (tune.enabled) return true;
+        else if (!tune.enabled) return true;
         
         for (double x = -2.5D; x < 2.5D; x++)
         {
@@ -164,7 +166,7 @@ public class NoteBlockPlayer extends ModuleU
                     mc.player.swing(InteractionHand.MAIN_HAND);
                     Packets.send(new ServerboundUseItemOnPacket(InteractionHand.MAIN_HAND, new BlockHitResult(new Vec3(blockX, blockY + 0.5D, blockZ), Direction.UP, pos, false), 1));
                     notePitch++; if (notePitch > 24) notePitch = 0;
-                    int delay = mode.equals("Legit") ? (100 + (int) (100 * Math.random())) : 100;
+                    int delay = mode.equals("Legit") ? (100 + (int) (100 * Math.random())) : 50;
                     
                     if (!running) return false;
                     try { Thread.sleep(delay); } catch (InterruptedException e) {}
@@ -177,13 +179,13 @@ public class NoteBlockPlayer extends ModuleU
         return true;
     }
     
-    public void onUpdate()
+    public void onMotion(MotionE e)
     {
-        if (pos != null && mode.equals("Legit"))
+        if (pos != null)
         {
-            float[] rotations = smoothenRotations(RotationUtil.rotations(pos));
-            mc.player.setYRot(rotations[0]);
-            mc.player.setXRot(rotations[1]);
+            float[] rotations = RotationUtil.rotations(pos);
+            e.yaw = rotations[0];
+            e.pitch = rotations[1];
         }
     }
     
@@ -228,48 +230,29 @@ public class NoteBlockPlayer extends ModuleU
             }
             
             nbsFile.modes = names;
-            nbsFile.selected = names[0];
+            
+            if (nbsFile.selected.equals("404 (none)") || !new File(nbsDirectory, nbsFile.selected).exists())
+                nbsFile.selected = names[0];
         }
-    }
-    
-    // Smooth rotations
-    private float[] smoothenRotations(float[] rotations)
-    {
-        if (mode.equals("Blatant")) return new float[] {mc.player.getYRot(), mc.player.getXRot()};
-        
-        float yawDifference = Math.abs(rotations[0] - yaw), pitchDifference = Math.abs(rotations[1] - pitch);
-        
-        if (yaw < rotations[0])
-        {
-            if (yawDifference < 5) yaw = rotations[0];
-            else yaw += (rotations[0] - yaw) / 2;
-        }
-        
-        else if (yaw > rotations[0])
-        {
-            if (yawDifference < 5) yaw = rotations[0];
-            else yaw -= (yaw - rotations[0]) / 2;
-        }
-        
-        if (pitch < rotations[1])
-        {
-            if (pitchDifference < 5) pitch = rotations[1];
-            else pitch += (rotations[1] - pitch) / 2;
-        }
-        
-        else if (pitch > rotations[1])
-        {
-            if (pitchDifference < 5) pitch = rotations[1];
-            else pitch -= (pitch - rotations[1]) / 2;
-        }
-        
-        return new float[] {yaw, pitch};
     }
     
     public void onDisable()
     {
         super.onDisable();
         running = false;
+    }
+    
+
+    public NoteBlockPlayer()
+    {
+        int i = 0; for (double x = -2.5D; x < 2.5D; x++)
+        {
+            for (double z = -2.5D; z < 2.5D; z++)
+            {
+                notes.put(i, new RelativeCoord(x, z));
+                i++;
+            }
+        }
     }
     
     record RelativeCoord(double x, double z) {}

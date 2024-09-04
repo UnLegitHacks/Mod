@@ -5,9 +5,13 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 import io.unlegit.UnLegit;
+import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.utils.io.FileUtil;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.sounds.SoundEvents;
 
-public class SoundUtil
+public class SoundUtil implements IMinecraft
 {
     private static long time = System.currentTimeMillis();
     
@@ -40,7 +44,31 @@ public class SoundUtil
         time = System.currentTimeMillis();
     }
     
-    public static void playEnableSound() { playSound("enable.wav"); }
-    public static void playDisableSound() { playSound("disable.wav"); }
+    public static void playEnableSound()
+    {
+        if ("Fancy".equals(UnLegit.THEME))
+            playSound("enable.wav");
+        else
+        {
+            SoundManager sound = mc.getSoundManager();
+            
+            if (sound != null)
+                sound.play(SimpleSoundInstance.forUI(SoundEvents.BAMBOO_WOOD_PRESSURE_PLATE_CLICK_ON, 1, 1));
+        }
+    }
+    
+    public static void playDisableSound()
+    {
+        if ("Fancy".equals(UnLegit.THEME))
+            playSound("disable.wav");
+        else
+        {
+            SoundManager sound = mc.getSoundManager();
+            
+            if (sound != null)
+                sound.play(SimpleSoundInstance.forUI(SoundEvents.BAMBOO_WOOD_PRESSURE_PLATE_CLICK_OFF, 1, 1));
+        }
+    }
+    
     public static void playActionSound() { playSound("action.wav"); }
 }

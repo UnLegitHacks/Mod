@@ -46,7 +46,7 @@ public class NameTags extends ModuleU implements IGui
                   health = entity.getHealth();
             
             String healthText = "Health: " + health;
-            int stringWidth = IFont.LARGE.getStringWidth(component.getString()) + 10;
+            int stringWidth = Math.max(IFont.LARGE.getStringWidth(component.getString()), IFont.NORMAL.getStringWidth(healthText)) + 10;
             
             if (stringWidth < 30) return;
             

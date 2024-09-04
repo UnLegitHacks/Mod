@@ -1,5 +1,6 @@
 package io.unlegit.utils.render;
 
+import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.mixins.render.AccGameRender;
 import net.minecraft.client.gui.GuiGraphics;
@@ -26,6 +27,7 @@ public class ScreenUtil implements IMinecraft
      */
     public static void drawShadow(GuiGraphics graphics, ResourceLocation resourceLocation, int i, int j, float f, float g, int k, int l, int m, int n)
     {
+        if ("Vanilla".equals(UnLegit.THEME)) return;
         graphics.blit(resourceLocation, i, j, f, g, k, l, m, n);
     }
     

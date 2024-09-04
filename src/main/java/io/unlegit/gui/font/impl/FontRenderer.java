@@ -20,13 +20,20 @@ public class FontRenderer implements IMinecraft, IGui
     private ResourceLocation shadow;
     private GlyphPage page;
     private String path;
-    private int size;
+    protected int size;
     
-    public static FontRenderer create(String path, int size)
+    public static FontRenderer fancy(String path, int size)
     {
         GlyphPage page = init(path, size);
         FontRenderer result = new FontRenderer(page);
         result.path = path;
+        result.size = size;
+        return result;
+    }
+    
+    public static VanillaFontRenderer vanilla(int size)
+    {
+        VanillaFontRenderer result = new VanillaFontRenderer(null);
         result.size = size;
         return result;
     }
