@@ -1,5 +1,7 @@
 package io.unlegit.utils.render;
 
+import io.unlegit.UnLegit;
+
 public class Animation
 {
     private long time = System.currentTimeMillis();
@@ -25,5 +27,10 @@ public class Animation
     }
     
     public boolean finished() { update(); return value == (reverse ? 0 : 1); }
-    public Animation(int interval) { this.interval = interval; }
+    
+    public Animation(int interval)
+    {
+        if ("Vanilla".equals(UnLegit.THEME)) interval = 1;
+        this.interval = interval;
+    }
 }

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 
 import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
-import io.unlegit.mixins.client.KeyMapAccessor;
+import io.unlegit.mixins.client.AccKeyMap;
 import io.unlegit.utils.entity.PlayerUtil;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.Direction;
@@ -66,7 +66,7 @@ public class HelperBlock implements IMinecraft
     public static boolean jumpKeyDown()
     {
         KeyMapping jump = mc.options.keyJump;
-        return InputConstants.isKeyDown(mc.getWindow().getWindow(), ((KeyMapAccessor) jump).getKey().getValue());
+        return InputConstants.isKeyDown(mc.getWindow().getWindow(), ((AccKeyMap) jump).getKey().getValue());
     }
     
     private static Scaffold getScaffold() { return (Scaffold) UnLegit.modules.get("Scaffold"); }

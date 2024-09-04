@@ -17,7 +17,7 @@ public class VanillaFontRenderer extends FontRenderer
     
     public int drawString(GuiGraphics graphics, String text, int x, int y, Color color)
     {
-        return renderString(graphics, text, x, y, color, false);
+        return renderString(graphics, text, x, y, color, !Color.BLACK.equals(color));
     }
     
     public int drawStringWithShadow(GuiGraphics graphics, String text, int x, int y, Color color)
@@ -35,7 +35,7 @@ public class VanillaFontRenderer extends FontRenderer
         return drawStringWithShadow(graphics, text, x - getStringWidth(text) / 2, y, color);
     }
     
-    private int renderString(GuiGraphics graphics, String text, int x, int y, Color color, boolean shadow)
+    public int renderString(GuiGraphics graphics, String text, int x, int y, Color color, boolean shadow)
     {
         float scale = size / 10F;
         PoseStack pose = graphics.pose();

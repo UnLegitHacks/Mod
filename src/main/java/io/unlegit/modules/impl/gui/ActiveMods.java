@@ -24,7 +24,7 @@ public class ActiveMods extends ModuleU
         checkModules();
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
-        int offset = 0;
+        int offset = "Fancy".equals(UnLegit.THEME) ? 0 : 1;
         
         for (ModuleU module : modules)
         {

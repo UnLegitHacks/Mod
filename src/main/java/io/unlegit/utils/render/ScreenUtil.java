@@ -34,14 +34,19 @@ public class ScreenUtil implements IMinecraft
     public static void blur(float factor, float partialTicks)
     {
         PostChain blurEffect = ((AccGameRender) mc.gameRenderer).getBlurEffect();
-        float blurriness = mc.options.getMenuBackgroundBlurriness();
-
+        float blurriness = getBlurriness();
+        
         if (blurEffect != null && blurriness >= 1)
         {
             blurEffect.setUniform("Radius", blurriness * factor);
             blurEffect.process(partialTicks);
             mc.getMainRenderTarget().bindWrite(false);
         }
+    }
+    
+    public static int getBlurriness()
+    {
+        return mc.options.getMenuBackgroundBlurriness();
     }
     
     public static boolean mouseOver(int mouseX, int mouseY, int x, int y, int width, int height)

@@ -91,6 +91,7 @@ public class NoteBlockPlayer extends ModuleU
                     Layer lays = layer.getValue();
                     Note note = lays.getNote(i);
                     
+                    // Instruments 3 and 4 are percussion
                     if (note != null && note.getInstrument() != 3 && note.getInstrument() != 4)
                     {
                         int noteBlock = note.getKey() - 33;

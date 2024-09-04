@@ -3,7 +3,7 @@ package io.unlegit.modules.impl.player;
 import static org.lwjgl.glfw.GLFW.glfwGetKey;
 
 import io.unlegit.interfaces.IModule;
-import io.unlegit.mixins.client.KeyMapAccessor;
+import io.unlegit.mixins.client.AccKeyMap;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.utils.entity.PlayerUtil;
 
@@ -22,7 +22,7 @@ public class SafeWalk extends ModuleU
         else if (down)
         {
             mc.options.keyShift.setDown(glfwGetKey(mc.getWindow().getWindow(),
-                    ((KeyMapAccessor) mc.options.keyShift).getKey().getValue()) == 1);
+                    ((AccKeyMap) mc.options.keyShift).getKey().getValue()) == 1);
             down = false;
         }
     }

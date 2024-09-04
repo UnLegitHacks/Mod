@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import io.unlegit.UnLegit;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IModule;
@@ -12,6 +13,7 @@ import io.unlegit.mixins.render.AccGraphics;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.Font.DisplayMode;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
@@ -75,8 +77,21 @@ public class NameTags extends ModuleU implements IGui
             poseStack.translate(stringWidth / 2, 0, 0);
             GlStateManager._disableDepthTest();
             
-            IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, Color.WHITE);
-            IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
+            if ("Fancy".equals(UnLegit.THEME))
+            {
+                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, Color.WHITE);
+                IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
+            }
+            
+            else
+            {
+                poseStack.pushPose();
+                poseStack.scale(2, 2, 2);
+                mc.font.drawInBatch(ChatFormatting.stripFormatting(component.getString()), -stringWidth / 4 + 3, 4, Color.WHITE.getRGB(), false, poseStack.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
+                poseStack.popPose();
+                
+                mc.font.drawInBatch(healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker().getRGB(), false, poseStack.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
+            }
             
             GlStateManager._disableBlend();
             poseStack.popPose();
