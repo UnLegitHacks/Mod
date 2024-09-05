@@ -48,7 +48,8 @@ public class NameTags extends ModuleU implements IGui
                   health = entity.getHealth();
             
             String healthText = "Health: " + health;
-            int stringWidth = Math.max(IFont.LARGE.getStringWidth(component.getString()), IFont.NORMAL.getStringWidth(healthText)) + 10;
+            int stringWidth = Math.max(IFont.LARGE.getStringWidth(component.getString()), IFont.NORMAL.getStringWidth(healthText)) + 10,
+                colorRGB = component.getStyle().getColor() == null ? -1 : component.getStyle().getColor().getValue();
             
             if (stringWidth < 30) return;
             
@@ -73,13 +74,13 @@ public class NameTags extends ModuleU implements IGui
             
             // Health
             poseStack.translate(-stringWidth / 2, 0, 0);
-            graphics.fill(RenderType.guiOverlay(), 0, 40, (int) ((stringWidth - 1) * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor.getRGB());
+            graphics.fill(RenderType.guiOverlay(), 0, 40, (int) (stringWidth * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor.getRGB());
             poseStack.translate(stringWidth / 2, 0, 0);
             GlStateManager._disableDepthTest();
             
             if ("Fancy".equals(UnLegit.THEME))
             {
-                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, Color.WHITE);
+                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, new Color(colorRGB));
                 IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
             }
             
@@ -87,7 +88,7 @@ public class NameTags extends ModuleU implements IGui
             {
                 poseStack.pushPose();
                 poseStack.scale(2, 2, 2);
-                mc.font.drawInBatch(ChatFormatting.stripFormatting(component.getString()), -stringWidth / 4 + 3, 4, Color.WHITE.getRGB(), false, poseStack.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
+                mc.font.drawInBatch(ChatFormatting.stripFormatting(component.getString()), -stringWidth / 4 + 3, 4, colorRGB, false, poseStack.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
                 poseStack.popPose();
                 
                 mc.font.drawInBatch(healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker().getRGB(), false, poseStack.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);

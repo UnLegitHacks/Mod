@@ -52,8 +52,10 @@ public class SoundUtil implements IMinecraft
         {
             SoundManager sound = mc.getSoundManager();
             
-            if (sound != null)
+            if (sound != null && System.currentTimeMillis() - time >= 100)
                 sound.play(SimpleSoundInstance.forUI(SoundEvents.BAMBOO_WOOD_PRESSURE_PLATE_CLICK_ON, 1, 1));
+            
+            time = System.currentTimeMillis();
         }
     }
     
@@ -65,8 +67,10 @@ public class SoundUtil implements IMinecraft
         {
             SoundManager sound = mc.getSoundManager();
             
-            if (sound != null)
+            if (sound != null && System.currentTimeMillis() - time >= 100)
                 sound.play(SimpleSoundInstance.forUI(SoundEvents.BAMBOO_WOOD_PRESSURE_PLATE_CLICK_OFF, 1, 1));
+            
+            time = System.currentTimeMillis();
         }
     }
     

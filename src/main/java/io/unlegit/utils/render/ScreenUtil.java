@@ -46,7 +46,9 @@ public class ScreenUtil implements IMinecraft
     
     public static int getBlurriness()
     {
-        return mc.options.getMenuBackgroundBlurriness();
+        if ("Fancy".equals(UnLegit.THEME))
+            return mc.options.getMenuBackgroundBlurriness();
+        else return 0;
     }
     
     public static boolean mouseOver(int mouseX, int mouseY, int x, int y, int width, int height)

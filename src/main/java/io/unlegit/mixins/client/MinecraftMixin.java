@@ -49,7 +49,8 @@ public class MinecraftMixin
     @Inject(method = "setScreen", at = @At(value = "HEAD"))
     private void useUnTitleScreen(CallbackInfo info, @Local LocalRef<Screen> screen)
     {
-        if (screen.get() instanceof TitleScreen) screen.set(new UnTitleScreen());
+        if (screen.get() instanceof TitleScreen && "Fancy".equals(UnLegit.THEME))
+            screen.set(new UnTitleScreen());
     }
     
     @Inject(method = "createTitle", at = @At(value = "HEAD"), cancellable = true)

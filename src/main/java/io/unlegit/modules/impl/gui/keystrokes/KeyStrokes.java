@@ -42,7 +42,7 @@ public class KeyStrokes extends ModuleU implements IGui
         // Fixes the edges of the blur
         if (mc.screen == null)
         {
-            for (RenderKey key : keys) key.renderBlur(dummy, mc.options.getMenuBackgroundBlurriness() * 2, partialTicks);
+            for (RenderKey key : keys) key.renderBlur(dummy, getBlurriness() * 2, partialTicks);
         }
     }
     

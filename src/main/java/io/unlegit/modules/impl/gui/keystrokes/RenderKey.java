@@ -80,5 +80,5 @@ public class RenderKey implements IGui, IMinecraft
     }
     
     // The darkness of the key reduces as the blur gets higher.
-    protected int getAlpha() { return (int) (96 * ((10 - mc.options.getMenuBackgroundBlurriness()) / 10F)); }
+    protected int getAlpha() { return (int) (96 * ((10 - getBlurriness()) / 10F)); }
 }
