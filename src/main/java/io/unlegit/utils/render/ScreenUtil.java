@@ -2,7 +2,7 @@ package io.unlegit.utils.render;
 
 import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
-import io.unlegit.mixins.render.AccGameRender;
+import io.unlegit.mixins.gui.AccGameRender;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.texture.TextureManager;

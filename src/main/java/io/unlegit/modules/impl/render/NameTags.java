@@ -9,7 +9,7 @@ import io.unlegit.UnLegit;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IModule;
-import io.unlegit.mixins.render.AccGraphics;
+import io.unlegit.mixins.gui.AccGraphics;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import net.minecraft.ChatFormatting;

@@ -11,5 +11,5 @@ public class StrafeE implements Event
     {
         e.yaw = yaw;
         return e;
-    }
+    } public static StrafeE get() { return e; }
 }

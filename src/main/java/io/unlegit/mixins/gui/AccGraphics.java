@@ -1,4 +1,4 @@
-package io.unlegit.mixins.render;
+package io.unlegit.mixins.gui;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
