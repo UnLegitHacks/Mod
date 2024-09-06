@@ -29,7 +29,7 @@ import io.unlegit.modules.settings.impl.ToggleSetting;
 public class UnConfig
 {
     private static final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
-    private static final File config = new File("unlegit/config.json");
+    public static final File config = new File("unlegit/config.json");
     
     public static void saveModules()
     {

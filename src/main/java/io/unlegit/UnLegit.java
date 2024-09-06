@@ -22,6 +22,7 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
 {
     public static final String NAME = "UnLegit 3.0", PREFIX = getPrefix(), THEME = "Fancy";
     public static final Logger LOGGER = LoggerFactory.getLogger("UnLegit");
+    private static boolean firstLaunch = false;
     public static SettingManager settings;
     public static ModuleManager modules;
     public static EventBus events;
@@ -33,6 +34,7 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         settings = new SettingManager();
         modules = new ModuleManager();
         events.register(this);
+        firstLaunch = !UnConfig.config.exists();
         UnConfig.init();
         // Fixes an issue.
         SoundUtil.playActionSound();
@@ -52,4 +54,6 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
     {
         return ChatFormatting.AQUA + "UnLegit " + ChatFormatting.DARK_PURPLE + "> " + ChatFormatting.RESET;
     }
+    
+    public static boolean isFirstLaunch() { return firstLaunch; }
 }

@@ -12,7 +12,6 @@ import io.unlegit.gui.buttons.UnPlainTextButton.UnStyle;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.ReflectionUtil;
-import io.unlegit.utils.SoundUtil;
 import io.unlegit.utils.client.Holidays;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
@@ -76,7 +75,6 @@ public class UnTitleScreen extends Screen implements IGui
     
     protected void init()
     {
-        if (UnLegitOptions.INTRO_SOUND) SoundUtil.playSound("modern/intro.wav");
         repositionElements();
     }
     

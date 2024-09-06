@@ -14,6 +14,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.client.UpdateE;
 import io.unlegit.events.impl.entity.AttackE;
+import io.unlegit.gui.UnThemeScreen;
 import io.unlegit.gui.UnTitleScreen;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.modules.impl.combat.killaura.AutoBlock;
@@ -50,7 +51,7 @@ public class MinecraftMixin
     private void useUnTitleScreen(CallbackInfo info, @Local LocalRef<Screen> screen)
     {
         if (screen.get() instanceof TitleScreen && "Fancy".equals(UnLegit.THEME))
-            screen.set(new UnTitleScreen());
+            screen.set(UnLegit.isFirstLaunch() ? new UnThemeScreen() : new UnTitleScreen());
     }
     
     @Inject(method = "createTitle", at = @At(value = "HEAD"), cancellable = true)
