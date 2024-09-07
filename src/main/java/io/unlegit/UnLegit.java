@@ -34,7 +34,7 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         settings = new SettingManager();
         modules = new ModuleManager();
         events.register(this);
-        firstLaunch = !UnConfig.config.exists();
+        setFirstLaunch(!UnConfig.config.exists());
         UnConfig.init();
         // Fixes an issue.
         SoundUtil.playActionSound();
@@ -56,4 +56,5 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
     }
     
     public static boolean isFirstLaunch() { return firstLaunch; }
+    public static void setFirstLaunch(boolean firstLaunch) { UnLegit.firstLaunch = firstLaunch; }
 }

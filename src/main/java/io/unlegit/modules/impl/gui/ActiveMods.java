@@ -16,7 +16,9 @@ import io.unlegit.modules.settings.impl.ToggleSetting;
 @IModule(name = "Active Mods", description = "Shows the enabled mods.")
 public class ActiveMods extends ModuleU
 {
-    public ToggleSetting rainbowColor = new ToggleSetting("Rainbow Color", "Makes the modules a rainbow color.", false);
+    public ToggleSetting rainbowColor = new ToggleSetting("Rainbow Color", "Makes the modules a rainbow color.", false),
+                         background = new ToggleSetting("Background", "The background for the modules.", false);
+    
     private ArrayList<ModuleU> modules;
     
     public void onGuiRender(GuiRenderE e)
@@ -24,18 +26,23 @@ public class ActiveMods extends ModuleU
         checkModules();
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
-        int offset = "Fancy".equals(UnLegit.THEME) ? 0 : 1;
+        int offset = 0;
         
         for (ModuleU module : modules)
         {
             if (!module.isEnabled()) continue;
             Color color = rainbowColor.enabled ? getSpectrum(offset) : Color.WHITE;
             int x = mc.getWindow().getGuiScaledWidth() - IFont.NORMAL.getStringWidth(module.name);
+            
+            if (background.enabled)
+                e.graphics.fill(x - 9, offset + (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), offset + 15, new Color(0, 0, 0, 128).getRGB());
+            
             IFont.NORMAL.drawStringWithShadow(e.graphics, module.name, x - 5, offset + 2, color);
             offset += 13;
         }
         
         GlStateManager._disableBlend();
+        e.graphics.fill(0, 0, 0, 0, 0);
     }
     
     public int getHeight()
@@ -48,7 +55,7 @@ public class ActiveMods extends ModuleU
             if (module.isEnabled()) offset += 13;
         }
         
-        return offset;
+        return offset + 12;
     }
     
     public void checkModules()

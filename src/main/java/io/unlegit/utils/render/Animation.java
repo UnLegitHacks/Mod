@@ -1,10 +1,11 @@
 package io.unlegit.utils.render;
 
 import io.unlegit.UnLegit;
+import io.unlegit.utils.client.ConvTime;
 
 public class Animation
 {
-    private long time = System.currentTimeMillis();
+    private long time = ConvTime.millis();
     public boolean reverse = false;
     public int interval = 0;
     private float value = 0;
@@ -21,7 +22,7 @@ public class Animation
     
     private void update()
     {
-        value = (System.currentTimeMillis() - time) / (float) interval;
+        value = (ConvTime.millis() - time) / (float) interval;
         value = value > 1 ? 1 : value;
         value = reverse ? (interval - (interval * value)) / (float) interval : value;
     }

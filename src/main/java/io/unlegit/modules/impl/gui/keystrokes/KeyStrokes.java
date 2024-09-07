@@ -35,6 +35,7 @@ public class KeyStrokes extends ModuleU implements IGui
         }
         
         for (RenderKey key : keys) key.render(e.graphics, partialTicks);
+        e.graphics.fill(0, 0, 0, 0, 0);
     }
     
     public void onUpdate()

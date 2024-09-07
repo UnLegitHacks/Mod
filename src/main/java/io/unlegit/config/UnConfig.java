@@ -168,5 +168,6 @@ public class UnConfig
     public static void init()
     {
         if (config.exists()) loadModules();
+        else saveModules();
     }
 }

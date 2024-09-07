@@ -37,8 +37,8 @@ public class RenderKey implements IGui, IMinecraft
         float alpha = animation != null ? animation.get() : 0;
         renderBlur(graphics, 0, partialTicks);
         graphics.fill(x, y, x + 24, y + 24, new Color(0, 0, 0, getAlpha()).getRGB());
-        GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         GlStateManager._enableBlend();
+        GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         graphics.setColor(1, 1, 1, 1);
         drawShadow(graphics, parent.keyShadow, x - 8, y - 8, 40, 40, 40, 40, 40, 40);
         
@@ -80,5 +80,5 @@ public class RenderKey implements IGui, IMinecraft
     }
     
     // The darkness of the key reduces as the blur gets higher.
-    protected int getAlpha() { return (int) (96 * ((10 - getBlurriness()) / 10F)); }
+    protected int getAlpha() { return (int) (128 * ((10 - getBlurriness()) / 10F)); }
 }

@@ -1,9 +1,7 @@
 package io.unlegit.modules.settings;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
 import io.unlegit.modules.ModuleManager;
@@ -33,18 +31,21 @@ public class SettingManager
         return result;
     }
     
-    /**
-     * Automatically registers settings, how cool is that!
-     */
+    /** Automatically registers settings, how cool is that! */
     private void registerSettings(ModuleU module)
     {
         ArrayList<Setting> settings = new ArrayList<>();
         
         for (Field field : module.getClass().getDeclaredFields())
         {
-            try {
+            try
+            {
                 if (field.getType().getSimpleName().endsWith("Setting"))
-                    settings.add((Setting) field.get(module)); } catch (Exception e) {}
+                {
+                    Setting setting = (Setting) field.get(module);
+                    if (setting != null) settings.add(setting);
+                }
+            } catch (Exception e) {}
         }
         
         this.settings.put(module, settings);

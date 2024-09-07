@@ -2,6 +2,8 @@ package io.unlegit.modules.impl.render;
 
 import java.awt.Color;
 
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -13,7 +15,7 @@ import io.unlegit.mixins.gui.AccGraphics;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.Font.DisplayMode;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
@@ -35,6 +37,12 @@ public class NameTags extends ModuleU implements IGui
     
     public void renderNameTag(LivingEntity entity, Component component, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float partialTicks)
     {
+        if ("Vanilla".equals(UnLegit.THEME))
+        {
+            renderNameTagVanilla(entity, component, poseStack, multiBufferSource, i, partialTicks);
+            return;
+        }
+        
         double d = mc.getEntityRenderDispatcher().distanceToSqr(entity);
         if (d > 4096 && !infiniteRange.enabled) return;
         
@@ -54,7 +62,7 @@ public class NameTags extends ModuleU implements IGui
             if (stringWidth < 30) return;
             
             poseStack.pushPose();
-            poseStack.translate(vec3.x, vec3.y + (0.75F * (scale / 1.15F)), vec3.z);
+            poseStack.translate(vec3.x, vec3.y + (0.75 * (scale / 1.15)), vec3.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
             poseStack.scale(0.0125F * scale, -0.0125F * scale, 0.0125F * scale);
             Color healthColor = new Color(0, 255, 75);
@@ -77,25 +85,45 @@ public class NameTags extends ModuleU implements IGui
             graphics.fill(RenderType.guiOverlay(), 0, 40, (int) (stringWidth * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor.getRGB());
             poseStack.translate(stringWidth / 2, 0, 0);
             GlStateManager._disableDepthTest();
-            
-            if ("Fancy".equals(UnLegit.THEME))
-            {
-                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, new Color(colorRGB));
-                IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
-            }
-            
-            else
-            {
-                poseStack.pushPose();
-                poseStack.scale(2, 2, 2);
-                mc.font.drawInBatch(ChatFormatting.stripFormatting(component.getString()), -stringWidth / 4 + 3, 4, colorRGB, false, poseStack.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
-                poseStack.popPose();
-                
-                mc.font.drawInBatch(healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker().getRGB(), false, poseStack.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
-            }
+
+            IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, new Color(colorRGB));
+            IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
             
             GlStateManager._disableBlend();
             poseStack.popPose();
+        }
+    }
+    
+    public void renderNameTagVanilla(LivingEntity entity, Component component, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float partialTicks)
+    {
+        double d = mc.getEntityRenderDispatcher().distanceToSqr(entity);
+        
+        if (!(d > 4096.0) || infiniteRange.enabled)
+        {
+            Vec3 vec3 = entity.getAttachments().getNullable(EntityAttachment.NAME_TAG, 0, entity.getViewYRot(partialTicks));
+            
+            if (vec3 != null)
+            {
+                boolean bl = !entity.isDiscrete();
+                int j = "deadmau5".equals(component.getString()) ? -10 : 0;
+                float scale = this.scale.enabled ? (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1;
+                
+                poseStack.pushPose();
+                poseStack.translate(vec3.x, vec3.y + Math.max(0.5, (0.25 * scale)), vec3.z);
+                poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
+                poseStack.scale(0.025F * scale, 0.025F * -scale, 0.025F * scale);
+                Matrix4f matrix4f = poseStack.last().pose();
+                
+                float g = mc.options.getBackgroundOpacity(0.25F);
+                int k = (int) (g * 255) << 24;
+                float h = -mc.font.width(component) / 2;
+                mc.font.drawInBatch(component, h, j, 553648127, false, matrix4f, multiBufferSource, bl ? Font.DisplayMode.SEE_THROUGH : Font.DisplayMode.NORMAL, k, i);
+                
+                if (bl)
+                    mc.font.drawInBatch(component, h, j, -1, false, matrix4f, multiBufferSource, Font.DisplayMode.NORMAL, 0, i);
+                
+                poseStack.popPose();
+            }
         }
     }
     

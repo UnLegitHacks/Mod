@@ -24,8 +24,8 @@ public class RenderClick extends RenderKey
         float alpha = animation != null ? animation.get() : 0;
         renderBlur(graphics, 0, partialTicks);
         graphics.fill(x, y, x + 37, y + 24, new Color(0, 0, 0, getAlpha()).getRGB());
-        GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         GlStateManager._enableBlend();
+        GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         graphics.setColor(1, 1, 1, 1);
         drawShadow(graphics, parent.clickShadow, x - 8, y - 8, 53, 40, 53, 40, 53, 40);
         

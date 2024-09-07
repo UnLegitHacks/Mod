@@ -73,11 +73,6 @@ public class UnTitleScreen extends Screen implements IGui
         return super.mouseClicked(mouseX, mouseY, button);
     }
     
-    protected void init()
-    {
-        repositionElements();
-    }
-    
     protected void repositionElements()
     {
         int numOfButtons = 5, x = (width / 2) - (32 * numOfButtons), y = (height / 2) + 20;
@@ -117,6 +112,8 @@ public class UnTitleScreen extends Screen implements IGui
         logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/unlegit.png"));
     }
     
+    protected void init() { repositionElements(); }
     public void onClose() {}
+    
     public UnTitleScreen() { super(Component.translatable("narrator.screen.title")); }
 }

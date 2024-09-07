@@ -117,6 +117,7 @@ public class FontRenderer implements IMinecraft, IGui
         if (shadow == null) shadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow.png"));
         int width = getStringWidth(text) + 2, height = size + 2;
         x -= 5; width += 10; y -= 3; height += 6;
+        
         GlStateManager._enableBlend();
         graphics.setColor(1, 1, 1, color.getAlpha() / 255F);
         drawShadow(graphics, shadow, x, y, 40, height, 10, height, 20, height);
@@ -124,6 +125,7 @@ public class FontRenderer implements IMinecraft, IGui
         drawShadow(graphics, shadow, x + width - 10, y, 30, height, 10, height, 20, height);
         graphics.setColor(1, 1, 1, 1);
         x += 5; y += 3;
+        
         return renderString(graphics, text, x, y, color);
     }
     
