@@ -27,7 +27,8 @@ public class ModuleManager
             new OldHitting(), new FullBright(), new ESP(), new NameTags(),
             new InvMove(), new SafeWalk(), new KeyStrokes(), new GamePlay(),
             new Scaffold(), new Spammer(), new AntiBlind(), new LowFire(),
-            new NoSlow(), new Compass(), new Scoreboard(), new NoteBlockPlayer());
+            new NoSlow(), new Compass(), new Scoreboard(), new NoteBlockPlayer(),
+            new NoHurtCam());
         UnLegit.settings.call(this);
     }
     

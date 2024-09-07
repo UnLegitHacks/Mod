@@ -3,14 +3,13 @@
 	"package": "io.unlegit.mixins",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"client.MinecraftMixin", "gui.GuiMixin", "entity.LocalPlayerMixin",
-		"client.KeyHandlerMixin", "gui.ScreenMixin", "gui.AccGameRender",
-		"network.ConnectionMixin", "entity.PlayerMixin", "item.ItemRenderMixin",
-		"item.InvItemRender", "render.LightTextureMixin", "render.LevelRenderMixin",
-		"render.EntityRenderMixin", "client.AccKeyMap", "client.KeyInputMixin",
-		"client.PauseScreenMixin", "client.ChatCompMixin", "render.FogRenderMixin",
-		"render.ScreenEffectMixin", "network.AccConnection", "gui.AccGraphics",
-		"render.LivingRenderMixin", "entity.EntityMixin", "entity.LivingEntityMixin"
+		"client.MinecraftMixin", "gui.GuiMixin", "entity.LocalPlayerMixin", "client.KeyHandlerMixin",
+		"gui.ScreenMixin", "gui.AccGameRender", "network.ConnectionMixin", "entity.PlayerMixin",
+		"item.ItemRenderMixin", "item.InvItemRender", "render.LightTextureMixin", "render.LevelRenderMixin",
+		"render.EntityRenderMixin", "client.AccKeyMap", "client.KeyInputMixin", "client.PauseScreenMixin",
+		"client.ChatCompMixin", "render.FogRenderMixin", "render.ScreenEffectMixin", "network.AccConnection",
+		"gui.AccGraphics", "render.LivingRenderMixin", "entity.EntityMixin", "entity.LivingEntityMixin",
+		"render.GameRenderMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
