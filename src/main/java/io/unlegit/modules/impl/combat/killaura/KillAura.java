@@ -209,7 +209,7 @@ public class KillAura extends ModuleU
             if (rotations[1] < pitch) pitch = rotations[1];
         }
         
-        else if (yaw > rotations[1])
+        else if (pitch > rotations[1])
         {
             pitch -= 64 * Math.random();
             if (rotations[1] > pitch) pitch = rotations[1];
