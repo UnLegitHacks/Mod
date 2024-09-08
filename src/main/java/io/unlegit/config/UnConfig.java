@@ -31,7 +31,7 @@ public class UnConfig
     private static final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
     public static final File config = new File("unlegit/config.json");
     
-    public static void saveModules()
+    public static void save()
     {
         if (!config.exists())
         {
@@ -93,7 +93,7 @@ public class UnConfig
         } catch (IOException e) {}
     }
     
-    public static void loadModules()
+    public static void load()
     {
         SettingManager settingManager = UnLegit.settings;
         
@@ -167,7 +167,7 @@ public class UnConfig
     
     public static void init()
     {
-        if (config.exists()) loadModules();
-        else saveModules();
+        if (config.exists()) load();
+        else save();
     }
 }

@@ -34,21 +34,23 @@ public class PlayerUtil implements IMinecraft
         return deltaMovement.x != 0 || deltaMovement.z != 0;
     }
     
-    public static Vec3 strafe(Vec3 vec3, float yaw, float speed)
+    public static Vec3 strafe(float speed)
     {
-        float movementYaw = getDirection(yaw) * Mth.DEG_TO_RAD;
+        Vec3 vec3 = mc.player.getDeltaMovement();
+        float movementYaw = getDirection() * Mth.DEG_TO_RAD;
         float x = -Mth.sin(movementYaw) * speed, z = Mth.cos(movementYaw) * speed;
         return new Vec3(x, vec3.y, z);
     }
     
-    public static float getSpeed(Vec3 vec3)
+    public static float getSpeed()
     {
+        Vec3 vec3 = mc.player.getDeltaMovement();
         return Mth.sqrt((float) (vec3.x * vec3.x + vec3.z * vec3.z));
     }
     
-    public static float getDirection(float yaw)
+    public static float getDirection()
     {
-        float movementYaw = yaw, forward = 1;
+        float movementYaw = mc.player.getYRot(), forward = 1;
         
         if (mc.player.input.forwardImpulse < 0)
         {
@@ -62,5 +64,5 @@ public class PlayerUtil implements IMinecraft
         return movementYaw;
     }
     
-    public static Vec3 strafe(Vec3 vec3, float yaw) { return strafe(vec3, yaw, getSpeed(vec3)); }
+    public static Vec3 strafe() { return strafe(getSpeed()); }
 }

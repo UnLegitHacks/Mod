@@ -19,7 +19,7 @@ public class OldHitting extends ModuleU
 {
     public ModeSetting blockHit = new ModeSetting("Block Hit Mode", "The animation for block hitting.", new String[]
     {
-        "Vanilla", "Upward", "Leaked", "Scale", "None"
+        "Vanilla", "Pushdown", "Leaked", "Scale", "None"
     });
     
     public SliderSetting scale = new SliderSetting("Scale", "The size of the sword.", 0.5F, 1, 2),
@@ -53,8 +53,10 @@ public class OldHitting extends ModuleU
         
         switch (mode)
         {
-            case "Upward":
-                pose.mulPose(Axis.ZP.rotationDegrees(x * -20));
+            case "Pushdown":
+                pose.mulPose(Axis.XP.rotationDegrees(x * -20));
+                pose.mulPose(Axis.YP.rotationDegrees(x * -30));
+                pose.mulPose(Axis.ZP.rotationDegrees(x * 20));
                 break;
             case "Leaked":
                 pose.mulPose(Axis.YP.rotationDegrees(y * 30));

@@ -112,8 +112,8 @@ public class ClickGui extends Screen implements IGui
     {
         // if (renderSettings != null) renderSettings.onClose();
         animation = new Animation(96); animation.reverse = true;
-        UnConfig.saveModules();
         closingGui = true;
+        UnConfig.save();
     }
     
     public boolean isPauseScreen() { return false; }

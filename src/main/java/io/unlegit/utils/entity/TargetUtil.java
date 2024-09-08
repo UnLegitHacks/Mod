@@ -50,9 +50,6 @@ public class TargetUtil implements IMinecraft
     public static boolean valid(LivingEntity entity, LocalPlayer player)
     {
         KillAura killAura = (KillAura) UnLegit.modules.get("Kill Aura");
-//        return !entity.isEntityEqual(player) && entity.isEntityAlive() && !entity.isInvisibleToPlayer(player)
-//                && (!entity.isOnSameTeam(player) || !UnLegit.CLIENT.moduleManager.getModule("Teams").isEnabled())
-//                && (!NoBot.isBot(entity) || !UnLegit.CLIENT.moduleManager.getModule("No Bot").isEnabled());
         return !entity.is(player) && entity.isAlive() && !entity.isInvisibleTo(player)
                 && (entity.getTeam() == null || player.getTeam() == null || (!entity.getTeam().isAlliedTo(player.getTeam()) || !killAura.teams.enabled));
     }

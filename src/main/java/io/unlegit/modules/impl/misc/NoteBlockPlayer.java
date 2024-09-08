@@ -72,9 +72,9 @@ public class NoteBlockPlayer extends ModuleU
             
             if (song == null)
             {
-                mc.player.sendSystemMessage(Component.literal(UnLegit.PREFIX + ChatFormatting.RED +
+                clientMessage(UnLegit.PREFIX + ChatFormatting.DARK_RED +
                 
-                "The NBS file is not found. Disabling."));
+                "The NBS file is not found. Disabling.");
                 
                 setEnabled(false);
                 return;
@@ -202,10 +202,10 @@ public class NoteBlockPlayer extends ModuleU
                 
                 if (!block.is(Blocks.NOTE_BLOCK))
                 {
-                    mc.player.sendSystemMessage(Component.literal(UnLegit.PREFIX + ChatFormatting.YELLOW +
+                    clientMessage(UnLegit.PREFIX + ChatFormatting.YELLOW +
                     
                     "Couldn't find all note blocks! Please make sure there is a 5x5 area of " +
-                    "note blocks below you, & that you're standing in the center of it."));
+                    "note blocks below you, & that you're standing in the center of it.");
                     
                     return false;
                 }

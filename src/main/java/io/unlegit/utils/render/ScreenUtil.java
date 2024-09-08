@@ -1,5 +1,7 @@
 package io.unlegit.utils.render;
 
+import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
+
 import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.mixins.gui.AccGameRender;
@@ -54,5 +56,13 @@ public class ScreenUtil implements IMinecraft
     public static boolean mouseOver(int mouseX, int mouseY, int x, int y, int width, int height)
     {
         return mouseX > x && mouseX < width && mouseY > y && mouseY < height;
+    }
+    
+    public static int getKey(String keyName)
+    {
+        for (int i = 39; i < 97; i++)
+        {
+            if (keyName.equalsIgnoreCase(glfwGetKeyName(i, 0))) return i;
+        } return -1;
     }
 }
