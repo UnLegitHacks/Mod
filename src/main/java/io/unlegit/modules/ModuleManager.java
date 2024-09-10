@@ -14,6 +14,7 @@ import io.unlegit.modules.impl.movement.*;
 import io.unlegit.modules.impl.movement.scaffold.Scaffold;
 import io.unlegit.modules.impl.player.*;
 import io.unlegit.modules.impl.render.*;
+import io.unlegit.modules.impl.world.TimeChanger;
 
 public class ModuleManager
 {
@@ -28,7 +29,7 @@ public class ModuleManager
             new InvMove(), new SafeWalk(), new KeyStrokes(), new GamePlay(),
             new Scaffold(), new Spammer(), new AntiBlind(), new LowFire(),
             new NoSlow(), new Compass(), new Scoreboard(), new NoteBlockPlayer(),
-            new NoHurtCam());
+            new NoHurtCam(), new TimeChanger());
         UnLegit.settings.call(this);
     }
     
