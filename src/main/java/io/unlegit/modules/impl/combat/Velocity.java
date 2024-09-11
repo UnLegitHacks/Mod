@@ -26,7 +26,7 @@ public class Velocity extends ModuleU
             float horizontal = this.horizontal.value / 100, vertical = this.vertical.value / 100;
             Vec3 vec3 = new Vec3(packet.getXa() * horizontal, packet.getYa() * vertical, packet.getZa() * horizontal);
             
-            Packets.receiveNoEvent(new ClientboundSetEntityMotionPacket(mc.player.getId(), vec3));
+            Packets.receive(new ClientboundSetEntityMotionPacket(mc.player.getId(), vec3));
         }
     }
 }

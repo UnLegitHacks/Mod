@@ -1,15 +1,14 @@
 package io.unlegit.mixins.client;
 
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+import com.mojang.blaze3d.platform.Window;
 
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.client.UpdateE;
@@ -31,6 +30,7 @@ public class MinecraftMixin
 {
     @Shadow @Nullable public HitResult hitResult;
     @Shadow private volatile boolean pause;
+    @Shadow @Final private Window window;
     @Shadow public LocalPlayer player;
     
     @Inject(method = "tick", at = @At(value = "HEAD"))
@@ -75,4 +75,10 @@ public class MinecraftMixin
     
     @Inject(method = "updateFontOptions", at = @At(value = "TAIL"))
     private void initializeFont(CallbackInfo info) { IFont.init(); }
+    
+    @ModifyConstant(method = "getFramerateLimit", constant = @Constant(intValue = 60))
+    private int getFramerateLimit(int frames)
+    {
+        return window.getFramerateLimit();
+    }
 }

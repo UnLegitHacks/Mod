@@ -21,10 +21,10 @@ public class Packets implements IMinecraft
     }
     
     /** Simulates receiving a packet. */
-    public static void receiveNoEvent(Packet<?> packet)
+    public static void receive(Packet<?> packet)
     {
         try { AccConnection.genericsFtw(packet, connection().getPacketListener()); }
-        // Not sure why this is sometimes thrown even if the code works
+        // Uncertain about the reason for this being thrown even if the code works
         catch (RunningOnDifferentThreadException ex) {}
     }
     

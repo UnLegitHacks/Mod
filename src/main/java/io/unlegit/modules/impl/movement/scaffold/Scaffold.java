@@ -2,19 +2,28 @@ package io.unlegit.modules.impl.movement.scaffold;
 
 import static io.unlegit.modules.impl.movement.scaffold.HelperBlock.*;
 
+import java.awt.Color;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.events.impl.network.PacketSendE;
+import io.unlegit.events.impl.render.GuiRenderE;
+import io.unlegit.gui.font.IFont;
+import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.entity.InvUtil;
 import io.unlegit.utils.network.Packets;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket.Action;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
@@ -24,7 +33,7 @@ import net.minecraft.world.phys.Vec3;
 
 // You thought this was going to be named Block Fly? lol
 @IModule(name = "Scaffold", description = "Automatically bridges for you.")
-public class Scaffold extends ModuleU
+public class Scaffold extends ModuleU implements IGui
 {
     public ModeSetting sprint = new ModeSetting("Sprint", "Determines how you sprint.", new String[]
     {
@@ -32,7 +41,8 @@ public class Scaffold extends ModuleU
     });
     
     public ToggleSetting autoJump = new ToggleSetting("Auto Jump", "Automatically jumps like Bedrock players.", false),
-                         swingHand = new ToggleSetting("Swing Hand", "Swings the hand normally.", true);
+                         swingHand = new ToggleSetting("Swing Hand", "Swings the hand normally.", true),
+                         showBlocks = new ToggleSetting("Show Blocks", "Shows the amount of blocks you have on the screen.", true);
     
     public ModeSetting rotations = new ModeSetting("Rotations", "The mode for rotations.", new String[]
     {
@@ -45,6 +55,7 @@ public class Scaffold extends ModuleU
     });
     
     protected int prevSlot = 0, blockSlot = 0;
+    private ResourceLocation background;
     protected ItemStack prevItem;
     private MutableBlockPos pos;
     private float yaw, pitch;
@@ -162,6 +173,34 @@ public class Scaffold extends ModuleU
         if (!this.rotations.equals("Pitch Only")) e.yaw = yaw;
         e.pitch = pitch;
         postSwitchItem();
+    }
+    
+    public void onGuiRender(GuiRenderE e)
+    {
+        if (showBlocks.enabled)
+        {
+            if (background == null) background = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/scaffold/background.png"));
+            
+            int items = 0;
+            
+            for (int i = 0; i < 9; i++)
+            {
+                ItemStack stack = mc.player.getInventory().items.get(i);
+                if (!stack.isEmpty() && stack.getItem() instanceof BlockItem) items += stack.getCount();
+            }
+            
+            GuiGraphics graphics = e.graphics;
+            int width = mc.getWindow().getGuiScaledWidth(), height = mc.getWindow().getGuiScaledHeight();
+            
+            GlStateManager._disableDepthTest();
+            GlStateManager._enableBlend();
+            graphics.setColor(1, 1, 1, 1);
+            graphics.blit(background, (width / 2) - 34, height - 84, 68, 26, 68, 26, 68, 26);
+            
+            IFont.NORMAL.drawCenteredString(graphics, items + "", (width / 2) - 18, height - 77, Color.WHITE);
+            IFont.NORMAL.drawCenteredString(graphics, "Blocks", (width / 2) + 1 + (IFont.NORMAL.getStringWidth(items + "") / 2), height - 77, new Color(220, 220, 220, 128));
+            GlStateManager._enableDepthTest();
+        }
     }
     
     public void onPacketSend(PacketSendE e)
