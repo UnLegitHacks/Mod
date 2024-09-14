@@ -10,7 +10,6 @@ import io.unlegit.modules.impl.player.Cooldown;
 import io.unlegit.modules.settings.impl.*;
 import io.unlegit.utils.ElapTime;
 import io.unlegit.utils.entity.*;
-import io.unlegit.utils.entity.RotationUtil.GCDFix;
 import io.unlegit.utils.network.Packets;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -214,9 +213,6 @@ public class KillAura extends ModuleU
             pitch -= 64 * Math.random();
             if (rotations[1] > pitch) pitch = rotations[1];
         }
-        
-        float[] fixedGCD = GCDFix.get(new float[] {yaw, pitch});
-        yaw = fixedGCD[0]; pitch = fixedGCD[1];
     }
     
     private float updateCPS()

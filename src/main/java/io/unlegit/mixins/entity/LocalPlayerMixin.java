@@ -11,6 +11,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.events.impl.entity.MoveE;
+import io.unlegit.utils.entity.RotationUtil.GCDFix;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
@@ -48,6 +49,14 @@ public class LocalPlayerMixin
         Vec3 position = minecraft.player.position();
         MotionE e = MotionE.get(position.x, position.y, position.z, yaw, pitch, minecraft.player.onGround());
         UnLegit.events.post(e);
+        
+        // Automatically applies GCD Fix for us
+        if (e.yaw != yaw || e.pitch != pitch)
+        {
+            float[] bypassRotations = GCDFix.get(new float[] {e.yaw, e.pitch});
+            e.yaw = bypassRotations[0]; e.pitch = bypassRotations[1];
+        }
+        
         minecraft.player.setYRot(e.yaw); minecraft.player.setXRot(e.pitch);
     }
     
