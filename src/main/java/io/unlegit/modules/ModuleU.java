@@ -58,4 +58,6 @@ public class ModuleU implements IMinecraft, EventListener
         packageName = packageName.substring(0, packageName.indexOf("."));
         return CategoryM.valueOf(packageName.toUpperCase());
     }
+    
+    public boolean renderCondition() { return enabled; }
 }

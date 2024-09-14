@@ -10,6 +10,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.render.GuiRenderE;
+import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.impl.gui.ActiveMods;
 import io.unlegit.modules.impl.gui.Scoreboard;
 import net.minecraft.client.DeltaTracker;
@@ -25,7 +26,14 @@ public class GuiMixin
     @Inject(method = "render", at = @At(value = "INVOKE", target = "disableDepthTest", shift = Shift.BEFORE))
     public void renderEvent(CallbackInfo info, @Local LocalRef<GuiGraphics> graphics, @Local LocalRef<DeltaTracker> deltaTracker)
     {
-        UnLegit.events.post(GuiRenderE.get(graphics.get(), deltaTracker.get().getGameTimeDeltaTicks()));
+        GuiRenderE e = GuiRenderE.get(graphics.get(), deltaTracker.get().getGameTimeDeltaTicks());
+        UnLegit.events.post(e);
+        
+        for (ModuleU module : UnLegit.modules.get())
+        {
+            // Useful for animations (like fade out)
+            if (!module.isEnabled() && module.renderCondition()) module.onGuiRender(e);
+        }
     }
     
     @Inject(method = "renderScoreboardSidebar", at = @At("HEAD"), cancellable = true)

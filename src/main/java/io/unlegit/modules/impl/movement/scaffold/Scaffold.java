@@ -17,6 +17,7 @@ import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.entity.InvUtil;
 import io.unlegit.utils.network.Packets;
+import io.unlegit.utils.render.Animation;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -57,6 +58,7 @@ public class Scaffold extends ModuleU implements IGui
     protected int prevSlot = 0, blockSlot = 0;
     private ResourceLocation background;
     protected ItemStack prevItem;
+    private Animation animation;
     private MutableBlockPos pos;
     private float yaw, pitch;
     private double y = 0;
@@ -69,6 +71,7 @@ public class Scaffold extends ModuleU implements IGui
         y = mc.player.getY();
         yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
         prevSlot = mc.player.getInventory().selected;
+        if (showBlocks.enabled) animation = new Animation(96);
         
         if (sprint.equals("Bypass") && mc.player.isSprinting())
             Packets.sendNoEvent(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.STOP_SPRINTING));
@@ -179,7 +182,8 @@ public class Scaffold extends ModuleU implements IGui
     {
         if (showBlocks.enabled)
         {
-            if (background == null) background = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/scaffold/background.png"));
+            if (background == null)
+                background = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/scaffold/background.png"));
             
             int items = 0;
             
@@ -192,14 +196,18 @@ public class Scaffold extends ModuleU implements IGui
             GuiGraphics graphics = e.graphics;
             int width = mc.getWindow().getGuiScaledWidth(), height = mc.getWindow().getGuiScaledHeight();
             
+            graphics.pose().translate(0, 10 - (animation.get() * 10), 0);
+            
             GlStateManager._disableDepthTest();
             GlStateManager._enableBlend();
-            graphics.setColor(1, 1, 1, 1);
+            graphics.setColor(1, 1, 1, animation.get());
             graphics.blit(background, (width / 2) - 34, height - 84, 68, 26, 68, 26, 68, 26);
             
-            IFont.NORMAL.drawCenteredString(graphics, items + "", (width / 2) - 18, height - 77, Color.WHITE);
-            IFont.NORMAL.drawCenteredString(graphics, "Blocks", (width / 2) + 1 + (IFont.NORMAL.getStringWidth(items + "") / 2), height - 77, new Color(220, 220, 220, 128));
+            IFont.NORMAL.drawCenteredString(graphics, items + "", (width / 2) - 18, height - 77, new Color(255, 255, 255, animation.wrap(255)));
+            IFont.NORMAL.drawCenteredString(graphics, "Blocks", (width / 2) + 1 + (IFont.NORMAL.getStringWidth(items + "") / 2), height - 77, new Color(220, 220, 220, animation.wrap(128)));
             GlStateManager._enableDepthTest();
+            
+            graphics.pose().translate(0, -(10 - animation.get() * 10), 0);
         }
     }
     
@@ -224,11 +232,22 @@ public class Scaffold extends ModuleU implements IGui
     public void onDisable()
     {
         super.onDisable();
-        if (autoJump.enabled) mc.options.keyJump.setDown(jumpKeyDown());
         
+        if (autoJump.enabled) mc.options.keyJump.setDown(jumpKeyDown());
         if (switchItem.equals("Normal")) mc.player.getInventory().selected = prevSlot;
         
         else if (blockSlot != mc.player.getInventory().selected && blockSlot != -1)
             Packets.sendNoEvent(new ServerboundSetCarriedItemPacket(mc.player.getInventory().selected));
+        
+        if (showBlocks.enabled)
+        {
+            animation = new Animation(96);
+            animation.reverse = true;
+        }
+    }
+    
+    public boolean renderCondition()
+    {
+        return super.renderCondition() || (animation != null && animation.reverse && !animation.finished());
     }
 }
