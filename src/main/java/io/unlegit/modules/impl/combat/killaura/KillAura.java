@@ -141,7 +141,6 @@ public class KillAura extends ModuleU
         else if (rotations.equals("Smooth"))
         {
             yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
-            mc.player.yHeadRot = 1;
         }
     }
     
