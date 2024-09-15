@@ -22,6 +22,7 @@ public class LocalPlayerMixin
 {
     @Shadow @Final protected Minecraft minecraft;
     @Shadow public Input input;
+    private boolean sprinting;
     private float yaw, pitch;
     
     @Inject(method = "move", at = @At(value = "HEAD"))
@@ -46,8 +47,9 @@ public class LocalPlayerMixin
     public void preMotionEvent(CallbackInfo info)
     {
         yaw = minecraft.player.getYRot(); pitch = minecraft.player.getXRot();
+        sprinting = minecraft.player.isSprinting();
         Vec3 position = minecraft.player.position();
-        MotionE e = MotionE.get(position.x, position.y, position.z, yaw, pitch, minecraft.player.onGround());
+        MotionE e = MotionE.get(position.x, position.y, position.z, yaw, pitch, minecraft.player.onGround(), sprinting);
         UnLegit.events.post(e);
         
         // Automatically applies GCD Fix for us
@@ -58,12 +60,14 @@ public class LocalPlayerMixin
         }
         
         minecraft.player.setYRot(e.yaw); minecraft.player.setXRot(e.pitch);
+        minecraft.player.setSprinting(e.sprinting);
     }
     
     @Inject(method = "sendPosition", at = @At(value = "TAIL"))
     public void postMotionEvent(CallbackInfo info)
     {
         minecraft.player.setYRot(yaw); minecraft.player.setXRot(pitch);
+        minecraft.player.setSprinting(sprinting);
     }
     
     @Shadow public boolean isUsingItem() { return false; }

@@ -5,7 +5,6 @@ import io.unlegit.events.impl.entity.*;
 import io.unlegit.gui.clickgui.ClickGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
-import io.unlegit.modules.impl.combat.Criticals;
 import io.unlegit.modules.impl.player.Cooldown;
 import io.unlegit.modules.settings.impl.*;
 import io.unlegit.utils.ElapTime;
@@ -77,7 +76,6 @@ public class KillAura extends ModuleU
         if (target != null)
         {
             if (mc.screen != null && !(mc.screen instanceof ChatScreen) && !(mc.screen instanceof PauseScreen) && !(mc.screen instanceof ClickGui)) mc.setScreen(null);
-            Criticals criticals = (Criticals) UnLegit.modules.get("Criticals");
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             
             if (autoBlock.equals("Vanilla"))
@@ -85,6 +83,8 @@ public class KillAura extends ModuleU
                 AutoBlock.block(target);
                 if (!stopBlocking) stopBlocking = true;
             }
+
+            mc.crosshairPickEntity = target;
             
             if (mc.player.distanceTo(target) <= range && (elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || (cooldown.isEnabled() && !cooldown.cancelHit()))
             {
@@ -92,10 +92,10 @@ public class KillAura extends ModuleU
                 
                 if (rayTrace.enabled && !RotationUtil.rayTrace(target, yaw, pitch, range)) return;
                 
+                UnLegit.events.post(AttackE.get());
+                
                 mc.gameMode.attack(mc.player, target);
                 swingItem();
-                
-                if (criticals.isEnabled()) criticals.onAttack(AttackE.get());
                 
                 CPS = updateCPS();
             }

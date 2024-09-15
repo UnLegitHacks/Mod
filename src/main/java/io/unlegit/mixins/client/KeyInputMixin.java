@@ -15,7 +15,7 @@ public class KeyInputMixin
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "isDown"))
     public boolean keyDownInvMove(KeyMapping key)
     {
-        InvMove invMove = (InvMove) UnLegit.modules.get("Inv Move");
-        return invMove.isEnabled() ? invMove.canMove(key) : key.isDown();
+        return UnLegit.modules.get("Inv Move").isEnabled() ?
+                InvMove.canMove(key) : key.isDown();
     }
 }
