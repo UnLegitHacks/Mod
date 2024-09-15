@@ -135,12 +135,13 @@ public class KillAura extends ModuleU
             
             else { yaw = rotations[0]; pitch = rotations[1]; }
             
-            e.yaw = yaw; e.pitch = pitch;
+            e.yaw = yaw; e.pitch = pitch; e.changed = true;
         }
         
         else if (rotations.equals("Smooth"))
         {
             yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
+            mc.player.yHeadRot = 1;
         }
     }
     
@@ -148,6 +149,8 @@ public class KillAura extends ModuleU
     {
         if (target != null && strafeFix.enabled) e.yaw = yaw;
     }
+    
+    public void onWorldChange() { toggle(); }
     
     public void swingItem()
     {

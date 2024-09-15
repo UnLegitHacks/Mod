@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.unlegit.UnLegit;
 import io.unlegit.modules.impl.render.ESP;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
@@ -23,7 +24,7 @@ public class LevelRenderMixin
     {
         ESP esp = (ESP) UnLegit.modules.get("ESP");
         
-        if (esp.isEnabled() && esp.mode.equals("Chams") && entity instanceof LivingEntity)
+        if (esp.isEnabled() && esp.mode.equals("Chams") && entity instanceof LivingEntity && !(entity instanceof LocalPlayer))
         {
             GlStateManager._enablePolygonOffset();
             GlStateManager._polygonOffset(1, -1000000);
@@ -35,7 +36,7 @@ public class LevelRenderMixin
     {
         ESP esp = (ESP) UnLegit.modules.get("ESP");
         
-        if (esp.isEnabled() && esp.mode.equals("Chams") && entity instanceof LivingEntity)
+        if (esp.isEnabled() && esp.mode.equals("Chams") && entity instanceof LivingEntity && !(entity instanceof LocalPlayer))
         {
             GlStateManager._polygonOffset(1, 1000000);
             GlStateManager._disablePolygonOffset();

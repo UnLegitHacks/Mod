@@ -4,6 +4,10 @@ import static io.unlegit.events.EventHandler.handleEvent;
 
 import java.util.ArrayList;
 
+import io.unlegit.UnLegit;
+import io.unlegit.events.impl.entity.MotionE;
+import io.unlegit.modules.impl.misc.Rotations;
+
 /**
  * Google's EventBus is kind of slow,
  * so UnLegit uses its own.
@@ -28,6 +32,12 @@ public class EventBus
         {
             EventListener listener = listeners.get(i);
             handleEvent(listener, e);
+        }
+        
+        if (e instanceof MotionE)
+        {
+            Rotations rotations = (Rotations) UnLegit.modules.get("Rotations");
+            if (rotations.isEnabled()) rotations.onPostMotion((MotionE) e);
         }
     }
 }

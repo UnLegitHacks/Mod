@@ -55,7 +55,7 @@ public class NameTags extends ModuleU implements IGui
             float scale = this.scale.enabled ? (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1,
                   health = entity.getHealth();
             
-            String healthText = "Health: " + health;
+            String healthText = "Health: " + (int) health;
             int stringWidth = Math.max(IFont.LARGE.getStringWidth(component.getString()), IFont.NORMAL.getStringWidth(healthText)) + 10,
                 colorRGB = component.getStyle().getColor() == null ? -1 : component.getStyle().getColor().getValue();
             

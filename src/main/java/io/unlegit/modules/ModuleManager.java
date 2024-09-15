@@ -29,7 +29,8 @@ public class ModuleManager
             new InvMove(), new SafeWalk(), new KeyStrokes(), new GamePlay(),
             new Scaffold(), new Spammer(), new AntiBlind(), new LowFire(),
             new NoSlow(), new Compass(), new Scoreboard(), new NoteBlockPlayer(),
-            new NoHurtCam(), new TimeChanger(), new WTap(), new Blink());
+            new NoHurtCam(), new TimeChanger(), new WTap(), new Blink(),
+            new Fly(), new Rotations(), new NoFall());
         UnLegit.settings.call(this);
     }
     

@@ -21,9 +21,10 @@ import net.minecraft.world.phys.Vec3;
 public class LocalPlayerMixin
 {
     @Shadow @Final protected Minecraft minecraft;
+    private boolean sprinting, onGround;
     @Shadow public Input input;
-    private boolean sprinting;
     private float yaw, pitch;
+    private double x, y, z;
     
     @Inject(method = "move", at = @At(value = "HEAD"))
     public void moveEvent(CallbackInfo info, @Local LocalRef<Vec3> vec3)
@@ -46,10 +47,12 @@ public class LocalPlayerMixin
     @Inject(method = "sendPosition", at = @At(value = "HEAD"))
     public void preMotionEvent(CallbackInfo info)
     {
-        yaw = minecraft.player.getYRot(); pitch = minecraft.player.getXRot();
-        sprinting = minecraft.player.isSprinting();
         Vec3 position = minecraft.player.position();
-        MotionE e = MotionE.get(position.x, position.y, position.z, yaw, pitch, minecraft.player.onGround(), sprinting);
+        x = position.x; y = position.y; z = position.z;
+        yaw = minecraft.player.getYRot(); pitch = minecraft.player.getXRot();
+        onGround = minecraft.player.onGround();
+        sprinting = minecraft.player.isSprinting();
+        MotionE e = MotionE.get(x, y, z, yaw, pitch, onGround, sprinting);
         UnLegit.events.post(e);
         
         // Automatically applies GCD Fix for us
@@ -57,10 +60,17 @@ public class LocalPlayerMixin
         {
             float[] bypassRotations = GCDFix.get(new float[] {e.yaw, e.pitch});
             e.yaw = bypassRotations[0]; e.pitch = bypassRotations[1];
+            
+            // Future bypass for a check that doesn't even exist yet
+            e.yaw -= (int) (yaw / 360) * 360;
+            if (yaw < 0 && e.yaw > 0) e.yaw = -e.yaw;
+            else if (e.yaw < 0 && yaw > 0) e.yaw = -e.yaw;
         }
         
         minecraft.player.setYRot(e.yaw); minecraft.player.setXRot(e.pitch);
         minecraft.player.setSprinting(e.sprinting);
+        minecraft.player.setOnGround(e.onGround);
+        minecraft.player.setPosRaw(e.x, e.y, e.z);
     }
     
     @Inject(method = "sendPosition", at = @At(value = "TAIL"))
@@ -68,6 +78,8 @@ public class LocalPlayerMixin
     {
         minecraft.player.setYRot(yaw); minecraft.player.setXRot(pitch);
         minecraft.player.setSprinting(sprinting);
+        minecraft.player.setOnGround(onGround);
+        minecraft.player.setPosRaw(x, y, z);
     }
     
     @Shadow public boolean isUsingItem() { return false; }

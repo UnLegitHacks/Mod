@@ -1,10 +1,13 @@
 package io.unlegit.modules.impl.item;
 
+import java.util.ArrayList;
+
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.SliderSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.ElapTime;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.Items;
@@ -15,9 +18,10 @@ public class ChestStealer extends ModuleU
     public SliderSetting minDelay = new SliderSetting("Min Delay (ms)", "The minimum delay in randomization.", 0, 50, 1000),
                          maxDelay = new SliderSetting("Max Delay (ms)", "The maximum delay in randomization.", 0, 100, 1000);
     
-    public ToggleSetting autoClose = new ToggleSetting("Auto Close", "Automatically closes the chest.", true);
-                         // Coming soon: autoOpenChests = new ToggleSetting("Chest Aura", "Automatically opens chests around you.", false);
+    public ToggleSetting autoClose = new ToggleSetting("Auto Close", "Automatically closes the chest.", true),
+                         autoOpenChests = new ToggleSetting("Chest Aura", "Automatically opens chests around you.", false);
     
+    private ArrayList<BlockPos> lootedChests = new ArrayList<>();
     private ElapTime elapTime = new ElapTime();
     public int delay = 0;
     
@@ -50,4 +54,6 @@ public class ChestStealer extends ModuleU
         int min = (int) minDelay.value, max = (int) maxDelay.value;
         return (int) (min + (max - min) * Math.random());
     }
+    
+    public void onWorldChange() { lootedChests.clear(); }
 }

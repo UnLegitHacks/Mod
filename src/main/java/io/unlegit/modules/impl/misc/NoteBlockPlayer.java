@@ -187,6 +187,7 @@ public class NoteBlockPlayer extends ModuleU
             float[] rotations = RotationUtil.rotations(pos);
             e.yaw = rotations[0];
             e.pitch = rotations[1];
+            e.changed = true;
         }
     }
     

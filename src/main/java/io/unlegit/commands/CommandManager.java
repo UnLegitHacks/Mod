@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.unlegit.UnLegit;
-import io.unlegit.commands.impl.BindCommand;
-import io.unlegit.commands.impl.ToggleCommand;
+import io.unlegit.commands.impl.*;
 import io.unlegit.interfaces.IMinecraft;
 import net.minecraft.ChatFormatting;
 
@@ -15,7 +14,8 @@ public class CommandManager implements IMinecraft
     
     public CommandManager()
     {
-        add(new ToggleCommand(), new BindCommand());
+        add(new ToggleCommand(), new BindCommand(), new InvSeeCommand(),
+            new VClipCommand());
     }
     
     public void handle(String message)

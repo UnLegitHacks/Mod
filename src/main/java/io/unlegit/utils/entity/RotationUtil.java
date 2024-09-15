@@ -26,7 +26,7 @@ public class RotationUtil implements IMinecraft
             z = target.getZ() - mc.player.getZ();
         }
         
-        y = target.getY() - mc.player.getY() - (mc.player.getEyeHeight() - target.getEyeHeight());
+        y = (target.getY() - mc.player.getY()) - (mc.player.getEyeHeight() - target.getEyeHeight());
         double hypot = Math.sqrt(x * x + z * z);
         float yaw = (float) (Mth.atan2(z, x) * 180 / Math.PI) - 90;
         float pitch = (float) -(Mth.atan2(y, hypot) * 180 / Math.PI);

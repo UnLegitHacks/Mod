@@ -12,6 +12,7 @@ import com.mojang.blaze3d.platform.Window;
 
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.client.UpdateE;
+import io.unlegit.events.impl.client.WorldChangeE;
 import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.gui.UnThemeScreen;
 import io.unlegit.gui.UnTitleScreen;
@@ -19,8 +20,8 @@ import io.unlegit.gui.font.IFont;
 import io.unlegit.modules.impl.combat.killaura.AutoBlock;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.gui.screens.*;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -80,5 +81,11 @@ public class MinecraftMixin
     private int getFramerateLimit(int frames)
     {
         return window.getFramerateLimit();
+    }
+    
+    @Inject(method = "setLevel", at = @At(value = "TAIL"))
+    public void worldChangeEvent(ClientLevel clientLevel, ReceivingLevelScreen.Reason reason, CallbackInfo info)
+    {
+        UnLegit.events.post(WorldChangeE.get());
     }
 }

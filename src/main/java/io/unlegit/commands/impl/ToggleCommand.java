@@ -2,6 +2,7 @@ package io.unlegit.commands.impl;
 
 import io.unlegit.UnLegit;
 import io.unlegit.commands.Command;
+import io.unlegit.config.UnConfig;
 import io.unlegit.interfaces.ICommand;
 import io.unlegit.modules.ModuleU;
 import net.minecraft.ChatFormatting;
@@ -9,7 +10,6 @@ import net.minecraft.ChatFormatting;
 @ICommand(name = "Toggle", shortForm = "T", exampleUse = ".toggle <module>")
 public class ToggleCommand extends Command
 {
-    @Override
     public void onExecute(String[] args)
     {
         if (!validateArgs(args, 1)) return;
@@ -18,6 +18,7 @@ public class ToggleCommand extends Command
         if (module != null)
         {
             module.toggle();
+            UnConfig.save();
             
             if (module.isEnabled())
                 clientMessage(UnLegit.PREFIX + ChatFormatting.GREEN + "Enabled " + module.name + ".");

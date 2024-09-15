@@ -175,6 +175,7 @@ public class Scaffold extends ModuleU implements IGui
         else pitch = rotations[1];
         if (!this.rotations.equals("Pitch Only")) e.yaw = yaw;
         e.pitch = pitch;
+        e.changed = true;
         postSwitchItem();
     }
     
@@ -233,7 +234,12 @@ public class Scaffold extends ModuleU implements IGui
     {
         super.onDisable();
         
-        if (autoJump.enabled) mc.options.keyJump.setDown(jumpKeyDown());
+        if (autoJump.enabled)
+            mc.options.keyJump.setDown(jumpKeyDown());
+        
+        if (sprint.equals("Bypass") && mc.player.isSprinting()) 
+            Packets.sendNoEvent(new ServerboundPlayerCommandPacket(mc.player, ServerboundPlayerCommandPacket.Action.START_SPRINTING));
+        
         if (switchItem.equals("Normal")) mc.player.getInventory().selected = prevSlot;
         
         else if (blockSlot != mc.player.getInventory().selected && blockSlot != -1)

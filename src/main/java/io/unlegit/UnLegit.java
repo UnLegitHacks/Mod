@@ -1,5 +1,7 @@
 package io.unlegit;
 
+import java.awt.Color;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +13,10 @@ import io.unlegit.events.EventBus;
 import io.unlegit.events.EventListener;
 import io.unlegit.events.impl.client.KeyE;
 import io.unlegit.events.impl.network.PacketSendE;
+import io.unlegit.events.impl.render.GuiRenderE;
+import io.unlegit.gui.UnLegitOptions;
 import io.unlegit.gui.clickgui.ClickGui;
+import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.modules.ModuleManager;
 import io.unlegit.modules.ModuleU;
@@ -23,7 +28,7 @@ import net.minecraft.network.protocol.game.ServerboundChatPacket;
 
 public class UnLegit implements ModInitializer, EventListener, IMinecraft
 {
-    public static final String NAME = "UnLegit 3.0", PREFIX = getPrefix(), THEME = "Fancy";
+    public static final String VERSION = "3.0", NAME = "UnLegit " + VERSION, PREFIX = getPrefix(), THEME = "Fancy";
     public static final Logger LOGGER = LoggerFactory.getLogger("UnLegit");
     private static boolean firstLaunch = false;
     
@@ -55,6 +60,15 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         else for (ModuleU module : modules.get())
         {
             if (module.key == e.key) module.toggle();
+        }
+    }
+    
+    public void onGuiRender(GuiRenderE e)
+    {
+        if (UnLegitOptions.WATER_MARK)
+        {
+            IFont.LARGE.drawStringWithShadow(e.graphics, "UnLegit", 3, 2, new Color(255, 255, 255, 128));
+            IFont.NORMAL.drawStringWithShadow(e.graphics, VERSION, 4, 23, new Color(255, 255, 255, 128));
         }
     }
     
