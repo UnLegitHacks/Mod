@@ -73,5 +73,4 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
     
     public boolean mouseClicked(double d, double e, int i) { return false; }
     public boolean mouseReleased(double d, double e, int i) { return false; }
-    public boolean keyPressed(int i, int j, int k) { return false; }
 }
