@@ -20,7 +20,7 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
     
     public UnInventoryScreen(Player player)
     {
-        super(player.inventoryMenu, getInventory(player), Component.translatable("container.crafting"));
+        super(getMenu(player), getInventory(player), Component.translatable("container.crafting"));
         this.titleLabelX = 97;
         this.player = player;
     }
@@ -49,19 +49,29 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
     {
         ArrayList<ItemStack> items = PlayerTracker.get().items.get(player);
         Inventory inventory = new Inventory(player);
+        int i = 0;
         
         if (items != null)
         {
             for (ItemStack item : items)
-            {
-                System.out.println(item.getDisplayName().getString());
                 inventory.add(item.copy());
-            }
+        }
+        
+        for (ItemStack armor : player.getInventory().armor)
+        {
+            if (armor != null) inventory.armor.set(i, armor.copy());
+            i++;
         }
         
         return inventory;
     }
     
+    public static InventoryMenu getMenu(Player player)
+    {
+        return new InventoryMenu(getInventory(player), true, player);
+    }
+    
     public boolean mouseClicked(double d, double e, int i) { return false; }
     public boolean mouseReleased(double d, double e, int i) { return false; }
+    public boolean keyPressed(int i, int j, int k) { return false; }
 }
