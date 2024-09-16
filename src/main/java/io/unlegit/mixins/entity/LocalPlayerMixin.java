@@ -60,11 +60,6 @@ public class LocalPlayerMixin
         {
             float[] bypassRotations = GCDFix.get(new float[] {e.yaw, e.pitch});
             e.yaw = bypassRotations[0]; e.pitch = bypassRotations[1];
-            
-            // Future bypass for a check that doesn't even exist yet
-            e.yaw -= (int) (yaw / 360) * 360;
-            if (yaw < 0 && e.yaw > 0) e.yaw = -e.yaw;
-            else if (e.yaw < 0 && yaw > 0) e.yaw = -e.yaw;
         }
         
         minecraft.player.setYRot(e.yaw); minecraft.player.setXRot(e.pitch);

@@ -3,10 +3,10 @@ package io.unlegit.commands.impl;
 import io.unlegit.UnLegit;
 import io.unlegit.commands.Command;
 import io.unlegit.events.EventListener;
+import io.unlegit.gui.UnInventoryScreen;
 import io.unlegit.interfaces.ICommand;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
@@ -37,7 +37,7 @@ public class InvSeeCommand extends Command implements EventListener
         if (player != null)
         {
             UnLegit.events.register(this);
-            screen = new InventoryScreen(player);
+            screen = new UnInventoryScreen(player);
             clientMessage(UnLegit.PREFIX + ChatFormatting.GREEN + "Showing the inventory of " + player.getName().getString() + ".");
         }
         

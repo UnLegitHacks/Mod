@@ -15,6 +15,7 @@ import io.unlegit.modules.impl.movement.scaffold.Scaffold;
 import io.unlegit.modules.impl.player.*;
 import io.unlegit.modules.impl.render.*;
 import io.unlegit.modules.impl.world.TimeChanger;
+import io.unlegit.tracker.PlayerTracker;
 
 public class ModuleManager
 {
@@ -31,6 +32,8 @@ public class ModuleManager
             new NoSlow(), new Compass(), new Scoreboard(), new NoteBlockPlayer(),
             new NoHurtCam(), new TimeChanger(), new WTap(), new Blink(),
             new Fly(), new Rotations(), new NoFall());
+        
+        PlayerTracker.get().start();
         UnLegit.settings.call(this);
     }
     
