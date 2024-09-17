@@ -35,6 +35,9 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
         super.render(guiGraphics, i, j, f);
         renderTooltip(guiGraphics, i, j);
         xMouse = i; yMouse = j;
+        
+        if (PlayerTracker.hasChanged())
+            minecraft.setScreen(new UnInventoryScreen(player));
     }
     
     protected void renderBg(GuiGraphics guiGraphics, float f, int i, int j)

@@ -56,7 +56,7 @@ public class LocalPlayerMixin
         UnLegit.events.post(e);
         
         // Automatically applies GCD Fix for us
-        if (e.yaw != yaw || e.pitch != pitch)
+        if (e.changed)
         {
             float[] bypassRotations = GCDFix.get(new float[] {e.yaw, e.pitch});
             e.yaw = bypassRotations[0]; e.pitch = bypassRotations[1];

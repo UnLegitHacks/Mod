@@ -5,6 +5,7 @@ import io.unlegit.commands.Command;
 import io.unlegit.events.EventListener;
 import io.unlegit.gui.UnInventoryScreen;
 import io.unlegit.interfaces.ICommand;
+import io.unlegit.tracker.PlayerTracker;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -39,6 +40,7 @@ public class InvSeeCommand extends Command implements EventListener
         if (player != null)
         {
             UnLegit.events.register(this);
+            PlayerTracker.hasChanged();
             
             if (player instanceof LocalPlayer)
                 screen = new InventoryScreen(player);

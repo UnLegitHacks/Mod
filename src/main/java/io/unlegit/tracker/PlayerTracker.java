@@ -20,6 +20,7 @@ public class PlayerTracker implements EventListener, IMinecraft
 {
     public HashMap<Player, ArrayList<ItemStack>> items = new HashMap<>();
     private static PlayerTracker instance = new PlayerTracker();
+    private static boolean changed = false;
     
     public void onUpdate()
     {
@@ -29,7 +30,10 @@ public class PlayerTracker implements EventListener, IMinecraft
             {
                 // For example, respawns
                 if (teleported(entityPlayer) && items.containsKey(entityPlayer))
+                {
                     items.get(entityPlayer).clear();
+                    changed = true;
+                }
                 
                 ItemStack heldItem = entityPlayer.getMainHandItem();
                 
@@ -49,6 +53,7 @@ public class PlayerTracker implements EventListener, IMinecraft
                         }
                         
                         items.get(entityPlayer).add(heldItem);
+                        changed = true;
                     }
                 }
             }
@@ -59,7 +64,7 @@ public class PlayerTracker implements EventListener, IMinecraft
     {
         double x = Math.abs(player.xo - player.getX()),
                z = Math.abs(player.zo - player.getZ());
-        return x > 32 || z > 32;
+        return x > 32 || z > 32 || player.tickCount < 1;
     }
     
     public void onWorldChange()
@@ -70,6 +75,15 @@ public class PlayerTracker implements EventListener, IMinecraft
     public void start()
     {
         UnLegit.events.register(instance);
+    }
+    
+    public static boolean hasChanged()
+    {
+        if (changed)
+        {
+            changed = false;
+            return true;
+        } return false;
     }
     
     public static PlayerTracker get() { return instance; }
