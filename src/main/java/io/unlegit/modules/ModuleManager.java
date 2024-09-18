@@ -31,7 +31,7 @@ public class ModuleManager
             new Scaffold(), new Spammer(), new AntiBlind(), new LowFire(),
             new NoSlow(), new Compass(), new Scoreboard(), new NoteBlockPlayer(),
             new NoHurtCam(), new TimeChanger(), new WTap(), new Blink(),
-            new Fly(), new Rotations(), new NoFall());
+            new Fly(), new Rotations(), new NoFall(), new MurderMystery());
         
         PlayerTracker.get().start();
         UnLegit.settings.call(this);
