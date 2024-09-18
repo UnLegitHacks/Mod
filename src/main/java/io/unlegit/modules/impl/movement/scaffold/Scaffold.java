@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import io.unlegit.UnLegit;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.events.impl.network.PacketSendE;
 import io.unlegit.events.impl.render.GuiRenderE;
@@ -201,8 +202,16 @@ public class Scaffold extends ModuleU implements IGui
             
             GlStateManager._disableDepthTest();
             GlStateManager._enableBlend();
-            graphics.setColor(1, 1, 1, animation.get());
-            graphics.blit(background, (width / 2) - 34, height - 84, 68, 26, 68, 26, 68, 26);
+            
+            if ("Fancy".equals(UnLegit.THEME))
+            {
+                graphics.setColor(1, 1, 1, animation.get());
+                graphics.blit(background, (width / 2) - 34, height - 84, 68, 26, 68, 26, 68, 26);
+                graphics.setColor(1, 1, 1, 1);
+            }
+            
+            else
+                graphics.fill((width / 2) - 31, height - 80, (width / 2) - 31 + 63, height - 82 + 20, new Color(0, 0, 0, 128).getRGB());
             
             IFont.NORMAL.drawCenteredString(graphics, items + "", (width / 2) - 18, height - 77, new Color(255, 255, 255, animation.wrap(255)));
             IFont.NORMAL.drawCenteredString(graphics, "Blocks", (width / 2) + 1 + (IFont.NORMAL.getStringWidth(items + "") / 2), height - 77, new Color(220, 220, 220, animation.wrap(128)));
@@ -233,6 +242,7 @@ public class Scaffold extends ModuleU implements IGui
     public void onDisable()
     {
         super.onDisable();
+        if (mc.player == null) return;
         
         if (autoJump.enabled)
             mc.options.keyJump.setDown(jumpKeyDown());

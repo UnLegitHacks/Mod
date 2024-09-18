@@ -32,10 +32,10 @@ public class ActiveMods extends ModuleU
         {
             if (!module.isEnabled()) continue;
             Color color = rainbowColor.enabled ? getSpectrum(offset) : Color.WHITE;
-            int x = mc.getWindow().getGuiScaledWidth() - IFont.NORMAL.getStringWidth(module.name);
+            int x = mc.getWindow().getGuiScaledWidth() - IFont.NORMAL.getStringWidth(module.name) + ("Vanilla".equals(UnLegit.THEME) ? 1 : 0);
             
             if (background.enabled)
-                e.graphics.fill(x - 9, offset + (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), offset + 15, new Color(0, 0, 0, 128).getRGB());
+                e.graphics.fill(x - 8, offset + (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), offset + 15, new Color(0, 0, 0, 128).getRGB());
             
             IFont.NORMAL.drawStringWithShadow(e.graphics, module.name, x - 5, offset + 2, color);
             offset += 13;

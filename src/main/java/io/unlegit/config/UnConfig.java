@@ -162,7 +162,7 @@ public class UnConfig
                 
                 module.settingsReload();
             }
-        } catch (Exception e) {}
+        } catch (Exception e) { e.printStackTrace(); }
     }
     
     public static void init()

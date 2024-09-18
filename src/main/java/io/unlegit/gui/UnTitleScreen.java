@@ -96,6 +96,8 @@ public class UnTitleScreen extends Screen implements IGui
                 minecraft.setScreen(new AccountScreen(this));
         }));
         
+        // buttons.add(new UnButton("Alt Manager", "altmanager", x += 64, y, () -> minecraft.setScreen(AltManager.get())));
+        
         boolean holiday = Holidays.todayOne();
         String copyrightText = holiday ? Holidays.get() : COPYRIGHT_TEXT.getString();
         

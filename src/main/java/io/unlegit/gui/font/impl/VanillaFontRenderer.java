@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import io.unlegit.gui.font.GlyphPage;
 import net.minecraft.client.gui.Font.DisplayMode;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.util.FastColor;
 
 public class VanillaFontRenderer extends FontRenderer
 {
@@ -46,7 +45,7 @@ public class VanillaFontRenderer extends FontRenderer
         x /= scale; y /= scale;
         y += 2; x += 1;
         
-        int colorRGB = FastColor.ARGB32.color(color.getRed(), color.getGreen(), color.getBlue(), Math.max(color.getAlpha(), 4)),
+        int colorRGB = new Color(color.getRed(), color.getGreen(), color.getBlue(), Math.max(color.getAlpha(), 4)).getRGB(),
             result = mc.font.drawInBatch(text, x, y, colorRGB, shadow, pose.last().pose(), graphics.bufferSource(), DisplayMode.NORMAL, 1, 1);
         
         pose.popPose();
