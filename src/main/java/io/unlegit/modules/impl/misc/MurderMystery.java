@@ -13,7 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 
-@IModule(name = "Murder Mystery", description = "Provides features for the game Murder Mystery.")
+@IModule(name = "Murder Mystery", description = "Reveals the murderer in the game.")
 public class MurderMystery extends ModuleU
 {
     public ArrayList<Item> swordItems = new ArrayList<>();
