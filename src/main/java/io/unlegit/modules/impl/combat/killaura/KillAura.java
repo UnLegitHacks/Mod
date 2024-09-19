@@ -29,7 +29,7 @@ public class KillAura extends ModuleU
                          teams = new ToggleSetting("Teams", "Don't attack players on your team.", false),
                          predict = new ToggleSetting("Predict Pos", "Predicts the movement of the target.", true),
                          strafeFix = new ToggleSetting("Strafe Fix", "Helps bypass prediction anticheats.", false),
-                         rayTrace = new ToggleSetting("Ray Trace", "Adds a check for rotations; helps bypass anti-cheats.", true);
+                         rayTrace = new ToggleSetting("Ray Trace", "Helps bypass anti-cheats.", true);
                          // targetESP = new ToggleSetting("Target ESP", true);
     
     /**
@@ -83,7 +83,7 @@ public class KillAura extends ModuleU
                 AutoBlock.block(target);
                 if (!stopBlocking) stopBlocking = true;
             }
-
+            
             mc.crosshairPickEntity = target;
             
             if (mc.player.distanceTo(target) <= range && (elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || (cooldown.isEnabled() && !cooldown.cancelHit()))
@@ -123,9 +123,7 @@ public class KillAura extends ModuleU
             }
             
             else if (this.rotations.equals("Legit"))
-            {
                 legitenRotations(rotations);
-            }
             
             else if (this.rotations.equals("None"))
             {
@@ -187,6 +185,7 @@ public class KillAura extends ModuleU
         }
     }
     
+    // Uses Math.random() to be virtually undetectable
     private void legitenRotations(float[] rotations)
     {
         float yawDifference = Math.abs(yaw - rotations[0]), pitchDifference = Math.abs(pitch - rotations[1]);
@@ -194,25 +193,25 @@ public class KillAura extends ModuleU
         
         if (yaw < rotations[0])
         {
-            yaw += 64 * Math.random();
+            yaw += 48 * Math.random();
             if (rotations[0] < yaw) yaw = rotations[0];
         }
         
         else if (yaw > rotations[0])
         {
-            yaw -= 64 * Math.random();
+            yaw -= 48 * Math.random();
             if (rotations[0] > yaw) yaw = rotations[0];
         }
         
         if (pitch < rotations[1])
         {
-            pitch += 64 * Math.random();
+            pitch += 48 * Math.random();
             if (rotations[1] < pitch) pitch = rotations[1];
         }
         
         else if (pitch > rotations[1])
         {
-            pitch -= 64 * Math.random();
+            pitch -= 48 * Math.random();
             if (rotations[1] > pitch) pitch = rotations[1];
         }
     }

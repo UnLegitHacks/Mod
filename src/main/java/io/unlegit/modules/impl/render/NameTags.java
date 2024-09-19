@@ -104,7 +104,6 @@ public class NameTags extends ModuleU implements IGui
             
             if (vec3 != null)
             {
-                boolean bl = !entity.isDiscrete();
                 int j = "deadmau5".equals(component.getString()) ? -10 : 0;
                 float scale = this.scale.enabled ? (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1;
                 
@@ -117,11 +116,7 @@ public class NameTags extends ModuleU implements IGui
                 float g = mc.options.getBackgroundOpacity(0.25F);
                 int k = (int) (g * 255) << 24;
                 float h = -mc.font.width(component) / 2;
-                mc.font.drawInBatch(component, h, j, 553648127, false, matrix4f, multiBufferSource, bl ? Font.DisplayMode.SEE_THROUGH : Font.DisplayMode.NORMAL, k, i);
-                
-                if (bl)
-                    mc.font.drawInBatch(component, h, j, -1, false, matrix4f, multiBufferSource, Font.DisplayMode.NORMAL, 0, i);
-                
+                mc.font.drawInBatch(component, h, j, -1, false, matrix4f, multiBufferSource, Font.DisplayMode.SEE_THROUGH, k, i);
                 poseStack.popPose();
             }
         }

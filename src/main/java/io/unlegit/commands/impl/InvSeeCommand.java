@@ -46,7 +46,7 @@ public class InvSeeCommand extends Command implements EventListener
                 screen = new InventoryScreen(player);
             else screen = new UnInventoryScreen(player);
             
-            clientMessage(UnLegit.PREFIX + ChatFormatting.GREEN + "Showing the inventory of " + player.getName().getString() + ".");
+            clientMessage(UnLegit.PREFIX + ChatFormatting.GREEN + "Opened the inventory of " + player.getName().getString() + ".");
         }
         
         else clientMessage(UnLegit.PREFIX + ChatFormatting.DARK_RED + "Player " + args[0] + " not found!");
