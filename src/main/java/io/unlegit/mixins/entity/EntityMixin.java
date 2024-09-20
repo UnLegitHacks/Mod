@@ -19,6 +19,6 @@ public class EntityMixin
         if (!(((Entity) (Object) this) instanceof LocalPlayer)) return yaw;
         StrafeE e = StrafeE.get(yaw);
         UnLegit.events.post(e);
-        return e.yaw;
+        return e.changed ? e.yaw : yaw;
     }
 }

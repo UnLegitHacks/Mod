@@ -17,6 +17,6 @@ public class LivingEntityMixin
     public float getYaw(float yaw)
     {
         if (!(((Entity) (Object) this) instanceof LocalPlayer)) return yaw;
-        return StrafeE.get().yaw;
+        return StrafeE.get().changed ? StrafeE.get().yaw : yaw;
     }
 }
