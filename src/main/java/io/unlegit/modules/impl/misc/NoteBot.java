@@ -18,7 +18,6 @@ import io.unlegit.utils.network.Packets;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundUseItemOnPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.block.Blocks;
@@ -27,8 +26,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-@IModule(name = "Note Block Player", description = "Plays note blocks! Needs a 5x5 floor & NBS files.")
-public class NoteBlockPlayer extends ModuleU
+@IModule(name = "Note Bot", description = "Plays note blocks! Needs a 5x5 floor & NBS files.")
+public class NoteBot extends ModuleU
 {
     public ModeSetting nbsFile = new ModeSetting("NBS File", "The reference for the player.", new String[] {"404 (none)"}),
                        mode = new ModeSetting("Mode", "Legit is slower but it bypasses servers unlike blatant.", new String[]
@@ -80,9 +79,9 @@ public class NoteBlockPlayer extends ModuleU
                 return;
             }
             
-            mc.player.sendSystemMessage(Component.literal(UnLegit.PREFIX + ChatFormatting.GREEN +
+            clientMessage(UnLegit.PREFIX + ChatFormatting.GREEN +
             
-            "Now playing: " + file.getName().replace(".nbs", "")));
+            "Now playing: " + file.getName().replace(".nbs", ""));
             
             for (int i = 0; i < song.getLength(); i++)
             {
@@ -245,7 +244,7 @@ public class NoteBlockPlayer extends ModuleU
     }
     
 
-    public NoteBlockPlayer()
+    public NoteBot()
     {
         int i = 0; for (double x = -2.5D; x < 2.5D; x++)
         {

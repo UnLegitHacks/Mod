@@ -1,30 +1,17 @@
 package io.unlegit.config;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import io.unlegit.UnLegit;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.Setting;
 import io.unlegit.modules.settings.SettingManager;
-import io.unlegit.modules.settings.impl.ColorSetting;
-import io.unlegit.modules.settings.impl.ModeSetting;
-import io.unlegit.modules.settings.impl.SliderSetting;
-import io.unlegit.modules.settings.impl.TextSetting;
-import io.unlegit.modules.settings.impl.ToggleSetting;
+import io.unlegit.modules.settings.impl.*;
 
 public class UnConfig
 {
@@ -49,7 +36,8 @@ public class UnConfig
         {
             JsonObject jsonModule = new JsonObject();
             jsonObject.add(module.name, jsonModule);
-            jsonModule.addProperty("Enabled", module.isEnabled());
+            jsonModule.addProperty("Enabled", module.isEnabled() && !module.noStart);
+            jsonModule.addProperty("Hidden", module.hidden);
             jsonModule.addProperty("Key", module.key);
             ArrayList<Setting> settings = settingManager.get(module);
             
@@ -105,13 +93,15 @@ public class UnConfig
             while (iterator.hasNext())
             {
                 Entry<String, JsonElement> entry = iterator.next();
-                ModuleU module = UnLegit.modules.get(entry.getKey().toString());
+                
+                ModuleU module = UnLegit.modules.get(entry.getKey());
                 if (module == null) continue; // Forward compatibility handling
                 JsonObject jsonModule = (JsonObject) entry.getValue();
                 
                 if (jsonModule.get("Enabled").getAsBoolean()) module.setEnabled(true);
                 else if (module.isEnabled()) module.setEnabled(false);
                 
+                module.hidden = jsonModule.get("Hidden").getAsBoolean();
                 module.key = jsonModule.get("Key").getAsInt();
                 ArrayList<Setting> settings = settingManager.get(module);
                 

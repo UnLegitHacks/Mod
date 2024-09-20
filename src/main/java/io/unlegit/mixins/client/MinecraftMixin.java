@@ -37,7 +37,8 @@ public class MinecraftMixin
     @Inject(method = "tick", at = @At(value = "HEAD"))
     public void updateEvent(CallbackInfo info)
     {
-        if (player != null && !pause) UnLegit.events.post(UpdateE.get());
+        if (player != null && !pause)
+            UnLegit.events.post(UpdateE.get());
     }
     
     @Inject(method = "startAttack", at = @At(value = "HEAD"), cancellable = true)

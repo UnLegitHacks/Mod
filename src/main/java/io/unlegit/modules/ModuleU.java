@@ -6,15 +6,13 @@ import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.utils.SoundUtil;
 
-/**
- * Module -> ModuleU to prevent clashing with java.lang.Module
- */
+/** Module -> ModuleU to prevent clashing with java.lang.Module */
 public class ModuleU implements IMinecraft, EventListener
 {
     private IModule iModule = getClass().getAnnotation(IModule.class);
     public String name = iModule.name(), description = iModule.description();
+    public boolean noStart = false, hidden = false;
     public CategoryM category = getCategory();
-    public boolean shouldNotOnStart = false;
     private boolean enabled = false;
     public int key = 0;
     

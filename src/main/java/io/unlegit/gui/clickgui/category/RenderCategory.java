@@ -10,6 +10,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.unlegit.UnLegit;
 import io.unlegit.gui.clickgui.ClickGui;
+import io.unlegit.gui.clickgui.RenderSettings;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.modules.CategoryM;
@@ -43,19 +44,21 @@ public class RenderCategory implements IGui
         }
         
         float scale = 1 + (1 - parent.animation.get());
-        int alpha = parent.animation.wrap(255);
-        int x = (int) (this.x - (165 * (scale - 1)));
-        int y = (int) (this.y - (96 * (scale - 1)));
+        int alpha = parent.renderSettings == null ? parent.animation.wrap(255) : 200;
+        
+        int x = (int) (this.x - (165 * (scale - 1))),
+            y = (int) (this.y - (96 * (scale - 1)));
+        
         GlStateManager._enableBlend();
         
         graphics.setColor(1, 1, 1, alpha / 255F);
         drawShadow(graphics, parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);
         
         graphics.setColor(1, 1, 1, 1);
-        graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, parent.animation.wrap(200)).getRGB());
+        graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, (int) (alpha / 1.275F)).getRGB());
         String name = StringUtils.capitalize(category.name().toLowerCase());
         IFont.MEDIUM.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
-        graphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, parent.animation.wrap(200)).getRGB());
+        graphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, (int) (alpha / 1.275F)).getRGB());
         graphics.enableScissor((int) (x * scale), (int) (y * scale),
                 (int) ((x * scale) + (110 * scale)), (int) ((y * scale) + (160 * scale)));
         int offset = scroll;
@@ -99,7 +102,7 @@ public class RenderCategory implements IGui
                     if (mouseOver((int) mouseX, (int) mouseY, x, y + 30 + offset, x + 110, y + 45 + offset))
                     {
                         if (button == 0) module.toggle();
-                        // else parent.renderSettings = new RenderSettings(module);
+                        else parent.renderSettings = new RenderSettings(module);
                         return true;
                     }
                     

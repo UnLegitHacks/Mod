@@ -30,7 +30,8 @@ public class ActiveMods extends ModuleU
         
         for (ModuleU module : modules)
         {
-            if (!module.isEnabled()) continue;
+            if (!module.isEnabled() || module.hidden) continue;
+            
             Color color = rainbowColor.enabled ? getSpectrum(offset) : Color.WHITE;
             int x = mc.getWindow().getGuiScaledWidth() - IFont.NORMAL.getStringWidth(module.name) + ("Vanilla".equals(UnLegit.THEME) ? 1 : 0);
             

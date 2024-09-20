@@ -71,4 +71,6 @@ public class MurderMystery extends ModuleU
             JUNGLE_SAPLING, PRISMARINE_SHARD, SPONGE, DEAD_BUSH,
             REDSTONE_TORCH, CHORUS_PLANT);
     }
+    
+    public void onEnable() { super.onEnable(); murderer = null; }
 }

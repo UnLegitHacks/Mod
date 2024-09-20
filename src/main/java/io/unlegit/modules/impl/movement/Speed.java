@@ -23,7 +23,7 @@ public class Speed extends ModuleU
         mode.setAction(() -> speed.hidden = !mode.equals("Vanilla"));
     }
     
-    /** Strafe lets you move without friction. */
+    /** Strafe lets you move without air resistance. */
     public void onUpdate()
     {
         if (mode.equals("Strafe") && PlayerUtil.isMoving())

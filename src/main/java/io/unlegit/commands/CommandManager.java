@@ -15,7 +15,7 @@ public class CommandManager implements IMinecraft
     public CommandManager()
     {
         add(new ToggleCommand(), new BindCommand(), new InvSeeCommand(),
-            new VClipCommand());
+            new VClipCommand(), new HideCommand());
     }
     
     public void handle(String message)

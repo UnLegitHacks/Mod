@@ -20,7 +20,7 @@ public class ClickGui extends Screen implements IGui
     public final ResourceLocation categoryShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "clickgui/category_shadow.png"));
     private ArrayList<RenderCategory> categories = new ArrayList<>();
     private static ClickGui INSTANCE = new ClickGui();
-    protected RenderSettings renderSettings = null;
+    public RenderSettings renderSettings = null;
     private boolean closingGui = false;
     public Animation animation = null;
     
@@ -60,8 +60,8 @@ public class ClickGui extends Screen implements IGui
         {
             for (RenderCategory category : categories)
                 category.render(graphics, 0, 0, partialTicks);
-//            
-//            renderSettings.drawScreen(mouseX, mouseY, partialTicks);
+            
+            renderSettings.render(graphics, mouseX, mouseY, partialTicks);
         }
         
         else
@@ -110,7 +110,7 @@ public class ClickGui extends Screen implements IGui
     
     public void onClose()
     {
-        // if (renderSettings != null) renderSettings.onClose();
+        if (renderSettings != null) renderSettings.onClose();
         animation = new Animation(96); animation.reverse = true;
         closingGui = true;
         UnConfig.save();

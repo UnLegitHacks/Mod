@@ -63,4 +63,5 @@ public class Blink extends ModuleU
     }
     
     public static boolean isOn() { return on; }
+    public Blink() { noStart = true; }
 }

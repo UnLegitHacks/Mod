@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 
-// Barebone version of the Inventory
+/** Non-editable version of the Inventory with tweaks */
 public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryMenu>
 {
     private float xMouse, yMouse;

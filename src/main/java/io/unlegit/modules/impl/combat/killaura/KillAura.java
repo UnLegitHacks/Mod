@@ -1,7 +1,8 @@
 package io.unlegit.modules.impl.combat.killaura;
 
 import io.unlegit.UnLegit;
-import io.unlegit.events.impl.entity.*;
+import io.unlegit.events.impl.entity.AttackE;
+import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.gui.clickgui.ClickGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
@@ -28,7 +29,6 @@ public class KillAura extends ModuleU
                          smartRange = new ToggleSetting("Smart Range", "Increases the range depending on your ping.", false),
                          teams = new ToggleSetting("Teams", "Don't attack players on your team.", false),
                          predict = new ToggleSetting("Predict Pos", "Predicts the movement of the target.", true),
-                         strafeFix = new ToggleSetting("Strafe Fix", "Helps bypass prediction anticheats.", false),
                          rayTrace = new ToggleSetting("Ray Trace", "Helps bypass anti-cheats.", true);
                          // targetESP = new ToggleSetting("Target ESP", true);
     
@@ -140,11 +140,6 @@ public class KillAura extends ModuleU
         {
             yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
         }
-    }
-    
-    public void onStrafe(StrafeE e)
-    {
-        if (target != null && strafeFix.enabled) e.yaw = yaw;
     }
     
     public void onWorldChange() { toggle(); }
