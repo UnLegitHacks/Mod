@@ -91,7 +91,7 @@ public class GamePlay extends ModuleU
         String message = ChatFormatting.stripFormatting(e.message.getString().replaceAll("\r", "\\\\r").replaceAll("\n", "\\\\n"));
         attemptLimit = 0;
         
-        if (!mc.hasSingleplayerServer() && message.contains(" by " + mc.getUser().getName()))
+        if (autoL.enabled && !mc.hasSingleplayerServer() && message.contains(" by " + mc.getUser().getName()))
         {
             String msgToSend = getMessage();
             mc.getConnection().sendChat(msgToSend);
