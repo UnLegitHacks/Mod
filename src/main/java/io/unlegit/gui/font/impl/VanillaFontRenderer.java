@@ -17,7 +17,8 @@ public class VanillaFontRenderer extends FontRenderer
     
     public int drawString(GuiGraphics graphics, String text, int x, int y, Color color)
     {
-        return renderString(graphics, text, x, y, color, !Color.BLACK.equals(color));
+        int red = color.getRed(), blue = color.getBlue(), green = color.getGreen();
+        return renderString(graphics, text, x, y, color, red != 0 && green != 0 && blue != 0);
     }
     
     public int drawStringWithShadow(GuiGraphics graphics, String text, int x, int y, Color color)
@@ -46,7 +47,7 @@ public class VanillaFontRenderer extends FontRenderer
         y += 2; x += 1;
         
         int colorRGB = new Color(color.getRed(), color.getGreen(), color.getBlue(), Math.max(color.getAlpha(), 4)).getRGB(),
-            result = mc.font.drawInBatch(text, x, y, colorRGB, shadow, pose.last().pose(), graphics.bufferSource(), DisplayMode.NORMAL, 1, 1);
+            result = mc.font.drawInBatch(text, x, y, colorRGB, shadow, pose.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
         
         pose.popPose();
         return result;

@@ -44,7 +44,8 @@ public class RenderCategory implements IGui
         }
         
         float scale = 1 + (1 - parent.animation.get());
-        int alpha = parent.renderSettings == null ? parent.animation.wrap(255) : 200;
+        int alpha = parent.animation.wrap(255);
+        if (parent.renderSettings != null) alpha *= 0.75F;
         
         int x = (int) (this.x - (165 * (scale - 1))),
             y = (int) (this.y - (96 * (scale - 1)));

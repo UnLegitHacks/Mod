@@ -26,8 +26,8 @@ public class RenderSettings implements IMinecraft
         int wD = width / 2, hD = height / 2;
         graphics.fill(wD - 150, hD - 125, wD + 150, hD + 125, new Color(10, 10, 10, 200).getRGB());
         
-        graphics.fill(wD - 150, hD - 151, wD - 150 + IFont.LARGE.getStringWidth(module.name) + 10, hD - 125, new Color(10, 10, 10, 200).getRGB());
-        IFont.LARGE.drawString(graphics, module.name, wD - 145, hD - 150, Color.WHITE);
+        graphics.fill(wD - 150, hD - 155, wD - 145 + IFont.LARGE.getStringWidth(module.name) + 10, hD - 125, new Color(10, 10, 10, 200).getRGB());
+        IFont.LARGE.drawString(graphics, module.name, wD - 143, hD - 152, Color.WHITE);
         IFont.NORMAL.drawString(graphics, module.description, wD - 145, hD - 122, new Color(235, 235, 235));
     }
     

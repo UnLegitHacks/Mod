@@ -13,14 +13,14 @@ public class NoFall extends ModuleU
         /**
          * Legit makes you take a bit of fall damage so that
          * you do not appear suspicious to staff and others,
-         * though it does not bypass.
+         * though it mostly does not bypass.
          */
         "Vanilla", "Legit"
     });
     
     public void onMotion(MotionE e)
     {
-        if (mc.player.fallDistance >= (mode.equals("Vanilla") ? 3 : 4))
+        if (mc.player.fallDistance >= (mode.equals("Vanilla") ? 3 : 4) && mc.player.getY() > -64)
         {
             e.onGround = true;
             mc.player.fallDistance = 0;

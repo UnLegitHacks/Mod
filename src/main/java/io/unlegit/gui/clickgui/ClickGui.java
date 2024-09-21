@@ -75,6 +75,8 @@ public class ClickGui extends Screen implements IGui
     
     public boolean mouseClicked(double mouseX, double mouseY, int button)
     {
+        if (renderSettings != null) return super.mouseClicked(mouseX, mouseY, button);
+        
         for (RenderCategory category : categories)
             if (category.mouseClicked(mouseX, mouseY, button)) break;
         

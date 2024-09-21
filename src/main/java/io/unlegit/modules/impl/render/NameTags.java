@@ -24,6 +24,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 @IModule(name = "Name Tags", description = "Allows you to customize name tags.")
@@ -52,10 +53,13 @@ public class NameTags extends ModuleU implements IGui
         
         if (vec3 != null)
         {
-            float scale = this.scale.enabled ? (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1,
-                  health = entity.getHealth();
+            float scale = this.scale.enabled && entity instanceof Player ?
+                    (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1,
+                  
+                    health = entity.getHealth();
             
             String healthText = "Health: " + (int) health;
+            
             int stringWidth = Math.max(IFont.LARGE.getStringWidth(component.getString()), IFont.NORMAL.getStringWidth(healthText)) + 10,
                 colorRGB = component.getStyle().getColor() == null ? -1 : component.getStyle().getColor().getValue();
             
@@ -65,10 +69,10 @@ public class NameTags extends ModuleU implements IGui
             poseStack.translate(vec3.x, vec3.y + (0.75 * (scale / 1.15)), vec3.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
             poseStack.scale(0.0125F * scale, -0.0125F * scale, 0.0125F * scale);
-            Color healthColor = new Color(0, 255, 75);
+            Color healthColor = new Color(0, 255, 128);
             
             if (health > 10 && health < 20)
-                healthColor = blendColors((health - 10) / 10, Color.ORANGE, new Color(0, 255, 75));
+                healthColor = blendColors((health - 10) / 10, Color.ORANGE, new Color(0, 255, 128));
             else if (health <= 10)
                 healthColor = blendColors(health / 10, new Color(255, 50, 50), Color.ORANGE);
             
@@ -80,14 +84,18 @@ public class NameTags extends ModuleU implements IGui
             graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 0, stringWidth / 2, 44, new Color(20, 20, 30, 150).getRGB());
             poseStack.translate(0, 0, 0.0001F);
             
-            // Health
-            poseStack.translate(-stringWidth / 2, 0, 0);
-            graphics.fill(RenderType.guiOverlay(), 0, 40, (int) (stringWidth * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor.getRGB());
-            poseStack.translate(stringWidth / 2, 0, 0);
-            GlStateManager._disableDepthTest();
-
-            IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, 5, new Color(colorRGB));
-            IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
+            if (entity instanceof Player)
+            {
+                // Health
+                poseStack.translate(-stringWidth / 2, 0, 0);
+                graphics.fill(RenderType.guiOverlay(), 0, 42, (int) (stringWidth * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor.getRGB());
+                poseStack.translate(stringWidth / 2, 0, 0);
+                
+                GlStateManager._disableDepthTest();
+                IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
+            } else GlStateManager._disableDepthTest();
+            
+            IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, entity instanceof Player ? 4 : 10, new Color(colorRGB));
             
             GlStateManager._disableBlend();
             poseStack.popPose();
@@ -98,14 +106,14 @@ public class NameTags extends ModuleU implements IGui
     {
         double d = mc.getEntityRenderDispatcher().distanceToSqr(entity);
         
-        if (!(d > 4096.0) || infiniteRange.enabled)
+        if (!(d > 4096) || infiniteRange.enabled)
         {
             Vec3 vec3 = entity.getAttachments().getNullable(EntityAttachment.NAME_TAG, 0, entity.getViewYRot(partialTicks));
             
             if (vec3 != null)
             {
                 int j = "deadmau5".equals(component.getString()) ? -10 : 0;
-                float scale = this.scale.enabled ? (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1;
+                float scale = this.scale.enabled && entity instanceof Player ? (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1;
                 
                 poseStack.pushPose();
                 poseStack.translate(vec3.x, vec3.y + Math.max(0.5, (0.25 * scale)), vec3.z);
