@@ -53,7 +53,7 @@ public class ActiveMods extends ModuleU
         
         for (ModuleU module : modules)
         {
-            if (module.isEnabled()) offset += 13;
+            if (module.isEnabled() && !module.hidden) offset += 13;
         }
         
         return offset + 12;
