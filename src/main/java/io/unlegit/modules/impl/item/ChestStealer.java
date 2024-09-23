@@ -18,9 +18,7 @@ public class ChestStealer extends ModuleU
     public SliderSetting minDelay = new SliderSetting("Min Delay (ms)", "The minimum delay in randomization.", 0, 50, 1000),
                          maxDelay = new SliderSetting("Max Delay (ms)", "The maximum delay in randomization.", 0, 100, 1000);
     
-    public ToggleSetting autoClose = new ToggleSetting("Auto Close", "Automatically closes the chest.", true),
-                         autoOpenChests = new ToggleSetting("Chest Aura", "Automatically opens chests around you.", false);
-    
+    public ToggleSetting autoClose = new ToggleSetting("Auto Close", "Automatically closes the chest.", true);
     private ArrayList<BlockPos> lootedChests = new ArrayList<>();
     private ElapTime elapTime = new ElapTime();
     public int delay = 0;

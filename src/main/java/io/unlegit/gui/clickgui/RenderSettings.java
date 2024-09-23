@@ -17,8 +17,8 @@ public class RenderSettings implements IMinecraft
     public RenderSettings(ModuleU module)
     {
         this.module = module;
-        this.width = mc.getWindow().getGuiScaledWidth();
-        this.height = mc.getWindow().getGuiScaledHeight();
+        width = mc.getWindow().getGuiScaledWidth();
+        height = mc.getWindow().getGuiScaledHeight();
     }
     
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)

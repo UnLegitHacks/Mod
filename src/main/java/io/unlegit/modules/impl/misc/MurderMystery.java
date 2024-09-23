@@ -3,9 +3,7 @@ package io.unlegit.modules.impl.misc;
 import static net.minecraft.world.item.Items.*;
 
 import java.util.ArrayList;
-import java.util.Map.Entry;
 
-import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.tracker.PlayerTracker;
@@ -23,20 +21,14 @@ public class MurderMystery extends ModuleU
     {
         if (murderer == null)
         {
-            for (Entry<Player, ArrayList<ItemStack>> entry : PlayerTracker.get().items.entrySet())
+            Player player = PlayerTracker.get().findPlayerWithItem(stack -> illegal(stack));
+            
+            if (player != null)
             {
-                for (ItemStack stack : entry.getValue())
-                {
-                    if (illegal(stack))
-                    {
-                        murderer = entry.getKey();
-                        clientMessage(UnLegit.PREFIX + ChatFormatting.GOLD +
-                        
-                                "Murderer: " + murderer.getName().getString());
-                        
-                        break;
-                    }
-                }
+                clientMessage(ChatFormatting.GOLD +
+                        "Murderer: " + murderer.getName().getString());
+                
+                murderer = player;
             }
         }
     }

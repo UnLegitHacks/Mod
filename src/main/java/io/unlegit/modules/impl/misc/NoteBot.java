@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 import com.xxmicloxx.NoteBlockAPI.NBSDecoder;
 import com.xxmicloxx.NoteBlockAPI.model.*;
 
-import io.unlegit.UnLegit;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
@@ -71,17 +70,15 @@ public class NoteBot extends ModuleU
             
             if (song == null)
             {
-                clientMessage(UnLegit.PREFIX + ChatFormatting.DARK_RED +
-                
-                "The NBS file is not found. Disabling.");
+                clientMessage(ChatFormatting.DARK_RED +
+                        "The NBS file is not found. Disabling.");
                 
                 setEnabled(false);
                 return;
             }
             
-            clientMessage(UnLegit.PREFIX + ChatFormatting.GREEN +
-            
-            "Now playing: " + file.getName().replace(".nbs", ""));
+            clientMessage(ChatFormatting.GREEN +
+                    "Now playing: " + file.getName().replace(".nbs", ""));
             
             for (int i = 0; i < song.getLength(); i++)
             {
@@ -166,7 +163,7 @@ public class NoteBot extends ModuleU
                     mc.player.swing(InteractionHand.MAIN_HAND);
                     Packets.send(new ServerboundUseItemOnPacket(InteractionHand.MAIN_HAND, new BlockHitResult(new Vec3(blockX, blockY + 0.5D, blockZ), Direction.UP, pos, false), 1));
                     notePitch++; if (notePitch > 24) notePitch = 0;
-                    int delay = mode.equals("Legit") ? (100 + (int) (100 * Math.random())) : 50;
+                    int delay = mode.equals("Legit") ? (50 + (int) (100 * Math.random())) : 50;
                     
                     if (!running) return false;
                     try { Thread.sleep(delay); } catch (InterruptedException e) {}
@@ -202,7 +199,7 @@ public class NoteBot extends ModuleU
                 
                 if (!block.is(Blocks.NOTE_BLOCK))
                 {
-                    clientMessage(UnLegit.PREFIX + ChatFormatting.YELLOW +
+                    clientMessage(ChatFormatting.YELLOW +
                     
                     "Couldn't find all note blocks! Please make sure there is a 5x5 area of " +
                     "note blocks below you, & that you're standing in the center of it.");

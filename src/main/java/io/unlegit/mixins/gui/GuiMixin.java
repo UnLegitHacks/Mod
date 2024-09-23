@@ -49,7 +49,8 @@ public class GuiMixin
         ActiveMods activeMods = (ActiveMods) UnLegit.modules.get("Active Mods");
         int lx = (value - (minecraft.getWindow().getGuiScaledHeight() / 2)) * 3;
         
-        return activeMods.isEnabled() && scoreboard.makeSpaceForModules.enabled ?
+        return activeMods.isEnabled() && scoreboard.makeSpaceForModules.enabled &&
+                activeMods.position.equals("Top Right") ?
                 Math.max(value, lx + activeMods.getHeight()) : value;
     }
 }

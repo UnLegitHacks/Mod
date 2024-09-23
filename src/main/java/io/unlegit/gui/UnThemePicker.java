@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class UnThemeScreen extends Screen implements IGui
+public class UnThemePicker extends Screen implements IGui
 {
     private static boolean initialized = false;
     
@@ -36,5 +36,5 @@ public class UnThemeScreen extends Screen implements IGui
         minecraft.setScreen(new UnTitleScreen());
     }
     
-    public UnThemeScreen() { super(Component.literal("Theme Picker")); }
+    public UnThemePicker() { super(Component.literal("Theme Picker")); }
 }

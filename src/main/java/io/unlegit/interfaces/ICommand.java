@@ -8,5 +8,5 @@ public @interface ICommand
 {
     public String name();
     public String shortForm();
-    public String exampleUse();
+    public String usage();
 }

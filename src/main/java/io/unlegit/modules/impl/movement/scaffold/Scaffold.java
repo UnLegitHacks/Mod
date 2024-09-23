@@ -103,19 +103,47 @@ public class Scaffold extends ModuleU implements IGui
         
         if (jumpKeyDown() || (int) mc.player.getY() == mc.player.getY()) y = mc.player.getY();
         
-        Vec3 block = new Vec3(getBlockX(), y, getBlockZ());
-        pos = new BlockPos((int) Math.floor(mc.player.getX()), (int) block.y - 1, (int) Math.floor(mc.player.getZ())).relative(getDirection()).mutable();
-        
-        if (mc.level.isEmptyBlock(pos.relative(getDirection().getOpposite())))
+        if (!getDirection().equals(Direction.UP))
         {
-            preSwitchItem();
-            ItemStack itemStack = mc.player.getMainHandItem();
+            Vec3 block = new Vec3(getBlockX(), y, getBlockZ());
+            pos = new BlockPos((int) Math.floor(mc.player.getX()), (int) block.y - 1, (int) Math.floor(mc.player.getZ())).relative(getDirection()).mutable();
             
-            if (!itemStack.isEmpty() && itemStack.getItem() instanceof BlockItem && getDirection() != Direction.UP)
+            if (mc.level.isEmptyBlock(pos.relative(getDirection().getOpposite())))
             {
+                preSwitchItem();
+                ItemStack itemStack = mc.player.getMainHandItem();
+                
+                if (!itemStack.isEmpty() && itemStack.getItem() instanceof BlockItem && getDirection() != Direction.UP)
+                {
+                    int i = itemStack.getCount();
+                    BlockHitResult hitResult = new BlockHitResult(block, getDirection().getOpposite(), pos, false);
+                    InteractionResult actResult = mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, hitResult);
+                    
+                    if (actResult.consumesAction() && actResult.shouldSwing())
+                    {
+                        if (swingHand.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
+                        else Packets.send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
+                    }
+                    
+                    if ((itemStack.getCount() != i || mc.gameMode.hasInfiniteItems()) && swingHand.enabled)
+                        mc.gameRenderer.itemInHandRenderer.itemUsed(InteractionHand.MAIN_HAND);
+                }
+                
+                postSwitchItem();
+            }
+        }
+        
+        else
+        {
+            int blockX = (int) Math.floor(mc.player.getX()), blockY = (int) Math.floor(mc.player.getY()) - 1, blockZ = (int) Math.floor(mc.player.getZ());
+            BlockPos pos = new BlockPos(blockX, blockY, blockZ);
+            
+            if (mc.level.isEmptyBlock(pos))
+            {
+                preSwitchItem();
+                ItemStack itemStack = mc.player.getMainHandItem();
                 int i = itemStack.getCount();
-                BlockHitResult hitResult = new BlockHitResult(block, getDirection().getOpposite(), pos, false);
-                InteractionResult actResult =  mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, hitResult);
+                InteractionResult actResult = mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, new BlockHitResult(new Vec3(blockX, blockY + 0.5D, blockZ), Direction.UP, pos, false));
                 
                 if (actResult.consumesAction() && actResult.shouldSwing())
                 {
@@ -125,9 +153,9 @@ public class Scaffold extends ModuleU implements IGui
                 
                 if ((itemStack.getCount() != i || mc.gameMode.hasInfiniteItems()) && swingHand.enabled)
                     mc.gameRenderer.itemInHandRenderer.itemUsed(InteractionHand.MAIN_HAND);
+                
+                postSwitchItem();
             }
-            
-            postSwitchItem();
         }
     }
     

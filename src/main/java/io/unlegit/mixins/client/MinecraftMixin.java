@@ -14,7 +14,7 @@ import io.unlegit.UnLegit;
 import io.unlegit.events.impl.client.UpdateE;
 import io.unlegit.events.impl.client.WorldChangeE;
 import io.unlegit.events.impl.entity.AttackE;
-import io.unlegit.gui.UnThemeScreen;
+import io.unlegit.gui.UnThemePicker;
 import io.unlegit.gui.UnTitleScreen;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.modules.impl.combat.killaura.AutoBlock;
@@ -55,7 +55,7 @@ public class MinecraftMixin
         if (screen.get() instanceof TitleScreen)
         {
             if (UnLegit.isFirstLaunch())
-                screen.set(new UnThemeScreen());
+                screen.set(new UnThemePicker());
             else if ("Fancy".equals(UnLegit.THEME))
                 screen.set(new UnTitleScreen());
         } else if (screen.get() instanceof UnTitleScreen && "Vanilla".equals(UnLegit.THEME))

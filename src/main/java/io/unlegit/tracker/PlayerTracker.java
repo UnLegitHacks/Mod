@@ -2,10 +2,12 @@ package io.unlegit.tracker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import io.unlegit.UnLegit;
 import io.unlegit.events.EventListener;
 import io.unlegit.interfaces.IMinecraft;
+import io.unlegit.utils.entity.InvUtil.ItemFilter;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -75,6 +77,20 @@ public class PlayerTracker implements EventListener, IMinecraft
     public void start()
     {
         UnLegit.events.register(instance);
+    }
+    
+    public Player findPlayerWithItem(ItemFilter filter)
+    {
+        for (Entry<Player, ArrayList<ItemStack>> entry : items.entrySet())
+        {
+            for (ItemStack stack : entry.getValue())
+            {
+                if (filter.process(stack))
+                    return entry.getKey();
+            }
+        }
+        
+        return null;
     }
     
     public static boolean hasChanged()

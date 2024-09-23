@@ -8,7 +8,7 @@ import io.unlegit.modules.ModuleU;
 import net.minecraft.ChatFormatting;
 
 /** Hides modules from ActiveMods. */
-@ICommand(name = "Hide", shortForm = "h", exampleUse = ".hide <module>")
+@ICommand(name = "Hide", shortForm = "h", usage = ".hide <module>")
 public class HideCommand extends Command
 {
     public void onExecute(String[] args)
@@ -22,10 +22,13 @@ public class HideCommand extends Command
             UnConfig.save();
             
             if (module.hidden)
-                clientMessage(UnLegit.PREFIX + ChatFormatting.GREEN + "Hidden " + module.name + ".");
-            else clientMessage(UnLegit.PREFIX + ChatFormatting.RED + "Unhidden " + module.name + ".");
+                clientMessage(ChatFormatting.GREEN +
+                        "Hidden " + module.name + ".");
+            else clientMessage(ChatFormatting.RED +
+                    "Unhidden " + module.name + ".");
         }
         
-        else clientMessage(UnLegit.PREFIX + ChatFormatting.DARK_RED + "Module " + args[0] + " not found!");
+        else clientMessage(ChatFormatting.DARK_RED +
+                "Module " + args[0] + " not found!");
     }
 }

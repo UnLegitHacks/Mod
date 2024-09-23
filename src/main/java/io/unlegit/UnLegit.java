@@ -50,7 +50,7 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         events.register(this);
         UnConfig.init();
         
-        // Fixes an issue.
+        // Fixes an issue. Not intended to be heard.
         SoundUtil.playActionSound();
         LOGGER.info("Successfully loaded up.");
     }
@@ -84,7 +84,7 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
     
     private static String getPrefix()
     {
-        return ChatFormatting.AQUA + "UnLegit " + ChatFormatting.DARK_PURPLE + "> " + ChatFormatting.RESET;
+        return ChatFormatting.DARK_PURPLE + "> " + ChatFormatting.RESET;
     }
     
     public static boolean isFirstLaunch() { return firstLaunch; }

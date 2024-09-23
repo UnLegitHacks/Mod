@@ -7,7 +7,7 @@ import io.unlegit.interfaces.ICommand;
 import io.unlegit.modules.ModuleU;
 import net.minecraft.ChatFormatting;
 
-@ICommand(name = "Toggle", shortForm = "T", exampleUse = ".toggle <module>")
+@ICommand(name = "Toggle", shortForm = "T", usage = ".toggle <module>")
 public class ToggleCommand extends Command
 {
     public void onExecute(String[] args)
@@ -21,10 +21,13 @@ public class ToggleCommand extends Command
             UnConfig.save();
             
             if (module.isEnabled())
-                clientMessage(UnLegit.PREFIX + ChatFormatting.GREEN + "Enabled " + module.name + ".");
-            else clientMessage(UnLegit.PREFIX + ChatFormatting.RED + "Disabled " + module.name + ".");
+                clientMessage(ChatFormatting.GREEN +
+                        "Enabled " + module.name + ".");
+            else clientMessage(ChatFormatting.RED +
+                    "Disabled " + module.name + ".");
         }
         
-        else clientMessage(UnLegit.PREFIX + ChatFormatting.DARK_RED + "Module " + args[0] + " not found!");
+        else clientMessage(ChatFormatting.DARK_RED +
+                "Module " + args[0] + " not found!");
     }
 }

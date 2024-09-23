@@ -3,19 +3,18 @@ package io.unlegit.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import io.unlegit.UnLegit;
 import io.unlegit.commands.impl.*;
 import io.unlegit.interfaces.IMinecraft;
 import net.minecraft.ChatFormatting;
 
 public class CommandManager implements IMinecraft
 {
-    public ArrayList<Command> commands = new ArrayList<>();
+    private ArrayList<Command> commands = new ArrayList<>();
     
     public CommandManager()
     {
         add(new ToggleCommand(), new BindCommand(), new InvSeeCommand(),
-            new VClipCommand(), new HideCommand());
+            new VClipCommand(), new HideCommand(), new HelpCommand());
     }
     
     public void handle(String message)
@@ -26,7 +25,7 @@ public class CommandManager implements IMinecraft
         
         if (command != null)
             command.onExecute(segments.length == 1 ? null : Arrays.copyOfRange(segments, 1, segments.length));
-        else clientMessage(UnLegit.PREFIX + ChatFormatting.DARK_RED + "The command does not exist.");
+        else clientMessage(ChatFormatting.DARK_RED + "The command does not exist.");
     }
     
     private void add(Command... commands)
@@ -44,4 +43,6 @@ public class CommandManager implements IMinecraft
         
         return null;
     }
+    
+    public ArrayList<Command> get() { return commands; }
 }

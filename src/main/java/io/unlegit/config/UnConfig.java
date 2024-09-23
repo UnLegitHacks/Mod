@@ -58,7 +58,7 @@ public class UnConfig
                 else if (setting instanceof ColorSetting)
                 {
                     ColorSetting colorSetting = (ColorSetting) setting;
-                    jsonModule.addProperty(setting.name, colorSetting.red + ";" + colorSetting.green + ";" + colorSetting.blue + ";" + colorSetting.alpha);
+                    jsonModule.addProperty(setting.name, colorSetting.red + ";" + colorSetting.green + ";" + colorSetting.blue + ";" + colorSetting.alpha + ";" + colorSetting.rainbow);
                 }
                 
                 else if (setting instanceof TextSetting)
@@ -133,6 +133,7 @@ public class UnConfig
                             colorSetting.green = Integer.parseInt(colors[1]);
                             colorSetting.blue = Integer.parseInt(colors[2]);
                             colorSetting.alpha = Integer.parseInt(colors[3]);
+                            colorSetting.rainbow = Boolean.parseBoolean(colors[4]);
                         }
                         
                         else if (setting instanceof TextSetting)

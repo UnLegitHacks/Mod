@@ -38,6 +38,20 @@ public class WindowMixin
         }
     }
     
+    @Redirect(method = "setIcon", at = @At(value = "INVOKE", target = "getMacIcon"))
+    public IoSupplier<InputStream> macIcons(IconSet icons, PackResources packResources) throws IOException
+    {
+        try
+        {
+            return () -> getFile("minecraft.icns");
+        }
+        
+        catch (IllegalArgumentException e)
+        {
+            return icons.getMacIcon(packResources);
+        }
+    }
+    
     private InputStream getFile(String name) throws IllegalArgumentException
     {
         InputStream stream = UnLegit.class.getClassLoader().getResourceAsStream("assets/unlegit/icons/" + name);

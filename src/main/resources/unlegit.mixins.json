@@ -9,7 +9,8 @@
 		"render.EntityRenderMixin", "client.AccKeyMap", "client.KeyInputMixin", "client.PauseScreenMixin",
 		"client.ChatCompMixin", "render.FogRenderMixin", "render.ScreenEffectMixin", "network.AccConnection",
 		"gui.AccGraphics", "render.LivingRenderMixin", "entity.EntityMixin", "entity.LivingEntityMixin",
-		"render.GameRenderMixin", "client.LevelDataMixin", "client.WindowMixin", "render.LivingEntityRenderMixin"
+		"render.GameRenderMixin", "client.LevelDataMixin", "client.WindowMixin", "render.LivingEntityRenderMixin",
+		"gui.LogoRenderMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

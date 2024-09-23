@@ -7,8 +7,7 @@ import io.unlegit.modules.impl.combat.*;
 import io.unlegit.modules.impl.combat.killaura.KillAura;
 import io.unlegit.modules.impl.gui.*;
 import io.unlegit.modules.impl.gui.keystrokes.KeyStrokes;
-import io.unlegit.modules.impl.item.AutoTotem;
-import io.unlegit.modules.impl.item.ChestStealer;
+import io.unlegit.modules.impl.item.*;
 import io.unlegit.modules.impl.misc.*;
 import io.unlegit.modules.impl.movement.*;
 import io.unlegit.modules.impl.movement.scaffold.Scaffold;
@@ -31,7 +30,8 @@ public class ModuleManager
             new Scaffold(), new Spammer(), new AntiBlind(), new LowFire(),
             new NoSlow(), new Compass(), new Scoreboard(), new NoteBot(),
             new NoHurtCam(), new TimeChanger(), new WTap(), new Blink(),
-            new Fly(), new Rotations(), new NoFall(), new MurderMystery());
+            new Fly(), new Rotations(), new NoFall(), new MurderMystery(),
+            new AutoArmor(), new TabGui(), new Reach(), new Minimap());
         
         PlayerTracker.get().start();
         UnLegit.settings.call(this);
@@ -43,7 +43,8 @@ public class ModuleManager
         
         for (ModuleU module : this.modules)
         {
-            if (module.category.equals(category)) modules.add(module);
+            if (module.category.equals(category))
+                modules.add(module);
         }
         
         return modules;

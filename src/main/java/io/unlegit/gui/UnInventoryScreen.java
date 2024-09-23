@@ -21,8 +21,8 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
     public UnInventoryScreen(Player player)
     {
         super(getMenu(player), getInventory(player), Component.translatable("container.crafting"));
-        this.titleLabelX = 97;
         this.player = player;
+        titleLabelX = 97;
     }
     
     protected void renderLabels(GuiGraphics guiGraphics, int i, int j)
@@ -62,7 +62,8 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
         
         for (ItemStack armor : player.getInventory().armor)
         {
-            if (armor != null) inventory.armor.set(i, armor.copy());
+            if (armor != null)
+                inventory.armor.set(i, armor.copy());
             i++;
         }
         

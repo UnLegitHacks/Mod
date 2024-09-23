@@ -1,4 +1,4 @@
-package io.unlegit.modules.impl.player;
+package io.unlegit.modules.impl.item;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -59,6 +59,7 @@ public class OldHitting extends ModuleU
                 pose.mulPose(Axis.ZP.rotationDegrees(x * 20));
                 break;
             case "Leaked":
+                pose.scale(1 + (x / 4), 1 + (x / 4), 1 + (x / 4));
                 pose.mulPose(Axis.YP.rotationDegrees(y * 30));
                 pose.mulPose(Axis.ZP.rotationDegrees(x * 30));
                 pose.mulPose(Axis.XP.rotationDegrees(x * 30));
