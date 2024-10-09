@@ -26,7 +26,7 @@ public class MurderMystery extends ModuleU
             if (player != null)
             {
                 clientMessage(ChatFormatting.GOLD +
-                        "Murderer: " + murderer.getName().getString());
+                        "Murderer: " + player.getName().getString());
                 
                 murderer = player;
             }

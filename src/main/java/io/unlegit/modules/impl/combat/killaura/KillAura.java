@@ -73,7 +73,7 @@ public class KillAura extends ModuleU
         
         target = TargetUtil.getTarget(mc.player, range + 1, priority.selected);
         
-        if (target != null)
+        if (target != null && !mc.player.isDeadOrDying())
         {
             if (mc.screen != null && !(mc.screen instanceof ChatScreen) && !(mc.screen instanceof PauseScreen) && !(mc.screen instanceof ClickGui)) mc.setScreen(null);
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");

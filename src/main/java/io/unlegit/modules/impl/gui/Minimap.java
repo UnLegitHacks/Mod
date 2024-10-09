@@ -1,4 +1,4 @@
-package io.unlegit.modules.impl.render;
+package io.unlegit.modules.impl.gui;
 
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;

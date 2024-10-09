@@ -95,7 +95,8 @@ public class NameTags extends ModuleU implements IGui
                 IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
             } else GlStateManager._disableDepthTest();
             
-            IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, entity instanceof Player ? 4 : 10, new Color(colorRGB));
+            if (component != null && component.getString() != null)
+                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, entity instanceof Player ? 4 : 10, new Color(colorRGB));
             
             GlStateManager._disableBlend();
             poseStack.popPose();

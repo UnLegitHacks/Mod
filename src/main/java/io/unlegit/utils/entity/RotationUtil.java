@@ -51,8 +51,8 @@ public class RotationUtil implements IMinecraft
         Vec3 camera = mc.player.getEyePosition(),
              rotation = mc.player.calculateViewVector(pitch, yaw),
              position = camera.add(rotation.x * distance, rotation.y * distance, rotation.z * distance);
-        AABB box = target.getBoundingBox().expandTowards(rotation.scale(distance));
-        return ProjectileUtil.getEntityHitResult(mc.player, camera, position, box, entity -> !entity.isSpectator(), Mth.square(distance)) != null;
+        AABB box = target.getBoundingBox().expandTowards(rotation.scale(distance)).inflate(1, 1, 1);
+        return ProjectileUtil.getEntityHitResult(mc.player, camera, position, box, entity -> !entity.isSpectator() && entity.isPickable(), Mth.square(distance)) != null;
     }
     
     public static class GCDFix implements IMinecraft
