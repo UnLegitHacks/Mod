@@ -12,7 +12,6 @@ import io.unlegit.config.UnConfig;
 import io.unlegit.events.EventBus;
 import io.unlegit.events.EventListener;
 import io.unlegit.events.impl.client.KeyE;
-import io.unlegit.events.impl.network.PacketSendE;
 import io.unlegit.events.impl.render.GuiRenderE;
 import io.unlegit.gui.UnLegitOptions;
 import io.unlegit.gui.clickgui.ClickGui;
@@ -24,11 +23,10 @@ import io.unlegit.modules.settings.SettingManager;
 import io.unlegit.utils.SoundUtil;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.protocol.game.ServerboundChatPacket;
 
 public class UnLegit implements ModInitializer, EventListener, IMinecraft
 {
-    public static final String VERSION = "3.0B 1", NAME = "UnLegit " + VERSION, PREFIX = getPrefix();
+    public static final String VERSION = "3.0-Beta-1", NAME = "UnLegit " + VERSION, PREFIX = getPrefix();
     public static final Logger LOGGER = LoggerFactory.getLogger("UnLegit");
     private static boolean firstLaunch = false;
     public static String THEME = "Fancy";
@@ -70,15 +68,6 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         {
             IFont.LARGE.drawStringWithShadow(e.graphics, "UnLegit", 3, 2, new Color(255, 255, 255, 128));
             IFont.NORMAL.drawStringWithShadow(e.graphics, VERSION, 4, 23, new Color(255, 255, 255, 128));
-        }
-    }
-    
-    public void onPacketSend(PacketSendE e)
-    {
-        if (e.packet instanceof ServerboundChatPacket packet && packet.message().startsWith("."))
-        {
-            commands.handle(packet.message());
-            e.cancelled = true;
         }
     }
     

@@ -8,7 +8,7 @@ public class SayCommand extends Command
 {
     public void onExecute(String[] args)
     {
-        if (!validateArgs(args, 1)) return;
-        mc.getConnection().sendChat(String.join(" ", args));
+        String message = String.join(" ", args);
+        mc.getConnection().sendChat(message.startsWith("/") ? message.substring(1) : message);
     }
 }

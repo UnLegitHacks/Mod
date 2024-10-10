@@ -2,7 +2,7 @@ package io.unlegit.gui;
 
 import java.util.ArrayList;
 
-import io.unlegit.tracker.PlayerTracker;
+import io.unlegit.analytics.PlayerTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;

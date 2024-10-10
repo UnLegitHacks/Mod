@@ -3,6 +3,7 @@ package io.unlegit.modules;
 import java.util.ArrayList;
 
 import io.unlegit.UnLegit;
+import io.unlegit.analytics.PlayerTracker;
 import io.unlegit.modules.impl.combat.*;
 import io.unlegit.modules.impl.combat.killaura.KillAura;
 import io.unlegit.modules.impl.gui.*;
@@ -14,7 +15,6 @@ import io.unlegit.modules.impl.movement.scaffold.Scaffold;
 import io.unlegit.modules.impl.player.*;
 import io.unlegit.modules.impl.render.*;
 import io.unlegit.modules.impl.world.TimeChanger;
-import io.unlegit.tracker.PlayerTracker;
 
 public class ModuleManager
 {
