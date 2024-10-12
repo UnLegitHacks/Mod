@@ -3,6 +3,7 @@ package io.unlegit.modules.settings.impl;
 import java.awt.Color;
 
 import io.unlegit.modules.settings.Setting;
+import io.unlegit.utils.render.EzColor;
 
 public class ColorSetting extends Setting
 {
@@ -18,13 +19,13 @@ public class ColorSetting extends Setting
         this.alpha = alpha;
     }
     
-    public Color get()
+    public int get()
     {
-        return rainbow ? spectrum() : new Color(red, green, blue, alpha);
+        return rainbow ? spectrum() : EzColor.RGB(red, green, blue, alpha);
     }
     
-    public Color spectrum()
+    public int spectrum()
     {
-        return Color.getHSBColor(((System.currentTimeMillis() / 25) % 255) / 255F, 0.75F, 1);
+        return Color.getHSBColor(((System.currentTimeMillis() / 25) % 255) / 255F, 0.75F, 1).getRGB();
     }
 }

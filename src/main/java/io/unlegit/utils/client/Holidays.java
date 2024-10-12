@@ -5,11 +5,12 @@ import java.util.Date;
 
 public class Holidays
 {
+    public static Calendar calendar = null;
     private static String holiday = "";
     
     static
     {
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         
         int month = calendar.get(Calendar.MONTH), day = calendar.get(Calendar.DAY_OF_MONTH) + 1;

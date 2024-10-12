@@ -1,6 +1,5 @@
 package io.unlegit.gui.clickgui.category;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -15,6 +14,7 @@ import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.modules.CategoryM;
 import io.unlegit.modules.ModuleU;
+import io.unlegit.utils.render.EzColor;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class RenderCategory implements IGui
@@ -56,10 +56,10 @@ public class RenderCategory implements IGui
         drawShadow(graphics, parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);
         
         graphics.setColor(1, 1, 1, 1);
-        graphics.fill(x, y, x + 110, y + 30, new Color(10, 10, 10, (int) (alpha / 1.275F)).getRGB());
+        graphics.fill(x, y, x + 110, y + 30, EzColor.RGB(10, 10, 10, (int) (alpha / 1.275F)));
         String name = StringUtils.capitalize(category.name().toLowerCase());
-        IFont.MEDIUM.drawString(graphics, name, x + 10, y + 6, new Color(192, 192, 192, alpha));
-        graphics.fill(x, y + 30, x + 110, y + 160, new Color(0, 0, 0, (int) (alpha / 1.275F)).getRGB());
+        IFont.MEDIUM.drawString(graphics, name, x + 10, y + 6, EzColor.RGB(192, 192, 192, alpha));
+        graphics.fill(x, y + 30, x + 110, y + 160, EzColor.RGB(0, 0, 0, (int) (alpha / 1.275F)));
         graphics.enableScissor((int) (x * scale), (int) (y * scale),
                 (int) ((x * scale) + (110 * scale)), (int) ((y * scale) + (160 * scale)));
         int offset = scroll;
@@ -69,13 +69,13 @@ public class RenderCategory implements IGui
             if (module.isEnabled())
             {
                 if (mouseOver(mouseX, mouseY, x, y + 30 + offset, x + 110, y + 45 + offset))
-                    graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(0, 175, 255, alpha).getRGB());
+                    horzGradient(graphics, x, y + 30 + offset, x + 110, y + 45 + offset, parent.brightBluple(x, alpha), parent.brightBluple(x + 110, alpha));
                 else
-                    graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(0, 150, 255, alpha).getRGB());
+                    horzGradient(graphics, x, y + 30 + offset, x + 110, y + 45 + offset, parent.normalBluple(x, alpha), parent.normalBluple(x + 110, alpha));
             } else if (mouseOver(mouseX, mouseY, x, y + 30 + offset, x + 110, y + 45 + offset))
-                graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, new Color(48, 48, 48, alpha / 2).getRGB());
+                graphics.fill(x, y + 30 + offset, x + 110, y + 45 + offset, EzColor.RGB(48, 48, 48, alpha / 2));
             
-            IFont.NORMAL.drawString(graphics, module.name, x + (module.isEnabled() ? 15 : 10), y + 32 + offset, module.isEnabled() ? new Color(0, 0, 0, alpha) : new Color(255, 255, 255, alpha));
+            IFont.NORMAL.drawString(graphics, module.name, x + (module.isEnabled() ? 15 : 10), y + 32 + offset, module.isEnabled() ? EzColor.RGB(0, 0, 0, alpha) : EzColor.RGB(255, 255, 255, alpha));
             offset += 15;
         }
         

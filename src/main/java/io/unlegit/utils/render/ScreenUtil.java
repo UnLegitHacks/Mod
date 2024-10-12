@@ -2,11 +2,16 @@ package io.unlegit.utils.render;
 
 import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 
+import org.joml.Matrix4f;
+
+import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.mixins.gui.AccGameRender;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.PostChain;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 
@@ -64,5 +69,16 @@ public class ScreenUtil implements IMinecraft
         {
             if (keyName.equalsIgnoreCase(glfwGetKeyName(i, 0))) return i;
         } return -1;
+    }
+    
+    public static void horzGradient(GuiGraphics graphics, int i, int j, int k, int l, int n, int o)
+    {
+        VertexConsumer vertexConsumer = graphics.bufferSource().getBuffer(RenderType.gui());
+        Matrix4f matrix4f = graphics.pose().last().pose();
+        vertexConsumer.addVertex(matrix4f, i, j, 0).setColor(n);
+        vertexConsumer.addVertex(matrix4f, i, l, 0).setColor(n);
+        vertexConsumer.addVertex(matrix4f, k, l, 0).setColor(o);
+        vertexConsumer.addVertex(matrix4f, k, j, 0).setColor(o);
+        graphics.flush();
     }
 }

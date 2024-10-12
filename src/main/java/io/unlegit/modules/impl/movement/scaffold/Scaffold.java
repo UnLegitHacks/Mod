@@ -2,8 +2,6 @@ package io.unlegit.modules.impl.movement.scaffold;
 
 import static io.unlegit.modules.impl.movement.scaffold.HelperBlock.*;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.unlegit.UnLegit;
@@ -19,6 +17,7 @@ import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.entity.InvUtil;
 import io.unlegit.utils.network.Packets;
 import io.unlegit.utils.render.Animation;
+import io.unlegit.utils.render.EzColor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -239,10 +238,10 @@ public class Scaffold extends ModuleU implements IGui
             }
             
             else
-                graphics.fill((width / 2) - 31, height - 80, (width / 2) - 31 + 63, height - 82 + 20, new Color(0, 0, 0, 128).getRGB());
+                graphics.fill((width / 2) - 31, height - 80, (width / 2) - 31 + 63, height - 82 + 20, EzColor.RGB(0, 0, 0, 128));
             
-            IFont.NORMAL.drawCenteredString(graphics, items + "", (width / 2) - 18, height - 77, new Color(255, 255, 255, animation.wrap(255)));
-            IFont.NORMAL.drawCenteredString(graphics, "Blocks", (width / 2) + 1 + (IFont.NORMAL.getStringWidth(items + "") / 2), height - 77, new Color(220, 220, 220, animation.wrap(128)));
+            IFont.NORMAL.drawCenteredString(graphics, items + "", (width / 2) - 18, height - 77, EzColor.RGB(255, 255, 255, animation.wrap(255)));
+            IFont.NORMAL.drawCenteredString(graphics, "Blocks", (width / 2) + 1 + (IFont.NORMAL.getStringWidth(items + "") / 2), height - 77, EzColor.RGB(220, 220, 220, animation.wrap(128)));
             GlStateManager._enableDepthTest();
             
             graphics.pose().translate(0, -(10 - animation.get() * 10), 0);

@@ -15,4 +15,5 @@ public interface IGui
     default void blur(float factor, float partialTicks) { ScreenUtil.blur(factor, partialTicks); }
     default void drawShadow(GuiGraphics graphics, ResourceLocation resourceLocation, int i, int j, float f, float g, int k, int l, int m, int n) { ScreenUtil.drawShadow(graphics, resourceLocation, i, j, f, g, k, l, m, n); }
     default int getBlurriness() { return ScreenUtil.getBlurriness(); }
+    default void horzGradient(GuiGraphics graphics, int i, int j, int k, int l, int n, int o) { ScreenUtil.horzGradient(graphics, i, j, k, l, n, o); }
 }

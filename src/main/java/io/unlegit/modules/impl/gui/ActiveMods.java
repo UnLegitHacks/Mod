@@ -1,6 +1,5 @@
 package io.unlegit.modules.impl.gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -12,6 +11,7 @@ import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.*;
+import io.unlegit.utils.render.EzColor;
 
 @IModule(name = "Active Mods", description = "Shows the enabled mods.")
 public class ActiveMods extends ModuleU
@@ -40,15 +40,15 @@ public class ActiveMods extends ModuleU
             {
                 if (!module.isEnabled() || module.hidden) continue;
                 
-                Color color = this.color.get();
+                int color = this.color.get();
                 int x = mc.getWindow().getGuiScaledWidth() - IFont.NORMAL.getStringWidth(module.name) + ("Vanilla".equals(UnLegit.THEME) ? 1 : 0);
                 
                 if (background.enabled)
                 {
                     if (position.equals("Top Right"))
-                        e.graphics.fill(x - 8, offset + (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), offset + 15, new Color(0, 0, 0, 128).getRGB());
+                        e.graphics.fill(x - 8, offset + (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), offset + 15, EzColor.RGB(0, 0, 0, 128));
                     else
-                        e.graphics.fill(0, offset + (offset == 0 ? 0 : 2), IFont.NORMAL.getStringWidth(module.name) + 8, offset + 15, new Color(0, 0, 0, 128).getRGB());
+                        e.graphics.fill(0, offset + (offset == 0 ? 0 : 2), IFont.NORMAL.getStringWidth(module.name) + 8, offset + 15, EzColor.RGB(0, 0, 0, 128));
                 }
                 
                 IFont.NORMAL.drawStringWithShadow(e.graphics, module.name, position.equals("Top Right") ? (x - 5) : 3, offset + 2, color);
@@ -62,15 +62,15 @@ public class ActiveMods extends ModuleU
             {
                 if (!module.isEnabled() || module.hidden) continue;
                 
-                Color color = this.color.get();
+                int color = this.color.get();
                 int x = mc.getWindow().getGuiScaledWidth() - IFont.NORMAL.getStringWidth(module.name) + ("Vanilla".equals(UnLegit.THEME) ? 1 : 0);
                 
                 if (background.enabled)
                 {
                     if (position.equals("Bottom Right"))
-                        e.graphics.fill(x - 8, mc.getWindow().getGuiScaledHeight() - offset - (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), mc.getWindow().getGuiScaledHeight() - offset - 15, new Color(0, 0, 0, 128).getRGB());
+                        e.graphics.fill(x - 8, mc.getWindow().getGuiScaledHeight() - offset - (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), mc.getWindow().getGuiScaledHeight() - offset - 15, EzColor.RGB(0, 0, 0, 128));
                     else
-                        e.graphics.fill(0, mc.getWindow().getGuiScaledHeight() - offset - (offset == 0 ? 0 : 2), IFont.NORMAL.getStringWidth(module.name) + 8, mc.getWindow().getGuiScaledHeight() - offset - 15, new Color(0, 0, 0, 128).getRGB());
+                        e.graphics.fill(0, mc.getWindow().getGuiScaledHeight() - offset - (offset == 0 ? 0 : 2), IFont.NORMAL.getStringWidth(module.name) + 8, mc.getWindow().getGuiScaledHeight() - offset - 15, EzColor.RGB(0, 0, 0, 128));
                 }
                 
                 IFont.NORMAL.drawStringWithShadow(e.graphics, module.name, position.equals("Bottom Right") ? (x - 5) : 3, mc.getWindow().getGuiScaledHeight() - offset - 13, color);

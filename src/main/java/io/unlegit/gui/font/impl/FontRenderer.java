@@ -1,6 +1,5 @@
 package io.unlegit.gui.font.impl;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -10,6 +9,7 @@ import com.mojang.blaze3d.vertex.*;
 import io.unlegit.gui.font.GlyphPage;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IMinecraft;
+import io.unlegit.utils.render.EzColor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -55,7 +55,7 @@ public class FontRenderer implements IMinecraft, IGui
         return page;
     }
     
-    private int renderString(GuiGraphics graphics, String text, int x, int y, Color color)
+    private int renderString(GuiGraphics graphics, String text, int x, int y, int color)
     {
         if (text == null) return 0;
         else
@@ -66,9 +66,10 @@ public class FontRenderer implements IMinecraft, IGui
         }
     }
     
-    private void renderStringAtPos(GuiGraphics graphics, String text, Color color)
+    private void renderStringAtPos(GuiGraphics graphics, String text, int color)
     {
-        float red = color.getRed() / 255F, green = color.getGreen() / 255F, blue = color.getBlue() / 255F, alpha = color.getAlpha() / 255F,
+        int[] values = EzColor.extract(color);
+        float red = values[0] / 255F, green = values[1] / 255F, blue = values[2] / 255F, alpha = values[3] / 255F,
               scaleFactor = checkGuiScaleUpdate();
         
         if (alpha == 0 || text.isEmpty()) return;
@@ -107,19 +108,19 @@ public class FontRenderer implements IMinecraft, IGui
         return (int) (width / scaleFactor);
     }
     
-    public int drawString(GuiGraphics graphics, String text, int x, int y, Color color)
+    public int drawString(GuiGraphics graphics, String text, int x, int y, int color)
     {
         return renderString(graphics, text, x, y, color);
     }
     
-    public int drawStringWithShadow(GuiGraphics graphics, String text, int x, int y, Color color)
+    public int drawStringWithShadow(GuiGraphics graphics, String text, int x, int y, int color)
     {
         if (shadow == null) shadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow.png"));
         int width = getStringWidth(text) + 2, height = size + 2;
         x -= 5; width += 10; y -= 3; height += 6;
         
         GlStateManager._enableBlend();
-        graphics.setColor(1, 1, 1, color.getAlpha() / 255F);
+        graphics.setColor(1, 1, 1, EzColor.extract(color)[3] / 255F);
         drawShadow(graphics, shadow, x, y, 40, height, 10, height, 20, height);
         graphics.blit(shadow, x + 10, y, width - 20, height, 60, height, 1, height, 40, height);
         drawShadow(graphics, shadow, x + width - 10, y, 30, height, 10, height, 20, height);
@@ -129,12 +130,12 @@ public class FontRenderer implements IMinecraft, IGui
         return renderString(graphics, text, x, y, color);
     }
     
-    public int drawCenteredString(GuiGraphics graphics, String text, int x, int y, Color color)
+    public int drawCenteredString(GuiGraphics graphics, String text, int x, int y, int color)
     {
         return drawString(graphics, text, x - getStringWidth(text) / 2, y, color);
     }
     
-    public int drawCenteredStringWithShadow(GuiGraphics graphics, String text, int x, int y, Color color)
+    public int drawCenteredStringWithShadow(GuiGraphics graphics, String text, int x, int y, int color)
     {
         return drawStringWithShadow(graphics, text, x - getStringWidth(text) / 2, y, color);
     }

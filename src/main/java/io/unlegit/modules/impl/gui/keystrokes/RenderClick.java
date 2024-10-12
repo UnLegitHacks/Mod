@@ -39,7 +39,7 @@ public class RenderClick extends RenderKey
         }
         
         graphics.setColor(1, 1, 1, 1);
-        IFont.NORMAL.drawCenteredString(graphics, keyMapping.getTranslatedKeyMessage().getString().substring(0, 1), x + 17, y + 6, Color.WHITE);
+        IFont.NORMAL.drawCenteredString(graphics, keyMapping.getTranslatedKeyMessage().getString().substring(0, 1), x + 17, y + 6, Color.WHITE.getRGB());
         prevPressed = keyPressed;
         GlStateManager._disableBlend();
     }

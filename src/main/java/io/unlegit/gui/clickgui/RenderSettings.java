@@ -6,6 +6,7 @@ import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.utils.render.Animation;
+import io.unlegit.utils.render.EzColor;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class RenderSettings implements IMinecraft
@@ -24,11 +25,11 @@ public class RenderSettings implements IMinecraft
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
     {
         int wD = width / 2, hD = height / 2;
-        graphics.fill(wD - 150, hD - 125, wD + 150, hD + 125, new Color(10, 10, 10, 200).getRGB());
+        graphics.fill(wD - 150, hD - 125, wD + 150, hD + 125, EzColor.RGB(10, 10, 10, 200));
         
         graphics.fill(wD - 150, hD - 155, wD - 145 + IFont.LARGE.getStringWidth(module.name) + 10, hD - 125, new Color(10, 10, 10, 200).getRGB());
-        IFont.LARGE.drawString(graphics, module.name, wD - 143, hD - 152, Color.WHITE);
-        IFont.NORMAL.drawString(graphics, module.description, wD - 145, hD - 122, new Color(235, 235, 235));
+        IFont.LARGE.drawString(graphics, module.name, wD - 143, hD - 152, Color.WHITE.getRGB());
+        IFont.NORMAL.drawString(graphics, module.description, wD - 145, hD - 122, EzColor.RGB(235, 235, 235));
     }
     
     public void onClose()

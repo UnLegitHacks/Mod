@@ -25,7 +25,7 @@ public class LogoRenderMixin
         
         pose.pushPose();
         pose.scale(5, 5, 5);
-        IFont.NORMAL.drawCenteredStringWithShadow(guiGraphics, "UnLegit", i / 10, (j + 12) / 5, Color.CYAN);
+        IFont.NORMAL.drawCenteredStringWithShadow(guiGraphics, "UnLegit", i / 10, (j + 12) / 5, Color.CYAN.getRGB());
         pose.popPose();
         
         guiGraphics.setColor(1, 1, 1, 1);

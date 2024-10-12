@@ -14,6 +14,7 @@ import io.unlegit.interfaces.IModule;
 import io.unlegit.mixins.gui.AccGraphics;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ToggleSetting;
+import io.unlegit.utils.render.EzColor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -69,34 +70,34 @@ public class NameTags extends ModuleU implements IGui
             poseStack.translate(vec3.x, vec3.y + (0.75 * (scale / 1.15)), vec3.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
             poseStack.scale(0.0125F * scale, -0.0125F * scale, 0.0125F * scale);
-            Color healthColor = new Color(0, 255, 128);
+            int healthColor = EzColor.RGB(0, 255, 128);
             
             if (health > 10 && health < 20)
-                healthColor = blendColors((health - 10) / 10, Color.ORANGE, new Color(0, 255, 128));
+                healthColor = EzColor.blend((health - 10) / 10, Color.ORANGE.getRGB(), EzColor.RGB(0, 255, 128));
             else if (health <= 10)
-                healthColor = blendColors(health / 10, new Color(255, 50, 50), Color.ORANGE);
+                healthColor = EzColor.blend(health / 10, EzColor.RGB(255, 50, 50), Color.ORANGE.getRGB());
             
             drawShadows(stringWidth);
             GlStateManager._enableDepthTest();
             
             // Background
             poseStack.translate(0, 0, -0.0001F);
-            graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 0, stringWidth / 2, 44, new Color(20, 20, 30, 150).getRGB());
+            graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 0, stringWidth / 2, 44, EzColor.RGB(20, 20, 30, 150));
             poseStack.translate(0, 0, 0.0001F);
             
             if (entity instanceof Player)
             {
                 // Health
                 poseStack.translate(-stringWidth / 2, 0, 0);
-                graphics.fill(RenderType.guiOverlay(), 0, 42, (int) (stringWidth * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor.getRGB());
+                graphics.fill(RenderType.guiOverlay(), 0, 42, (int) (stringWidth * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor);
                 poseStack.translate(stringWidth / 2, 0, 0);
                 
                 GlStateManager._disableDepthTest();
-                IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.darker());
+                IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.getRGB());
             } else GlStateManager._disableDepthTest();
             
             if (component != null && component.getString() != null)
-                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, entity instanceof Player ? 4 : 10, new Color(colorRGB));
+                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, entity instanceof Player ? 4 : 10, colorRGB);
             
             GlStateManager._disableBlend();
             poseStack.popPose();
@@ -142,21 +143,6 @@ public class NameTags extends ModuleU implements IGui
         drawShadow(graphics, leftShadow, -stringWidth / 2 - 8, -9, 27, 62, 27, 62, 27, 62);
         drawShadow(graphics, centerShadow, -stringWidth / 2 + 19, -9, 1, 62, Math.abs((-stringWidth / 2 - 8) - (stringWidth / 2 - 46)), 62, 1, 62);
         drawShadow(graphics, rightShadow, stringWidth / 2 - 19, -9, 27, 62, 27, 62, 27, 62);
-    }
-    
-    private Color blendColors(float mixture, Color color1, Color color2)
-    {
-        int red = color1.getRed(), green = color1.getGreen(), blue = color1.getBlue();
-        
-        if (red < color2.getRed()) red += (color2.getRed() - color1.getRed()) * mixture;
-        if (green < color2.getGreen()) green += (color2.getGreen() - color1.getGreen()) * mixture;
-        if (blue < color2.getBlue()) blue += (color2.getBlue() - color1.getBlue()) * mixture;
-        
-        if (red > color2.getRed()) red -= (color1.getRed() - color2.getRed()) * mixture;
-        if (green > color2.getGreen()) green -= (color1.getGreen() - color2.getGreen()) * mixture;
-        if (blue > color2.getBlue()) blue -= (color1.getBlue() - color2.getBlue()) * mixture;
-        
-        return new Color(red, green, blue, color1.getAlpha());
     }
     
     public float smoothDistanceTo(Entity entity, float partialTicks)

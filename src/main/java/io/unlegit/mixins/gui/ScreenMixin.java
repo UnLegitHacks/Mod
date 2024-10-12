@@ -1,7 +1,5 @@
 package io.unlegit.mixins.gui;
 
-import java.awt.Color;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,6 +11,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IGui;
+import io.unlegit.utils.ElapTime;
+import io.unlegit.utils.render.EzColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -21,7 +21,13 @@ import net.minecraft.resources.ResourceLocation;
 @Mixin(Screen.class)
 public class ScreenMixin implements IGui
 {
-    private static ResourceLocation background = ResourceLocation.fromNamespaceAndPath("unlegit", "background.png");
+    private static final boolean nightMode = ElapTime.getHour() > 18 // 7 P.M.
+                                          || ElapTime.getHour() < 6; // 6 A.M.
+    
+    private static ResourceLocation background = nightMode ?
+            ResourceLocation.fromNamespaceAndPath("unlegit", "night.png") :
+            ResourceLocation.fromNamespaceAndPath("unlegit", "day.png");
+    
     private boolean flag = true;
     
     @Shadow
@@ -40,14 +46,26 @@ public class ScreenMixin implements IGui
             poseStack.last().pose().scale(1 / scale);
             
             if (flag) { background = withLinearScaling(background); flag = false; }
-            int bH = (int) (height * scale), bW = (int) Math.max(bH * 3.21F, width * scale), mouseX = (int) minecraft.mouseHandler.xpos();
+            int bH, bW, mouseX = (int) minecraft.mouseHandler.xpos();
+            
+            if (nightMode)
+            {
+                bH = (int) (height * scale);
+                bW = (int) Math.max(bH * 1.77F, width * scale);
+            }
+            
+            else
+            {
+                bH = (int) (height * scale);
+                bW = (int) Math.max(bH * 3.21F, width * scale);
+            }
             
             GlStateManager._enableBlend();
             guiGraphics.setColor(1, 1, 1, 1);
-            guiGraphics.blit(background, -mouseX / 3, 0, bW, bH, bW, bH, bW, bH);
+            guiGraphics.blit(background, nightMode ? 0 : (-mouseX / 3), 0, bW, bH, bW, bH, bW, bH);
             poseStack.popPose();
             
-            guiGraphics.fill(0, 0, width, height, new Color(0, 0, 0, 50).getRGB());
+            guiGraphics.fill(0, 0, width, height, EzColor.RGB(0, 0, 0, 50));
             info.cancel();
         }
     }

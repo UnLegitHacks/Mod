@@ -1,7 +1,5 @@
 package io.unlegit;
 
-import java.awt.Color;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,12 +19,13 @@ import io.unlegit.modules.ModuleManager;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.SettingManager;
 import io.unlegit.utils.SoundUtil;
+import io.unlegit.utils.render.EzColor;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.ChatFormatting;
 
 public class UnLegit implements ModInitializer, EventListener, IMinecraft
 {
-    public static final String VERSION = "3.0-Beta-1", NAME = "UnLegit " + VERSION, PREFIX = getPrefix();
+    public static final String VERSION = "3.0-Beta-Q1", NAME = "UnLegit " + VERSION, PREFIX = getPrefix();
     public static final Logger LOGGER = LoggerFactory.getLogger("UnLegit");
     private static boolean firstLaunch = false;
     public static String THEME = "Fancy";
@@ -48,14 +47,15 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         events.register(this);
         UnConfig.init();
         
-        // Fixes an issue. Not intended to be heard.
+        // Fixes an issue. The sound is intended to be heard.
         SoundUtil.playActionSound();
         LOGGER.info("Successfully loaded up.");
     }
     
     public void onKey(KeyE e)
     {
-        if (e.key == InputConstants.KEY_RSHIFT) mc.setScreen(ClickGui.get());
+        if (e.key == InputConstants.KEY_RSHIFT)
+            mc.setScreen(ClickGui.get());
         else for (ModuleU module : modules.get())
         {
             if (module.key == e.key) module.toggle();
@@ -66,8 +66,8 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
     {
         if (UnLegitOptions.WATER_MARK)
         {
-            IFont.LARGE.drawStringWithShadow(e.graphics, "UnLegit", 3, 2, new Color(255, 255, 255, 128));
-            IFont.NORMAL.drawStringWithShadow(e.graphics, VERSION, 4, 23, new Color(255, 255, 255, 128));
+            IFont.LARGE.drawStringWithShadow(e.graphics, "UnLegit", 3, 2, EzColor.RGB(255, 255, 255, 128));
+            IFont.NORMAL.drawStringWithShadow(e.graphics, VERSION, 4, 23, EzColor.RGB(255, 255, 255, 128));
         }
     }
     

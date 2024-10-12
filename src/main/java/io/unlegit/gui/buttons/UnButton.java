@@ -1,11 +1,10 @@
 package io.unlegit.gui.buttons;
 
-import java.awt.Color;
-
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.SoundUtil;
 import io.unlegit.utils.render.Animation;
+import io.unlegit.utils.render.EzColor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
@@ -36,7 +35,7 @@ public class UnButton implements IGui
         if (animation != null)
         {
             size += animation.wrap(16); x -= animation.wrap(8); y -= animation.wrap(8);
-            IFont.NORMAL.drawCenteredStringWithShadow(graphics, displayName, x + (size / 2), (y + size) - 8, new Color(255, 255, 255, animation.wrap(255)));
+            IFont.NORMAL.drawCenteredStringWithShadow(graphics, displayName, x + (size / 2), (y + size) - 8, EzColor.RGB(255, 255, 255, animation.wrap(255)));
         }
         
         graphics.blit(buttonTexture, x, y, size, size, size, size, size, size);

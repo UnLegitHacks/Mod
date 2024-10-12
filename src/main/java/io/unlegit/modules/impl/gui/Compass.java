@@ -1,6 +1,5 @@
 package io.unlegit.modules.impl.gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -11,6 +10,7 @@ import io.unlegit.gui.font.impl.FontRenderer;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
+import io.unlegit.utils.render.EzColor;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -85,11 +85,11 @@ public class Compass extends ModuleU implements IGui
         e.graphics.fill(0, 0, 0, 0, 0);
     }
     
-    public Color getColor(int width, float x, float alphaMultiplier)
+    public int getColor(int width, float x, float alphaMultiplier)
     {
         float alpha = 255 - Math.abs((width / 2) - x) * 1.75F;
         if (alpha < 0) alpha = 0; if (alpha > 255) alpha = 255;
-        return new Color(255, 255, 255, (int) (alpha * alphaMultiplier));
+        return EzColor.RGB(255, 255, 255, (int) (alpha * alphaMultiplier));
     }
     
     public void drawString(GuiGraphics graphics, int width, String direction, int x, int y, float alphaMultiplier)
