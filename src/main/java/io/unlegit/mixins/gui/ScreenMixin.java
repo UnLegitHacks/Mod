@@ -21,7 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 @Mixin(Screen.class)
 public class ScreenMixin implements IGui
 {
-    private static final boolean nightMode = ElapTime.getHour() > 18 // 7 P.M.
+    private static final boolean nightMode = ElapTime.getHour() > 17 // 6 P.M.
                                           || ElapTime.getHour() < 6; // 6 A.M.
     
     private static ResourceLocation background = nightMode ?
