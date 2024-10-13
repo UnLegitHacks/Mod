@@ -35,11 +35,11 @@ public class ScreenMixin implements IGui
     @Shadow public Minecraft minecraft;
     
     @Inject(method = "renderPanorama", at = @At(value = "HEAD"), cancellable = true)
-    public void renderPanorama(GuiGraphics guiGraphics, float f, CallbackInfo info)
+    public void renderPanorama(GuiGraphics graphics, float f, CallbackInfo info)
     {
         if ("Fancy".equals(UnLegit.THEME))
         {
-            PoseStack poseStack = guiGraphics.pose();
+            PoseStack poseStack = graphics.pose();
             float scale = (float) minecraft.getWindow().getGuiScale();
             
             poseStack.pushPose();
@@ -61,11 +61,11 @@ public class ScreenMixin implements IGui
             }
             
             GlStateManager._enableBlend();
-            guiGraphics.setColor(1, 1, 1, 1);
-            guiGraphics.blit(background, nightMode ? 0 : (-mouseX / 3), 0, bW, bH, bW, bH, bW, bH);
+            graphics.setColor(1, 1, 1, 1);
+            graphics.blit(background, nightMode ? 0 : (-mouseX / 3), 0, bW, bH, bW, bH, bW, bH);
             poseStack.popPose();
             
-            guiGraphics.fill(0, 0, width, height, EzColor.RGB(0, 0, 0, 50));
+            graphics.fill(0, 0, width, height, EzColor.RGB(0, 0, 0, 50));
             info.cancel();
         }
     }

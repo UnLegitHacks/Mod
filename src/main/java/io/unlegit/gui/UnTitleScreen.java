@@ -1,17 +1,16 @@
 package io.unlegit.gui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.realmsclient.RealmsMainScreen;
 
+import io.unlegit.alts.AltManager;
 import io.unlegit.gui.buttons.UnButton;
 import io.unlegit.gui.buttons.UnPlainTextButton;
 import io.unlegit.gui.buttons.UnPlainTextButton.UnStyle;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
-import io.unlegit.utils.ReflectionUtil;
 import io.unlegit.utils.client.Holidays;
 import io.unlegit.utils.render.EzColor;
 import net.minecraft.SharedConstants;
@@ -26,7 +25,6 @@ import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import ru.vidtu.ias.screen.AccountScreen;
 
 /**
  * Looks aesthetically better
@@ -56,7 +54,7 @@ public class UnTitleScreen extends Screen implements IGui
         else titleText += ("release".equalsIgnoreCase(minecraft.getVersionType()) ? "" : "/" + minecraft.getVersionType());
         if (Minecraft.checkModStatus().shouldReportAsModified()) { titleText += I18n.get("menu.modded"); }
         
-        IFont.NORMAL.drawStringWithShadow(graphics, titleText, 2, height - 14, Color.WHITE.getRGB());
+        IFont.NORMAL.drawStringWithShadow(graphics, titleText, 2, height - 14, -1);
         IFont.NORMAL.drawStringWithShadow(graphics, accountText, width - IFont.NORMAL.getStringWidth(accountText) - 3, 2, EzColor.RGB(200, 200, 200, 200));
         graphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
         
@@ -90,14 +88,7 @@ public class UnTitleScreen extends Screen implements IGui
         
         buttons.add(new UnButton(Component.translatable("menu.online").getString(), "realms", x += 64, y, () -> minecraft.setScreen(new RealmsMainScreen(this))));
         buttons.add(new UnButton(Component.translatable("menu.options").getString(), "settings", x += 64, y, () -> minecraft.setScreen(new OptionsScreen(this, minecraft.options))));
-        
-        buttons.add(new UnButton("Alt Manager", "altmanager", x += 64, y, () ->
-        {
-            if (ReflectionUtil.classExists("ru.vidtu.ias.screen.AccountScreen"))
-                minecraft.setScreen(new AccountScreen(this));
-        }));
-        
-        // buttons.add(new UnButton("Alt Manager", "altmanager", x += 64, y, () -> minecraft.setScreen(AltManager.get())));
+        buttons.add(new UnButton("Alt Manager", "altmanager", x += 64, y, () -> minecraft.setScreen(AltManager.get(this))));
         
         boolean holiday = Holidays.todayOne();
         String copyrightText = holiday ? Holidays.get() : COPYRIGHT_TEXT.getString();

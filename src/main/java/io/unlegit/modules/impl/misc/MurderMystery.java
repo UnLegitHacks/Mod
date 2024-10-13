@@ -4,9 +4,9 @@ import static net.minecraft.world.item.Items.*;
 
 import java.util.ArrayList;
 
-import io.unlegit.analytics.PlayerTracker;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
+import io.unlegit.tracker.PlayerTracker;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;

@@ -1,4 +1,4 @@
-package io.unlegit.gui.alts;
+package io.unlegit.alts;
 
 import java.util.UUID;
 

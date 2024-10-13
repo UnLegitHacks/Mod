@@ -62,7 +62,7 @@ public class NameTags extends ModuleU implements IGui
             String healthText = "Health: " + (int) health;
             
             int stringWidth = Math.max(IFont.LARGE.getStringWidth(component.getString()), IFont.NORMAL.getStringWidth(healthText)) + 10,
-                colorRGB = component.getStyle().getColor() == null ? Color.WHITE.getRGB() : component.getStyle().getColor().getValue();
+                colorRGB = component.getStyle().getColor() == null ? -1 : component.getStyle().getColor().getValue();
 
             if (stringWidth < 30) return;
             
@@ -93,7 +93,7 @@ public class NameTags extends ModuleU implements IGui
                 poseStack.translate(stringWidth / 2, 0, 0);
                 
                 GlStateManager._disableDepthTest();
-                IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, Color.WHITE.getRGB());
+                IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, -1);
             } else GlStateManager._disableDepthTest();
             
             if (component != null && component.getString() != null)

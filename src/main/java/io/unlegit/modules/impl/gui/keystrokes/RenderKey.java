@@ -1,7 +1,5 @@
 package io.unlegit.modules.impl.gui.keystrokes;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.unlegit.gui.font.IFont;
@@ -53,7 +51,7 @@ public class RenderKey implements IGui, IMinecraft
         }
         
         graphics.setColor(1, 1, 1, 1);
-        IFont.NORMAL.drawCenteredString(graphics, keyMapping.getTranslatedKeyMessage().getString(), x + 11, y + 6, Color.WHITE.getRGB());
+        IFont.NORMAL.drawCenteredString(graphics, keyMapping.getTranslatedKeyMessage().getString(), x + 11, y + 6, -1);
         prevPressed = keyPressed;
         GlStateManager._disableBlend();
     }

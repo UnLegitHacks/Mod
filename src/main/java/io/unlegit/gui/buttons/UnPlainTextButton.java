@@ -57,7 +57,7 @@ public class UnPlainTextButton implements IGui
             if (special)
                 IFont.MEDIUM.drawStringWithShadow(graphics, name, x - 1, y, Color.YELLOW.getRGB());
             else
-                IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, Color.WHITE.getRGB());
+                IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, -1);
             
             if (hoverAnimation == null) return;
             

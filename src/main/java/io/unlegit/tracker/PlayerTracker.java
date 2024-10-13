@@ -1,4 +1,4 @@
-package io.unlegit.analytics;
+package io.unlegit.tracker;
 
 import java.util.ArrayList;
 import java.util.HashMap;

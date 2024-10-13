@@ -28,7 +28,7 @@ public class RenderSettings implements IMinecraft
         graphics.fill(wD - 150, hD - 125, wD + 150, hD + 125, EzColor.RGB(10, 10, 10, 200));
         
         graphics.fill(wD - 150, hD - 155, wD - 145 + IFont.LARGE.getStringWidth(module.name) + 10, hD - 125, new Color(10, 10, 10, 200).getRGB());
-        IFont.LARGE.drawString(graphics, module.name, wD - 143, hD - 152, Color.WHITE.getRGB());
+        IFont.LARGE.drawString(graphics, module.name, wD - 143, hD - 152, -1);
         IFont.NORMAL.drawString(graphics, module.description, wD - 145, hD - 122, EzColor.RGB(235, 235, 235));
     }
     

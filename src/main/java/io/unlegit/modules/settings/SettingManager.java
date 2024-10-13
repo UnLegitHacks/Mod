@@ -48,6 +48,12 @@ public class SettingManager
             } catch (Exception e) {}
         }
         
+        if (!this.settings.containsKey(module))
+            putSettings(module, settings);
+    }
+    
+    public void putSettings(ModuleU module, List<Setting> settings)
+    {
         this.settings.put(module, settings);
     }
 }

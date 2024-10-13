@@ -25,7 +25,7 @@ import net.minecraft.ChatFormatting;
 
 public class UnLegit implements ModInitializer, EventListener, IMinecraft
 {
-    public static final String VERSION = "3.0-Beta-Q1", NAME = "UnLegit " + VERSION, PREFIX = getPrefix();
+    public static final String VERSION = "3.0", NAME = "UnLegit " + VERSION, PREFIX = getPrefix();
     public static final Logger LOGGER = LoggerFactory.getLogger("UnLegit");
     private static boolean firstLaunch = false;
     public static String THEME = "Fancy";

@@ -65,7 +65,7 @@ public class MinecraftMixin
     @Inject(method = "createTitle", at = @At(value = "HEAD"), cancellable = true)
     private void insertClientTitle(CallbackInfoReturnable<String> infoReturnable)
     {
-        String title = UnLegit.NAME + " - MC " + SharedConstants.getCurrentVersion().getName();
+        String title = "UL Hacks " + UnLegit.VERSION + " - MC " + SharedConstants.getCurrentVersion().getName();
         infoReturnable.setReturnValue(title);
     }
     

@@ -95,7 +95,7 @@ public class UnConfig
                 Entry<String, JsonElement> entry = iterator.next();
                 
                 ModuleU module = UnLegit.modules.get(entry.getKey());
-                if (module == null) continue; // Forward compatibility handling
+                if (module == null) continue; // Forward compatibility
                 JsonObject jsonModule = (JsonObject) entry.getValue();
                 
                 if (jsonModule.get("Enabled").getAsBoolean()) module.setEnabled(true);
