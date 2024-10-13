@@ -18,7 +18,6 @@ import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.modules.ModuleManager;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.SettingManager;
-import io.unlegit.sound.SpeakerConf;
 import io.unlegit.utils.SoundUtil;
 import io.unlegit.utils.render.EzColor;
 import net.fabricmc.api.ModInitializer;
@@ -46,7 +45,6 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         
         setFirstLaunch(!UnConfig.config.exists());
         events.register(this);
-        SpeakerConf.load();
         UnConfig.init();
         
         // Fixes an issue. The sound is intended to be heard.
