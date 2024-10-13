@@ -62,8 +62,8 @@ public class NameTags extends ModuleU implements IGui
             String healthText = "Health: " + (int) health;
             
             int stringWidth = Math.max(IFont.LARGE.getStringWidth(component.getString()), IFont.NORMAL.getStringWidth(healthText)) + 10,
-                colorRGB = component.getStyle().getColor() == null ? -1 : component.getStyle().getColor().getValue();
-            
+                colorRGB = component.getStyle().getColor() == null ? Color.WHITE.getRGB() : component.getStyle().getColor().getValue();
+
             if (stringWidth < 30) return;
             
             poseStack.pushPose();
@@ -97,7 +97,7 @@ public class NameTags extends ModuleU implements IGui
             } else GlStateManager._disableDepthTest();
             
             if (component != null && component.getString() != null)
-                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, entity instanceof Player ? 4 : 10, colorRGB);
+                IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, entity instanceof Player ? 4 : 10, new Color(colorRGB).getRGB());
             
             GlStateManager._disableBlend();
             poseStack.popPose();
