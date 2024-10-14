@@ -9,7 +9,7 @@ import com.mojang.blaze3d.vertex.*;
 import io.unlegit.gui.font.GlyphPage;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IMinecraft;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -68,7 +68,7 @@ public class FontRenderer implements IMinecraft, IGui
     
     private void renderStringAtPos(GuiGraphics graphics, String text, int color)
     {
-        int[] values = EzColor.extract(color);
+        int[] values = Colorer.extract(color);
         float red = values[0] / 255F, green = values[1] / 255F, blue = values[2] / 255F, alpha = values[3] / 255F,
               scaleFactor = checkGuiScaleUpdate();
         
@@ -120,7 +120,7 @@ public class FontRenderer implements IMinecraft, IGui
         x -= 5; width += 10; y -= 3; height += 6;
         
         GlStateManager._enableBlend();
-        graphics.setColor(1, 1, 1, EzColor.extract(color)[3] / 255F);
+        graphics.setColor(1, 1, 1, Colorer.extract(color)[3] / 255F);
         drawShadow(graphics, shadow, x, y, 40, height, 10, height, 20, height);
         graphics.blit(shadow, x + 10, y, width - 20, height, 60, height, 1, height, 40, height);
         drawShadow(graphics, shadow, x + width - 10, y, 30, height, 10, height, 20, height);

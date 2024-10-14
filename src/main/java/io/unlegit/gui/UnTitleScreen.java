@@ -12,7 +12,7 @@ import io.unlegit.gui.buttons.UnPlainTextButton.UnStyle;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.client.Holidays;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -55,7 +55,7 @@ public class UnTitleScreen extends Screen implements IGui
         if (Minecraft.checkModStatus().shouldReportAsModified()) { titleText += I18n.get("menu.modded"); }
         
         IFont.NORMAL.drawStringWithShadow(graphics, titleText, 2, height - 14, -1);
-        IFont.NORMAL.drawStringWithShadow(graphics, accountText, width - IFont.NORMAL.getStringWidth(accountText) - 3, 2, EzColor.RGB(200, 200, 200, 200));
+        IFont.NORMAL.drawStringWithShadow(graphics, accountText, width - IFont.NORMAL.getStringWidth(accountText) - 3, 2, Colorer.RGB(200, 200, 200, 200));
         graphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
         
         copyrightButton.render(graphics, mouseX, mouseY);

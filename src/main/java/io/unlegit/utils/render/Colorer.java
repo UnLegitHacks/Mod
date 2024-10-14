@@ -5,7 +5,7 @@ package io.unlegit.utils.render;
  * allocate a new object, and allows more customizability in a way.
  * Also provides extra color utils.
  */
-public class EzColor
+public class Colorer
 {
     public static int RGB(int red, int green, int blue, int alpha)
     {

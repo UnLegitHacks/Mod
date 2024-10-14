@@ -17,7 +17,7 @@ import io.unlegit.modules.settings.impl.ToggleSetting;
 import io.unlegit.utils.entity.InvUtil;
 import io.unlegit.utils.network.Packets;
 import io.unlegit.utils.render.Animation;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
@@ -238,10 +238,10 @@ public class Scaffold extends ModuleU implements IGui
             }
             
             else
-                graphics.fill((width / 2) - 31, height - 80, (width / 2) - 31 + 63, height - 82 + 20, EzColor.RGB(0, 0, 0, 128));
+                graphics.fill((width / 2) - 31, height - 80, (width / 2) - 31 + 63, height - 82 + 20, Colorer.RGB(0, 0, 0, 128));
             
-            IFont.NORMAL.drawCenteredString(graphics, items + "", (width / 2) - 18, height - 77, EzColor.RGB(255, 255, 255, animation.wrap(255)));
-            IFont.NORMAL.drawCenteredString(graphics, "Blocks", (width / 2) + 1 + (IFont.NORMAL.getStringWidth(items + "") / 2), height - 77, EzColor.RGB(220, 220, 220, animation.wrap(128)));
+            IFont.NORMAL.drawCenteredString(graphics, items + "", (width / 2) - 18, height - 77, Colorer.RGB(255, 255, 255, animation.wrap(255)));
+            IFont.NORMAL.drawCenteredString(graphics, "Blocks", (width / 2) + 1 + (IFont.NORMAL.getStringWidth(items + "") / 2), height - 77, Colorer.RGB(220, 220, 220, animation.wrap(128)));
             GlStateManager._enableDepthTest();
             
             graphics.pose().translate(0, -(10 - animation.get() * 10), 0);

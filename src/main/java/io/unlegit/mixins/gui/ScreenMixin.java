@@ -12,10 +12,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.ElapTime;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.ReceivingLevelScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.multiplayer.ServerReconfigScreen;
 import net.minecraft.resources.ResourceLocation;
 
 @Mixin(Screen.class)
@@ -65,7 +67,8 @@ public class ScreenMixin implements IGui
             graphics.blit(background, nightMode ? 0 : (-mouseX / 3), 0, bW, bH, bW, bH, bW, bH);
             poseStack.popPose();
             
-            graphics.fill(0, 0, width, height, EzColor.RGB(0, 0, 0, 50));
+            boolean loading = minecraft.screen instanceof ServerReconfigScreen || minecraft.screen instanceof ReceivingLevelScreen;
+            graphics.fill(0, 0, width, height, Colorer.RGB(0, 0, 0, loading ? 150 : 50));
             info.cancel();
         }
     }

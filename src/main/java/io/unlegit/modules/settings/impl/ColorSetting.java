@@ -3,7 +3,7 @@ package io.unlegit.modules.settings.impl;
 import java.awt.Color;
 
 import io.unlegit.modules.settings.Setting;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 
 public class ColorSetting extends Setting
 {
@@ -21,7 +21,7 @@ public class ColorSetting extends Setting
     
     public int get()
     {
-        return rainbow ? spectrum() : EzColor.RGB(red, green, blue, alpha);
+        return rainbow ? spectrum() : Colorer.RGB(red, green, blue, alpha);
     }
     
     public int spectrum()

@@ -19,7 +19,7 @@ import io.unlegit.modules.ModuleManager;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.SettingManager;
 import io.unlegit.utils.SoundUtil;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.ChatFormatting;
 
@@ -66,8 +66,8 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
     {
         if (UnLegitOptions.WATER_MARK)
         {
-            IFont.LARGE.drawStringWithShadow(e.graphics, "UnLegit", 3, 2, EzColor.RGB(255, 255, 255, 128));
-            IFont.NORMAL.drawStringWithShadow(e.graphics, VERSION, 4, 23, EzColor.RGB(255, 255, 255, 128));
+            IFont.LARGE.drawStringWithShadow(e.graphics, "UnLegit", 3, 2, Colorer.RGB(255, 255, 255, 128));
+            IFont.NORMAL.drawStringWithShadow(e.graphics, VERSION, 4, 23, Colorer.RGB(255, 255, 255, 128));
         }
     }
     

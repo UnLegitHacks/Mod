@@ -6,7 +6,7 @@ import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.utils.render.Animation;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -35,7 +35,7 @@ public class RenderKey implements IGui, IMinecraft
         int x = this.x + 7, y = this.y + 5;
         float alpha = animation != null ? animation.get() : 0;
         renderBlur(graphics, 0, partialTicks);
-        graphics.fill(x, y, x + 24, y + 24, EzColor.RGB(0, 0, 0, getAlpha()));
+        graphics.fill(x, y, x + 24, y + 24, Colorer.RGB(0, 0, 0, getAlpha()));
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
         graphics.setColor(1, 1, 1, 1);

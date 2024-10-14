@@ -9,7 +9,7 @@ import io.unlegit.gui.clickgui.category.RenderCategory;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.modules.CategoryM;
 import io.unlegit.utils.render.Animation;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -47,7 +47,7 @@ public class ClickGui extends Screen implements IGui
         renderBlurredBackground(partialTicks);
         PoseStack poseStack = graphics.pose();
         float scale = 1 + (1 - animation.get());
-        graphics.fill(0, 0, width, height, EzColor.RGB(0, 0, 0, animation.wrap(64)));
+        graphics.fill(0, 0, width, height, Colorer.RGB(0, 0, 0, animation.wrap(64)));
         boolean finished = animation.finished();
         
         if (!finished)
@@ -120,12 +120,12 @@ public class ClickGui extends Screen implements IGui
     
     public int brightBluple(int x, int alpha)
     {
-        return EzColor.blend(x / (float) width, EzColor.RGB(0, 175, 255, alpha), EzColor.RGB(200, 125, 255, alpha));
+        return Colorer.blend(x / (float) width, Colorer.RGB(0, 175, 255, alpha), Colorer.RGB(200, 125, 255, alpha));
     }
     
     public int normalBluple(int x, int alpha)
     {
-        return EzColor.blend(x / (float) width, EzColor.RGB(0, 150, 255, alpha), EzColor.RGB(200, 100, 255, alpha));
+        return Colorer.blend(x / (float) width, Colorer.RGB(0, 150, 255, alpha), Colorer.RGB(200, 100, 255, alpha));
     }
     
     public boolean isPauseScreen() { return false; }

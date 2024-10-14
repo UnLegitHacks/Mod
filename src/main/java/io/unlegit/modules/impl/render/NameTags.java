@@ -14,7 +14,7 @@ import io.unlegit.interfaces.IModule;
 import io.unlegit.mixins.gui.AccGraphics;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ToggleSetting;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -70,19 +70,19 @@ public class NameTags extends ModuleU implements IGui
             poseStack.translate(vec3.x, vec3.y + (0.75 * (scale / 1.15)), vec3.z);
             poseStack.mulPose(mc.getEntityRenderDispatcher().cameraOrientation());
             poseStack.scale(0.0125F * scale, -0.0125F * scale, 0.0125F * scale);
-            int healthColor = EzColor.RGB(0, 255, 128);
+            int healthColor = Colorer.RGB(0, 255, 128);
             
             if (health > 10 && health < 20)
-                healthColor = EzColor.blend((health - 10) / 10, Color.ORANGE.getRGB(), EzColor.RGB(0, 255, 128));
+                healthColor = Colorer.blend((health - 10) / 10, Color.ORANGE.getRGB(), Colorer.RGB(0, 255, 128));
             else if (health <= 10)
-                healthColor = EzColor.blend(health / 10, EzColor.RGB(255, 50, 50), Color.ORANGE.getRGB());
+                healthColor = Colorer.blend(health / 10, Colorer.RGB(255, 50, 50), Color.ORANGE.getRGB());
             
             drawShadows(stringWidth);
             GlStateManager._enableDepthTest();
             
             // Background
             poseStack.translate(0, 0, -0.0001F);
-            graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 0, stringWidth / 2, 44, EzColor.RGB(20, 20, 30, 150));
+            graphics.fill(RenderType.guiOverlay(), -stringWidth / 2, 0, stringWidth / 2, 44, Colorer.RGB(20, 20, 30, 150));
             poseStack.translate(0, 0, 0.0001F);
             
             if (entity instanceof Player)

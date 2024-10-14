@@ -11,7 +11,7 @@ import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.*;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 
 @IModule(name = "Active Mods", description = "Shows the enabled mods.")
 public class ActiveMods extends ModuleU
@@ -46,9 +46,9 @@ public class ActiveMods extends ModuleU
                 if (background.enabled)
                 {
                     if (position.equals("Top Right"))
-                        e.graphics.fill(x - 8, offset + (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), offset + 15, EzColor.RGB(0, 0, 0, 128));
+                        e.graphics.fill(x - 8, offset + (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), offset + 15, Colorer.RGB(0, 0, 0, 128));
                     else
-                        e.graphics.fill(0, offset + (offset == 0 ? 0 : 2), IFont.NORMAL.getStringWidth(module.name) + 8, offset + 15, EzColor.RGB(0, 0, 0, 128));
+                        e.graphics.fill(0, offset + (offset == 0 ? 0 : 2), IFont.NORMAL.getStringWidth(module.name) + 8, offset + 15, Colorer.RGB(0, 0, 0, 128));
                 }
                 
                 IFont.NORMAL.drawStringWithShadow(e.graphics, module.name, position.equals("Top Right") ? (x - 5) : 3, offset + 2, color);
@@ -68,9 +68,9 @@ public class ActiveMods extends ModuleU
                 if (background.enabled)
                 {
                     if (position.equals("Bottom Right"))
-                        e.graphics.fill(x - 8, mc.getWindow().getGuiScaledHeight() - offset - (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), mc.getWindow().getGuiScaledHeight() - offset - 15, EzColor.RGB(0, 0, 0, 128));
+                        e.graphics.fill(x - 8, mc.getWindow().getGuiScaledHeight() - offset - (offset == 0 ? 0 : 2), x + IFont.NORMAL.getStringWidth(module.name), mc.getWindow().getGuiScaledHeight() - offset - 15, Colorer.RGB(0, 0, 0, 128));
                     else
-                        e.graphics.fill(0, mc.getWindow().getGuiScaledHeight() - offset - (offset == 0 ? 0 : 2), IFont.NORMAL.getStringWidth(module.name) + 8, mc.getWindow().getGuiScaledHeight() - offset - 15, EzColor.RGB(0, 0, 0, 128));
+                        e.graphics.fill(0, mc.getWindow().getGuiScaledHeight() - offset - (offset == 0 ? 0 : 2), IFont.NORMAL.getStringWidth(module.name) + 8, mc.getWindow().getGuiScaledHeight() - offset - 15, Colorer.RGB(0, 0, 0, 128));
                 }
                 
                 IFont.NORMAL.drawStringWithShadow(e.graphics, module.name, position.equals("Bottom Right") ? (x - 5) : 3, mc.getWindow().getGuiScaledHeight() - offset - 13, color);

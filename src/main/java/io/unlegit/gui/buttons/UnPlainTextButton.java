@@ -8,7 +8,7 @@ import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.SoundUtil;
 import io.unlegit.utils.render.Animation;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class UnPlainTextButton implements IGui
@@ -67,7 +67,7 @@ public class UnPlainTextButton implements IGui
         else
         {
             int alpha = 200 + (hoverAnimation == null ? 0 : hoverAnimation.wrap(55));
-            IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, EzColor.RGB(alpha, alpha, alpha, alpha));
+            IFont.NORMAL.drawStringWithShadow(graphics, name, x - 1, y, Colorer.RGB(alpha, alpha, alpha, alpha));
         }
     }
     

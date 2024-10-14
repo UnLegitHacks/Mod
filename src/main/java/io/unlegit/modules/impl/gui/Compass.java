@@ -10,7 +10,7 @@ import io.unlegit.gui.font.impl.FontRenderer;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
-import io.unlegit.utils.render.EzColor;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -89,7 +89,7 @@ public class Compass extends ModuleU implements IGui
     {
         float alpha = 255 - Math.abs((width / 2) - x) * 1.75F;
         if (alpha < 0) alpha = 0; if (alpha > 255) alpha = 255;
-        return EzColor.RGB(255, 255, 255, (int) (alpha * alphaMultiplier));
+        return Colorer.RGB(255, 255, 255, (int) (alpha * alphaMultiplier));
     }
     
     public void drawString(GuiGraphics graphics, int width, String direction, int x, int y, float alphaMultiplier)
