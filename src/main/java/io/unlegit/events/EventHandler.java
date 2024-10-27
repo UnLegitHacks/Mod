@@ -1,9 +1,12 @@
 package io.unlegit.events;
 
+import io.unlegit.events.impl.block.BlockShapeE;
 import io.unlegit.events.impl.client.*;
 import io.unlegit.events.impl.entity.*;
-import io.unlegit.events.impl.network.*;
-import io.unlegit.events.impl.render.*;
+import io.unlegit.events.impl.network.PacketReceiveE;
+import io.unlegit.events.impl.network.PacketSendE;
+import io.unlegit.events.impl.render.GuiRenderE;
+import io.unlegit.events.impl.render.WorldRenderE;
 
 public class EventHandler
 {
@@ -23,7 +26,8 @@ public class EventHandler
             case MessageE me: listener.onMessageReceive(me); break;
             case WorldRenderE w: listener.onWorldRender(w); break;
             case StrafeE s: listener.onStrafe(s); break;
-            case WorldChangeE w: listener.onWorldChange();
+            case WorldChangeE w: listener.onWorldChange(); break;
+            case BlockShapeE b: listener.onBlockShape(b); break;
             default: break;
         }
     }
