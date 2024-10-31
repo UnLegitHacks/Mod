@@ -1,4 +1,4 @@
-package io.unlegit.modules.impl.player;
+package io.unlegit.modules.impl.movement;
 
 import static org.lwjgl.glfw.GLFW.glfwGetKey;
 

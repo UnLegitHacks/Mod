@@ -1,4 +1,4 @@
-package io.unlegit.modules.impl.misc;
+package io.unlegit.modules.impl.player;
 
 import java.io.File;
 import java.util.HashMap;
