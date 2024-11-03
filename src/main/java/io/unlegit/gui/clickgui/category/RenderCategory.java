@@ -20,10 +20,10 @@ import net.minecraft.client.gui.GuiGraphics;
 public class RenderCategory implements IGui
 {
     private int x, y, prevX, prevY, prevMouseX, prevMouseY, scroll;
-    private ArrayList<ModuleU> modules;
+    private final ArrayList<ModuleU> modules;
     private boolean dragging = false;
-    private CategoryM category;
-    private ClickGui parent;
+    private final CategoryM category;
+    private final ClickGui parent;
     
     public RenderCategory(CategoryM category, int x, int y, ClickGui parent)
     {
@@ -45,17 +45,14 @@ public class RenderCategory implements IGui
         
         float scale = 1 + (1 - parent.animation.get());
         int alpha = parent.animation.wrap(255);
-        if (parent.renderSettings != null) alpha *= 0.5F;
+        if (parent.renderSettings != null) alpha /= 2;
         
         int x = (int) (this.x - (165 * (scale - 1))),
             y = (int) (this.y - (96 * (scale - 1)));
         
         GlStateManager._enableBlend();
-        
-        graphics.setColor(1, 1, 1, alpha / 255F);
-        drawShadow(graphics, parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198);
-        
-        graphics.setColor(1, 1, 1, 1);
+        drawShadow(graphics, parent.categoryShadow, x - 19, y - 19, 148, 198, 148, 198, 148, 198, Colorer.RGB(255, 255, 255, alpha));
+
         graphics.fill(x, y, x + 110, y + 30, Colorer.RGB(10, 10, 10, (int) (alpha / 1.275F)));
         String name = StringUtils.capitalize(category.name().toLowerCase());
         IFont.MEDIUM.drawString(graphics, name, x + 10, y + 6, Colorer.RGB(192, 192, 192, alpha));

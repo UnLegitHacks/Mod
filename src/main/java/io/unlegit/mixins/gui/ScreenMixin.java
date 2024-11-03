@@ -1,5 +1,6 @@
 package io.unlegit.mixins.gui;
 
+import net.minecraft.client.renderer.RenderType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -63,8 +64,7 @@ public class ScreenMixin implements IGui
             }
             
             GlStateManager._enableBlend();
-            graphics.setColor(1, 1, 1, 1);
-            graphics.blit(background, nightMode ? 0 : (-mouseX / 3), 0, bW, bH, bW, bH, bW, bH);
+            graphics.blit(RenderType::guiTextured, background, nightMode ? 0 : (-mouseX / 3), 0, bW, bH, bW, bH, bW, bH);
             poseStack.popPose();
             
             boolean loading = minecraft.screen instanceof ServerReconfigScreen || minecraft.screen instanceof ReceivingLevelScreen;

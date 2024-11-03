@@ -23,7 +23,7 @@ public class GuiMixin
 {
     @Shadow @Final private Minecraft minecraft;
     
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "disableDepthTest", shift = Shift.BEFORE))
+    @Inject(method = "render", at = @At(value = "TAIL"))
     public void renderEvent(CallbackInfo info, @Local LocalRef<GuiGraphics> graphics, @Local LocalRef<DeltaTracker> deltaTracker)
     {
         GuiRenderE e = GuiRenderE.get(graphics.get(), deltaTracker.get().getGameTimeDeltaTicks());
@@ -42,15 +42,15 @@ public class GuiMixin
         if (!UnLegit.modules.get("Scoreboard").isEnabled()) info.cancel();
     }
     
-    @ModifyVariable(method = /* drawManaged */ "method_55440", at = @At("STORE"), ordinal = 4)
-    public int moveScoreboardDown(int value)
-    {
-        Scoreboard scoreboard = (Scoreboard) UnLegit.modules.get("Scoreboard");
-        ActiveMods activeMods = (ActiveMods) UnLegit.modules.get("Active Mods");
-        int lx = (value - (minecraft.getWindow().getGuiScaledHeight() / 2)) * 3;
-        
-        return activeMods.isEnabled() && scoreboard.makeSpaceForModules.enabled &&
-                activeMods.position.equals("Top Right") ?
-                Math.max(value, lx + activeMods.getHeight()) : value;
-    }
+//    @ModifyVariable(method = /* drawManaged */ "method_55440", at = @At(value = "STORE"), ordinal = 4)
+//    public int moveScoreboardDown(int value)
+//    {
+//        Scoreboard scoreboard = (Scoreboard) UnLegit.modules.get("Scoreboard");
+//        ActiveMods activeMods = (ActiveMods) UnLegit.modules.get("Active Mods");
+//        int lx = (value - (minecraft.getWindow().getGuiScaledHeight() / 2)) * 3;
+//
+//        return activeMods.isEnabled() && scoreboard.makeSpaceForModules.enabled &&
+//                activeMods.position.equals("Top Right") ?
+//                Math.max(value, lx + activeMods.getHeight()) : value;
+//    }
 }

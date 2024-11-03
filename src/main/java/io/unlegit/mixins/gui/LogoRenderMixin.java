@@ -2,6 +2,8 @@ package io.unlegit.mixins.gui;
 
 import java.awt.Color;
 
+import io.unlegit.utils.render.Colorer;
+import net.minecraft.util.ARGB;
 import org.spongepowered.asm.mixin.*;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,20 +17,23 @@ import net.minecraft.client.gui.components.LogoRenderer;
 public class LogoRenderMixin
 {
     @Shadow @Final private boolean keepLogoThroughFade;
-    
+
+    /**
+     * @author You
+     * @reason Renders the UnLegit logo.
+     */
     @Overwrite
-    public void renderLogo(GuiGraphics guiGraphics, int i, float f, int j)
+    public void renderLogo(GuiGraphics graphics, int i, float f, int j)
     {
-        PoseStack pose = guiGraphics.pose();
-        guiGraphics.setColor(1, 1, 1, keepLogoThroughFade ? 1 : f);
+        float g = keepLogoThroughFade ? 1 : f, l = ARGB.white(g);
+        PoseStack pose = graphics.pose();
         RenderSystem.enableBlend();
         
         pose.pushPose();
         pose.scale(5, 5, 5);
-        IFont.NORMAL.drawCenteredStringWithShadow(guiGraphics, "UnLegit", i / 10, (j + 12) / 5, Color.CYAN.getRGB());
+        IFont.NORMAL.drawCenteredStringWithShadow(graphics, "UnLegit", i / 10, (j + 12) / 5, Colorer.RGB(0, 255, 255, l));
         pose.popPose();
-        
-        guiGraphics.setColor(1, 1, 1, 1);
+
         RenderSystem.disableBlend();
     }
 }

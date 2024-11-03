@@ -6,6 +6,7 @@ import io.unlegit.utils.SoundUtil;
 import io.unlegit.utils.render.Animation;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class UnButton implements IGui
@@ -38,7 +39,7 @@ public class UnButton implements IGui
             IFont.NORMAL.drawCenteredStringWithShadow(graphics, displayName, x + (size / 2), (y + size) - 8, Colorer.RGB(255, 255, 255, animation.wrap(255)));
         }
         
-        graphics.blit(buttonTexture, x, y, size, size, size, size, size, size);
+        graphics.blit(RenderType::guiTextured, buttonTexture, x, y, size, size, size, size, size, size);
         prevHover = mouseOver;
     }
     

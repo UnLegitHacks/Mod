@@ -13,7 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin
 {
-    @ModifyExpressionValue(method = "jumpFromGround", at = @At(value = "INVOKE", target = "getYRot"))
+    @ModifyExpressionValue(method = "jumpFromGround", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getYRot()F"))
     public float getYaw(float yaw)
     {
         if (!(((Entity) (Object) this) instanceof LocalPlayer)) return yaw;

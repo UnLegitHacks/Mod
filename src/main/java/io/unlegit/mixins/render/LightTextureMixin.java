@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.LightTexture;
 @Mixin(LightTexture.class)
 public class LightTextureMixin
 {
-    @Redirect(method = "updateLightTexture", at = @At(value = "INVOKE", target = "floatValue", ordinal = 1))
+    @Redirect(method = "updateLightTexture", at = @At(value = "INVOKE", target = "Ljava/lang/Double;floatValue()F", ordinal = 1))
     private float fullBright(Double value)
     {
         return UnLegit.modules.get("Full Bright").isEnabled() ? 100 : value.floatValue();

@@ -18,16 +18,16 @@ import net.minecraft.world.entity.LivingEntity;
 @Mixin(LivingEntityRenderer.class)
 public class LivingEntityRenderMixin
 {
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "lerp", ordinal = 0))
-    private float rotationPitch(float f, float g, float h, @Local LocalRef<LivingEntity> livingEntity)
-    {
-        if (!(livingEntity.get() instanceof LocalPlayer)) return Mth.lerp(f, g, h);
-        
-        Rotations rotations = (Rotations) UnLegit.modules.get("Rotations");
-        
-        float pitch = rotations.isEnabled() && MotionE.get().changed ?
-                Mth.lerp(f, rotations.prevPitch, MotionE.get().pitch) : Mth.lerp(f, g, h);
-        
-        return pitch;
-    }
+//    @Redirect(method = "render", at = @At(value = "INVOKE", target = "lerp", ordinal = 0))
+//    private float rotationPitch(float f, float g, float h, @Local LocalRef<LivingEntity> livingEntity)
+//    {
+//        if (!(livingEntity.get() instanceof LocalPlayer)) return Mth.lerp(f, g, h);
+//
+//        Rotations rotations = (Rotations) UnLegit.modules.get("Rotations");
+//
+//        float pitch = rotations.isEnabled() && MotionE.get().changed ?
+//                Mth.lerp(f, rotations.prevPitch, MotionE.get().pitch) : Mth.lerp(f, g, h);
+//
+//        return pitch;
+//    }
 }

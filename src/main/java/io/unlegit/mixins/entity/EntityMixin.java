@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 @Mixin(Entity.class)
 public class EntityMixin
 {
-    @ModifyExpressionValue(method = "moveRelative", at = @At(value = "INVOKE", target = "getYRot"))
+    @ModifyExpressionValue(method = "moveRelative", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getYRot()F"))
     public float getYaw(float yaw)
     {
         if (!(((Entity) (Object) this) instanceof LocalPlayer)) return yaw;

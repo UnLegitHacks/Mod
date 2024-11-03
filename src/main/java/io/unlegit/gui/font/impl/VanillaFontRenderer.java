@@ -5,6 +5,7 @@ import java.awt.Color;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import io.unlegit.gui.font.GlyphPage;
+import io.unlegit.mixins.gui.AccGraphics;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.Font.DisplayMode;
 import net.minecraft.client.gui.GuiGraphics;
@@ -48,7 +49,7 @@ public class VanillaFontRenderer extends FontRenderer
         y += 2; x += 1;
         
         int colorRGB = Colorer.RGB(color.getRed(), color.getGreen(), color.getBlue(), Math.max(color.getAlpha(), 4)),
-            result = mc.font.drawInBatch(text, x, y, colorRGB, shadow, pose.last().pose(), graphics.bufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
+            result = mc.font.drawInBatch(text, x, y, colorRGB, shadow, pose.last().pose(), ((AccGraphics) graphics).getBufferSource(), DisplayMode.SEE_THROUGH, 1, 1);
         
         pose.popPose();
         return result;

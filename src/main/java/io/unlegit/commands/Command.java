@@ -9,7 +9,7 @@ public abstract class Command implements IMinecraft
     private ICommand iCommand = getClass().getAnnotation(ICommand.class);
     public String name = iCommand.name(), shortForm = iCommand.shortForm(), usage = iCommand.usage();
     public abstract void onExecute(String[] args);
-    
+
     protected boolean validateArgs(String[] args, int num)
     {
         if (args == null || args.length != num)
@@ -17,7 +17,7 @@ public abstract class Command implements IMinecraft
             clientMessage(ChatFormatting.YELLOW + usage);
             return false;
         }
-        
+
         return true;
     }
 }

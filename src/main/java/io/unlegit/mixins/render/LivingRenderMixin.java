@@ -15,11 +15,11 @@ import net.minecraft.world.entity.Entity;
 @Mixin(LivingEntityRenderer.class)
 public class LivingRenderMixin
 {
-    @WrapOperation(method = "shouldShowName", at = @At(value = "INVOKE", target = "distanceToSqr"))
-    public double nameTagInfiniteRange(EntityRenderDispatcher dispatcher, Entity entity, Operation<Double> distance)
-    {
-        NameTags nameTags = (NameTags) UnLegit.modules.get("Name Tags"); 
-        if (nameTags.isEnabled() && nameTags.infiniteRange.enabled) return 1;
-        return distance.call(dispatcher, entity);
-    }
+//    @WrapOperation(method = "shouldShowName", at = @At(value = "INVOKE", target = "distanceToSqr"))
+//    public double nameTagInfiniteRange(EntityRenderDispatcher dispatcher, Entity entity, Operation<Double> distance)
+//    {
+//        NameTags nameTags = (NameTags) UnLegit.modules.get("Name Tags");
+//        if (nameTags.isEnabled() && nameTags.infiniteRange.enabled) return 1;
+//        return distance.call(dispatcher, entity);
+//    }
 }

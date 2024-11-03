@@ -17,7 +17,7 @@ public class PauseScreenMixin extends Screen
 {
     protected PauseScreenMixin(Component component) { super(component); }
     
-    @Inject(method = "createPauseMenu", at = @At(value = "INVOKE", target = "arrangeElements", shift = At.Shift.BEFORE))
+    @Inject(method = "createPauseMenu", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/GridLayout;arrangeElements()V", shift = At.Shift.BEFORE))
     public void addUnLegitOptionsButton(CallbackInfo info)
     {
         addRenderableWidget(Button.builder(Component.literal("UnLegit Options"),

@@ -9,15 +9,17 @@ import com.mojang.blaze3d.vertex.*;
 import io.unlegit.gui.font.GlyphPage;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IMinecraft;
+import io.unlegit.modules.impl.gui.Compass;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class FontRenderer implements IMinecraft, IGui
 {
+    private ResourceLocation shadowLeft, shadowCenter, shadowRight;
     private float prevScaleFactor, posX, posY;
-    private ResourceLocation shadow;
     private GlyphPage page;
     private String path;
     protected int size;
@@ -78,8 +80,12 @@ public class FontRenderer implements IMinecraft, IGui
         pose.pushPose(); pose.last().pose().scale(1 / scaleFactor);
         
         float posX = this.posX * scaleFactor, posY = this.posY * scaleFactor;
+        // RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
+        /* Workarounds */
+        graphics.blit(RenderType::guiTextured, shadowCenter, 0, 0, 0, 0, 0, 0, 0, 0);
+        graphics.fill(0, 0, 0, 0, 0);
         GlStateManager._enableBlend();
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+
         BufferBuilder builder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         page.bind();
         
@@ -102,7 +108,7 @@ public class FontRenderer implements IMinecraft, IGui
         for (int i = 0; i < size; i++)
         {
             char character = text.charAt(i);
-            width += page.getWidth(character) - 8;
+            width += (int) (page.getWidth(character) - 8);
         }
         
         return (int) (width / scaleFactor);
@@ -115,18 +121,15 @@ public class FontRenderer implements IMinecraft, IGui
     
     public int drawStringWithShadow(GuiGraphics graphics, String text, int x, int y, int color)
     {
-        if (shadow == null) shadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow.png"));
         int width = getStringWidth(text) + 2, height = size + 2;
         x -= 5; width += 10; y -= 3; height += 6;
         
         GlStateManager._enableBlend();
-        graphics.setColor(1, 1, 1, Colorer.extract(color)[3] / 255F);
-        drawShadow(graphics, shadow, x, y, 40, height, 10, height, 20, height);
-        graphics.blit(shadow, x + 10, y, width - 20, height, 60, height, 1, height, 40, height);
-        drawShadow(graphics, shadow, x + width - 10, y, 30, height, 10, height, 20, height);
-        graphics.setColor(1, 1, 1, 1);
+        drawShadow(graphics, shadowLeft, x, y, 10, height, 10, height, 10, height, Colorer.RGB(1, 1, 1, Colorer.extract(color)[3]));
+        drawShadow(graphics, shadowCenter, x + 10, y, width - 20, height, width - 20, height, width - 20, height, Colorer.RGB(1, 1, 1, Colorer.extract(color)[3]));
+        drawShadow(graphics, shadowRight, x + (width - 10), y, 10, height, 10, height, 10, height, Colorer.RGB(1, 1, 1, Colorer.extract(color)[3]));
         x += 5; y += 3;
-        
+
         return renderString(graphics, text, x, y, color);
     }
     
@@ -151,5 +154,11 @@ public class FontRenderer implements IMinecraft, IGui
         } return scaleFactor;
     }
     
-    public FontRenderer(GlyphPage page) { this.page = page; }
+    public FontRenderer(GlyphPage page)
+    {
+        this.page = page;
+        shadowLeft = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/left.png"));
+        shadowCenter = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/center.png"));
+        shadowRight = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/right.png"));
+    }
 }

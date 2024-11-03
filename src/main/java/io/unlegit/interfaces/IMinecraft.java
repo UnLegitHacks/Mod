@@ -6,10 +6,10 @@ import net.minecraft.network.chat.Component;
 
 public interface IMinecraft
 {
-    public Minecraft mc = Minecraft.getInstance();
-    
+    Minecraft mc = Minecraft.getInstance();
+
     default void clientMessage(String message)
     {
-        mc.player.sendSystemMessage(Component.literal("\n" + UnLegit.PREFIX + message + "\n"));
+        mc.gui.getChat().addMessage(Component.literal("\n" + UnLegit.PREFIX + message + "\n"));
     }
 }

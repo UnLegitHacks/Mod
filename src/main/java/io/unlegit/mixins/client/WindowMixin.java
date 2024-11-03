@@ -18,7 +18,7 @@ import net.minecraft.server.packs.resources.IoSupplier;
 @Mixin(Window.class)
 public class WindowMixin
 {
-    @Redirect(method = "setIcon", at = @At(value = "INVOKE", target = "getStandardIcons"))
+    @Redirect(method = "setIcon", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/IconSet;getStandardIcons(Lnet/minecraft/server/packs/PackResources;)Ljava/util/List;"))
     public List<IoSupplier<InputStream>> setupIcons(IconSet icons, PackResources packResources) throws IOException
     {
         try
@@ -38,7 +38,7 @@ public class WindowMixin
         }
     }
     
-    @Redirect(method = "setIcon", at = @At(value = "INVOKE", target = "getMacIcon"))
+    @Redirect(method = "setIcon", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/IconSet;getMacIcon(Lnet/minecraft/server/packs/PackResources;)Lnet/minecraft/server/packs/resources/IoSupplier;"))
     public IoSupplier<InputStream> macIcons(IconSet icons, PackResources packResources) throws IOException
     {
         try

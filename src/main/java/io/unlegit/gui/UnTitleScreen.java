@@ -22,6 +22,7 @@ import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.multiplayer.SafetyScreen;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -42,7 +43,6 @@ public class UnTitleScreen extends Screen implements IGui
         super.render(graphics, mouseX, mouseY, partialTicks);
         this.renderPanorama(graphics, partialTicks);
         GlStateManager._enableBlend();
-        graphics.setColor(1, 1, 1, 1);
         
         for (UnButton button : buttons)
             button.render(graphics, mouseX, mouseY);
@@ -56,7 +56,7 @@ public class UnTitleScreen extends Screen implements IGui
         
         IFont.NORMAL.drawStringWithShadow(graphics, titleText, 2, height - 14, -1);
         IFont.NORMAL.drawStringWithShadow(graphics, accountText, width - IFont.NORMAL.getStringWidth(accountText) - 3, 2, Colorer.RGB(200, 200, 200, 200));
-        graphics.blit(logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
+        graphics.blit(RenderType::guiTextured, logo, (width / 2) - 96, (height / 2) - 60, 192, 60, 192, 60, 192, 60);
         
         copyrightButton.render(graphics, mouseX, mouseY);
         exitButton.render(graphics, mouseX, mouseY);

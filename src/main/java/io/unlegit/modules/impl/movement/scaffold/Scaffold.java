@@ -19,6 +19,7 @@ import io.unlegit.utils.network.Packets;
 import io.unlegit.utils.render.Animation;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
@@ -118,7 +119,7 @@ public class Scaffold extends ModuleU implements IGui
                     BlockHitResult hitResult = new BlockHitResult(block, getDirection().getOpposite(), pos, false);
                     InteractionResult actResult = mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, hitResult);
                     
-                    if (actResult.consumesAction() && actResult.shouldSwing())
+                    if (actResult.consumesAction())
                     {
                         if (swingHand.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
                         else Packets.send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
@@ -144,7 +145,7 @@ public class Scaffold extends ModuleU implements IGui
                 int i = itemStack.getCount();
                 InteractionResult actResult = mc.gameMode.useItemOn(mc.player, InteractionHand.MAIN_HAND, new BlockHitResult(new Vec3(blockX, blockY + 0.5D, blockZ), Direction.UP, pos, false));
                 
-                if (actResult.consumesAction() && actResult.shouldSwing())
+                if (actResult.consumesAction())
                 {
                     if (swingHand.enabled) mc.player.swing(InteractionHand.MAIN_HAND);
                     else Packets.send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
@@ -231,12 +232,7 @@ public class Scaffold extends ModuleU implements IGui
             GlStateManager._enableBlend();
             
             if ("Fancy".equals(UnLegit.THEME))
-            {
-                graphics.setColor(1, 1, 1, animation.get());
-                graphics.blit(background, (width / 2) - 34, height - 84, 68, 26, 68, 26, 68, 26);
-                graphics.setColor(1, 1, 1, 1);
-            }
-            
+                graphics.blit(RenderType::guiTextured, background, (width / 2) - 34, height - 84, 68, 26, 68, 26, 68, 26, 68, 26, Colorer.RGB(1, 1, 1, animation.get()));
             else
                 graphics.fill((width / 2) - 31, height - 80, (width / 2) - 31 + 63, height - 82 + 20, Colorer.RGB(0, 0, 0, 128));
             

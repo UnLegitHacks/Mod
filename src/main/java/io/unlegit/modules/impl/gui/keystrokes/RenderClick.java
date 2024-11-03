@@ -6,8 +6,10 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import io.unlegit.gui.font.IFont;
 import io.unlegit.utils.render.Animation;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 
 public class RenderClick extends RenderKey
 {
@@ -26,38 +28,21 @@ public class RenderClick extends RenderKey
         graphics.fill(x, y, x + 37, y + 24, new Color(0, 0, 0, getAlpha()).getRGB());
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
-        graphics.setColor(1, 1, 1, 1);
         drawShadow(graphics, parent.clickShadow, x - 8, y - 8, 53, 40, 53, 40, 53, 40);
         
         if (alpha != 0)
         {
             int size = animation.wrap(45);
             graphics.enableScissor(x, y, x + 37, y + 24);
-            graphics.setColor(1, 1, 1, animation.get() / 4);
-            graphics.blit(circle, x - (size - 37) / 2, y - (size - 24) / 2, size, size, size, size, size, size);
+            graphics.blit(RenderType::guiTextured, circle, x - (size - 37) / 2, y - (size - 24) / 2, size, size, size, size, size, size, size, size, Colorer.RGB(1, 1, 1, animation.get() / 4));
             graphics.disableScissor();
         }
-        
-        graphics.setColor(1, 1, 1, 1);
+
         IFont.NORMAL.drawCenteredString(graphics, keyMapping.getTranslatedKeyMessage().getString().substring(0, 1), x + 17, y + 6, -1);
         prevPressed = keyPressed;
         GlStateManager._disableBlend();
     }
-    
-    public void updateAnimation(boolean flag)
-    {
-        if (flag)
-        {
-            if (animation == null || !prevPressed) animation = new Animation(128);
-        }
-        
-        else if (prevPressed)
-        {
-            animation = new Animation(128);
-            animation.reverse = true;
-        }
-    }
-    
+
     public void renderBlur(GuiGraphics graphics, int sizeOffset, float partialTicks)
     {
         int x = this.x + 7, y = this.y + 5;

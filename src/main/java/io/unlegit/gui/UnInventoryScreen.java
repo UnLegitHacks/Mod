@@ -4,23 +4,27 @@ import java.util.ArrayList;
 
 import io.unlegit.tracker.PlayerTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.client.gui.navigation.ScreenPosition;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.recipebook.CraftingRecipeBookComponent;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 /** Non-editable version of the Inventory with tweaks */
-public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryMenu>
+public class UnInventoryScreen extends AbstractRecipeBookScreen<InventoryMenu>
 {
     private float xMouse, yMouse;
     private Player player;
     
     public UnInventoryScreen(Player player)
     {
-        super(getMenu(player), getInventory(player), Component.translatable("container.crafting"));
+        super(getMenu(player), new CraftingRecipeBookComponent(getMenu(player)), getInventory(player), Component.translatable("container.crafting"));
         this.player = player;
         titleLabelX = 97;
     }
@@ -29,7 +33,7 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
     {
         guiGraphics.drawString(font, title, titleLabelX, titleLabelY, 4210752, false);
     }
-    
+
     public void render(GuiGraphics guiGraphics, int i, int j, float f)
     {
         super.render(guiGraphics, i, j, f);
@@ -40,12 +44,12 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
             minecraft.setScreen(new UnInventoryScreen(player));
     }
     
-    protected void renderBg(GuiGraphics guiGraphics, float f, int i, int j)
+    protected void renderBg(GuiGraphics graphics, float f, int i, int j)
     {
         int k = leftPos;
         int l = topPos;
-        guiGraphics.blit(INVENTORY_LOCATION, k, l, 0, 0, imageWidth, imageHeight);
-        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, k + 26, l + 8, k + 75, l + 78, 30, 0.0625F, xMouse, yMouse, player);
+        graphics.blit(RenderType::guiTextured, INVENTORY_LOCATION, k, l, 0, 0, imageWidth, imageHeight, 256, 256);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, k + 26, l + 8, k + 75, l + 78, 30, 0.0625F, xMouse, yMouse, player);
     }
     
     public static Inventory getInventory(Player player)
@@ -85,5 +89,11 @@ public class UnInventoryScreen extends EffectRenderingInventoryScreen<InventoryM
             onClose();
             return true;
         } return false;
+    }
+
+    @Override
+    protected @NotNull ScreenPosition getRecipeBookButtonPosition()
+    {
+        return new ScreenPosition(this.leftPos + 104, this.height / 2 - 22);
     }
 }

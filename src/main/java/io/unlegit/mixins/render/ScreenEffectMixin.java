@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.ScreenEffectRenderer;
 @Mixin(ScreenEffectRenderer.class)
 public class ScreenEffectMixin
 {
-    @ModifyArg(method = "renderFire", at = @At(value = "INVOKE", target = "setColor"), index = 3)
+    @ModifyArg(method = "renderFire", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(FFFF)Lcom/mojang/blaze3d/vertex/VertexConsumer;"), index = 3)
     private static float hookLowFireAlpha(float alpha)
     {
         return UnLegit.modules.get("Low Fire").isEnabled() ? alpha / 3 : alpha;

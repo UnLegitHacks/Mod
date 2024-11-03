@@ -9,6 +9,7 @@ import io.unlegit.utils.render.Animation;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class RenderKey implements IGui, IMinecraft
@@ -38,19 +39,16 @@ public class RenderKey implements IGui, IMinecraft
         graphics.fill(x, y, x + 24, y + 24, Colorer.RGB(0, 0, 0, getAlpha()));
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
-        graphics.setColor(1, 1, 1, 1);
         drawShadow(graphics, parent.keyShadow, x - 8, y - 8, 40, 40, 40, 40, 40, 40);
         
         if (alpha != 0)
         {
             int size = animation.wrap(36);
             graphics.enableScissor(x, y, x + 24, y + 24);
-            graphics.setColor(1, 1, 1, animation.get() / 4);
-            graphics.blit(circle, x - (size - 24) / 2, y - (size - 24) / 2, size, size, size, size, size, size);
+            graphics.blit(RenderType::guiTextured, circle, x - (size - 24) / 2, y - (size - 24) / 2, size, size, size, size, size, size, size, size, Colorer.RGB(1, 1, 1, animation.get() / 4));
             graphics.disableScissor();
         }
-        
-        graphics.setColor(1, 1, 1, 1);
+
         IFont.NORMAL.drawCenteredString(graphics, keyMapping.getTranslatedKeyMessage().getString(), x + 11, y + 6, -1);
         prevPressed = keyPressed;
         GlStateManager._disableBlend();

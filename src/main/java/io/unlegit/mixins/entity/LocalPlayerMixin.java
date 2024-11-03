@@ -1,5 +1,6 @@
 package io.unlegit.mixins.entity;
 
+import net.minecraft.client.player.ClientInput;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,7 +14,6 @@ import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.events.impl.entity.MoveE;
 import io.unlegit.utils.entity.RotationUtil.GCDFix;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,7 +22,7 @@ public class LocalPlayerMixin
 {
     @Shadow @Final protected Minecraft minecraft;
     private boolean sprinting, onGround;
-    @Shadow public Input input;
+    @Shadow public ClientInput input;
     private float yaw, pitch;
     private double x, y, z;
     
@@ -34,7 +34,7 @@ public class LocalPlayerMixin
         vec3.set(e.vec3);
     }
     
-    @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "isUsingItem"))
+    @Inject(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;isUsingItem()Z"))
     public void noSlowHook(CallbackInfo info)
     {
         if (UnLegit.modules.get("No Slow").isEnabled() && isUsingItem())

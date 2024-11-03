@@ -12,7 +12,7 @@ public class Colorer
         return ((alpha & 0xFF) << 24) |
                 ((red & 0xFF) << 16) |
                 ((green & 0xFF) << 8)  |
-                ((blue & 0xFF) << 0);
+                (blue & 0xFF);
     }
     
     public static int[] extract(int RGB)
@@ -21,7 +21,7 @@ public class Colorer
         {
             (RGB >> 16) & 0xFF,
             (RGB >> 8) & 0xFF,
-            (RGB >> 0) & 0xFF,
+            RGB & 0xFF,
             (RGB >> 24) & 0xFF,
         };
     }
@@ -45,24 +45,24 @@ public class Colorer
         
         // If the values of the 1st color are lower than the 2nd color
         if (red < valuesColor2[0])
-            red += (valuesColor2[0] - valuesColor1[0]) * mixture;
+            red += (int) ((valuesColor2[0] - valuesColor1[0]) * mixture);
         
         if (green < valuesColor2[1])
-            green += (valuesColor2[1] - valuesColor1[1]) * mixture;
+            green += (int) ((valuesColor2[1] - valuesColor1[1]) * mixture);
         
         if (blue < valuesColor2[2])
-            blue += (valuesColor2[2] - valuesColor1[2]) * mixture;
+            blue += (int) ((valuesColor2[2] - valuesColor1[2]) * mixture);
         
         // If the values of the 2nd color are lower than the 1st color
         if (red > valuesColor2[0])
-            red -= (valuesColor1[0] - valuesColor2[0]) * mixture;
+            red -= (int) ((valuesColor1[0] - valuesColor2[0]) * mixture);
         
         if (green > valuesColor2[1])
-            green -= (valuesColor1[1] - valuesColor2[1]) * mixture;
+            green -= (int) ((valuesColor1[1] - valuesColor2[1]) * mixture);
         
         if (blue > valuesColor2[2])
-            blue -= (valuesColor1[2] - valuesColor2[2]) * mixture;
-        
+            blue -= (int) ((valuesColor1[2] - valuesColor2[2]) * mixture);
+
         return RGB(red, green, blue, valuesColor1[3]);
     }
 }

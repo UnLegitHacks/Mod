@@ -23,7 +23,7 @@ public class EventBus
     
     public void unregister(EventListener listener)
     {
-        if (listeners.contains(listener)) listeners.remove(listener);
+        listeners.remove(listener);
     }
     
     public void post(Event e)

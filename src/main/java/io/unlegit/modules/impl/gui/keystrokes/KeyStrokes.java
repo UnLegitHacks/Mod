@@ -1,14 +1,16 @@
 package io.unlegit.modules.impl.gui.keystrokes;
 
-import java.util.ArrayList;
-
 import io.unlegit.events.impl.render.GuiRenderE;
 import io.unlegit.gui.UnLegitOptions;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IModule;
+import io.unlegit.mixins.gui.AccGraphics;
 import io.unlegit.modules.ModuleU;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @IModule(name = "Key Strokes", description = "Shows your key strokes on the screen.")
 public class KeyStrokes extends ModuleU implements IGui
@@ -20,6 +22,9 @@ public class KeyStrokes extends ModuleU implements IGui
     
     public void onGuiRender(GuiRenderE e)
     {
+        if (((AccGraphics) dummy).getBufferSource() == null)
+            dummy = new GuiGraphics(mc, ((AccGraphics) e.graphics).getBufferSource());
+
         partialTicks = e.partialTicks;
         
         if (keys.isEmpty())
@@ -52,6 +57,6 @@ public class KeyStrokes extends ModuleU implements IGui
     
     public void add(RenderKey... keys)
     {
-        for (RenderKey key : keys) this.keys.add(key);
+        this.keys.addAll(Arrays.asList(keys));
     }
 }

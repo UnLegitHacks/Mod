@@ -18,8 +18,8 @@ import net.minecraft.resources.ResourceLocation;
 public class ClickGui extends Screen implements IGui
 {
     public final ResourceLocation categoryShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "clickgui/category_shadow.png"));
-    private ArrayList<RenderCategory> categories = new ArrayList<>();
-    private static ClickGui INSTANCE = new ClickGui();
+    private final ArrayList<RenderCategory> categories = new ArrayList<>();
+    private static final ClickGui INSTANCE = new ClickGui();
     public RenderSettings renderSettings = null;
     private boolean closingGui = false;
     public Animation animation = null;

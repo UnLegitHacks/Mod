@@ -18,7 +18,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
 
 @Mixin(ItemInHandRenderer.class)
 public class ItemRenderMixin
@@ -33,7 +33,7 @@ public class ItemRenderMixin
                 instanceof SwordItem) info.cancel();
     }
     
-    @Inject(method = "renderArmWithItem", slice = @Slice(from = @At(value = "INVOKE", target = "getUseAnimation")), at = @At(value = "INVOKE", target = "applyItemArmTransform", ordinal = 2, shift = At.Shift.AFTER))
+    @Inject(method = "renderArmWithItem", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseAnimation()Lnet/minecraft/world/item/ItemUseAnimation;")), at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/ItemInHandRenderer;applyItemArmTransform(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/entity/HumanoidArm;F)V", ordinal = 2, shift = At.Shift.AFTER))
     private void blockingAnimation(AbstractClientPlayer abstractClientPlayer, float f, float g, InteractionHand interactionHand, float swingProgress, ItemStack itemStack, float equipProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int j, CallbackInfo info)
     {
         OldHitting oldHitting = (OldHitting) UnLegit.modules.get("Old Hitting");
@@ -42,17 +42,17 @@ public class ItemRenderMixin
             oldHitting.performAnimation(poseStack, swingProgress, equipProgress);
     }
     
-    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "getUseAnimation"))
-    private UseAnim swordBlockingAction(ItemStack itemStack)
+    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseAnimation()Lnet/minecraft/world/item/ItemUseAnimation;"))
+    private ItemUseAnimation swordBlockingAction(ItemStack itemStack)
     {
         OldHitting oldHitting = (OldHitting) UnLegit.modules.get("Old Hitting");
         
         if (oldHitting.isEnabled() && oldHitting.playerBlocking() && itemStack.getItem() instanceof SwordItem)
-            return UseAnim.BLOCK;
+            return ItemUseAnimation.BLOCK;
         else return itemStack.getUseAnimation();
     }
     
-    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "isUsingItem", ordinal = 1))
+    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;isUsingItem()Z", ordinal = 1))
     private boolean blockingSwordUseAction(AbstractClientPlayer abstractClientPlayer)
     {
         OldHitting oldHitting = (OldHitting) UnLegit.modules.get("Old Hitting");
@@ -62,7 +62,7 @@ public class ItemRenderMixin
         else return abstractClientPlayer.isUsingItem();
     }
     
-    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "getUseItemRemainingTicks", ordinal = 2))
+    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;getUseItemRemainingTicks()I", ordinal = 2))
     private int blockingSwordTicks(AbstractClientPlayer abstractClientPlayer)
     {
         OldHitting oldHitting = (OldHitting) UnLegit.modules.get("Old Hitting");
@@ -72,7 +72,7 @@ public class ItemRenderMixin
         else return abstractClientPlayer.getUseItemRemainingTicks();
     }
     
-    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "getUsedItemHand", ordinal = 1))
+    @Redirect(method = "renderArmWithItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/AbstractClientPlayer;getUsedItemHand()Lnet/minecraft/world/InteractionHand;", ordinal = 1))
     private InteractionHand hookActiveHand(AbstractClientPlayer abstractClientPlayer)
     {
         OldHitting oldHitting = (OldHitting) UnLegit.modules.get("Old Hitting");

@@ -77,13 +77,7 @@ public class MinecraftMixin
     
     @Inject(method = "updateFontOptions", at = @At(value = "TAIL"))
     private void initializeFont(CallbackInfo info) { IFont.init(); }
-    
-    @ModifyConstant(method = "getFramerateLimit", constant = @Constant(intValue = 60))
-    private int getFramerateLimit(int frames)
-    {
-        return window.getFramerateLimit();
-    }
-    
+
     @Inject(method = "setLevel", at = @At(value = "TAIL"))
     public void worldChangeEvent(ClientLevel clientLevel, ReceivingLevelScreen.Reason reason, CallbackInfo info)
     {
