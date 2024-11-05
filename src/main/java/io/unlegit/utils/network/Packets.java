@@ -1,7 +1,5 @@
 package io.unlegit.utils.network;
 
-import java.util.ArrayList;
-
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.mixins.network.AccConnection;
 import net.minecraft.network.Connection;
@@ -11,15 +9,19 @@ import net.minecraft.network.protocol.configuration.ServerboundFinishConfigurati
 import net.minecraft.network.protocol.configuration.ServerboundSelectKnownPacks;
 import net.minecraft.network.protocol.cookie.ServerboundCookieResponsePacket;
 import net.minecraft.network.protocol.game.*;
-import net.minecraft.network.protocol.login.*;
+import net.minecraft.network.protocol.login.ServerboundCustomQueryAnswerPacket;
+import net.minecraft.network.protocol.login.ServerboundHelloPacket;
+import net.minecraft.network.protocol.login.ServerboundKeyPacket;
+import net.minecraft.network.protocol.login.ServerboundLoginAcknowledgedPacket;
 import net.minecraft.network.protocol.ping.ServerboundPingRequestPacket;
 import net.minecraft.network.protocol.status.ServerboundStatusRequestPacket;
 import net.minecraft.server.RunningOnDifferentThreadException;
 
+import java.util.ArrayList;
+
 public class Packets implements IMinecraft
 {
-    public static ArrayList<Class<? extends Packet<?>>> client = new ArrayList<>(),
-                                                        server = new ArrayList<>();
+    public static ArrayList<Class<? extends Packet<?>>> client = new ArrayList<>();
     
     /** Sends a packet. */
     public static void send(Packet<?> packet)
@@ -38,12 +40,11 @@ public class Packets implements IMinecraft
     {
         try { AccConnection.genericsFtw(packet, connection().getPacketListener()); }
         // Uncertain about the reason for this being thrown even if the code works
-        catch (RunningOnDifferentThreadException ex) {}
+        catch (RunningOnDifferentThreadException e) {}
     }
     
     private static Connection connection() { return mc.getConnection().getConnection(); }
-    
-    /** Yes, I manually typed them in. */
+
     static
     {
         client.add(ServerboundAcceptTeleportationPacket.class);

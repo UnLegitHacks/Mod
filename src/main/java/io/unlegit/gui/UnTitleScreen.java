@@ -1,10 +1,7 @@
 package io.unlegit.gui;
 
-import java.util.ArrayList;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.realmsclient.RealmsMainScreen;
-
 import io.unlegit.alts.AltManager;
 import io.unlegit.gui.buttons.UnButton;
 import io.unlegit.gui.buttons.UnPlainTextButton;
@@ -27,6 +24,8 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
+
 /**
  * Looks aesthetically better
  * than the vanilla main menu.
@@ -34,7 +33,7 @@ import net.minecraft.resources.ResourceLocation;
 public class UnTitleScreen extends Screen implements IGui
 {
     private static final Component COPYRIGHT_TEXT = Component.translatable("title.credits");
-    private ArrayList<UnButton> buttons = new ArrayList<>();
+    private final ArrayList<UnButton> buttons = new ArrayList<>();
     private UnPlainTextButton copyrightButton, exitButton;
     private ResourceLocation logo = null;
     
@@ -88,7 +87,7 @@ public class UnTitleScreen extends Screen implements IGui
         
         buttons.add(new UnButton(Component.translatable("menu.online").getString(), "realms", x += 64, y, () -> minecraft.setScreen(new RealmsMainScreen(this))));
         buttons.add(new UnButton(Component.translatable("menu.options").getString(), "settings", x += 64, y, () -> minecraft.setScreen(new OptionsScreen(this, minecraft.options))));
-        buttons.add(new UnButton("Alt Manager", "altmanager", x += 64, y, () -> minecraft.setScreen(AltManager.get(this))));
+        buttons.add(new UnButton("Alt Manager", "altmanager", x + 64, y, () -> minecraft.setScreen(AltManager.get(this))));
         
         boolean holiday = Holidays.todayOne();
         String copyrightText = holiday ? Holidays.get() : COPYRIGHT_TEXT.getString();

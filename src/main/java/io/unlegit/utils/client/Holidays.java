@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class Holidays
 {
-    public static Calendar calendar = null;
     private static String holiday = "";
+    public static Calendar calendar;
     
     static
     {
@@ -17,7 +17,7 @@ public class Holidays
         
         if (month == Calendar.DECEMBER && day >= 25)
             holiday = "Merry Christmas!";
-        else if (month == Calendar.JANUARY && day == 1)
+        else if (month == Calendar.JANUARY && day == 2)
             holiday = "Happy New Year!";
         else if (month == Calendar.OCTOBER && day >= 29)
             holiday = "OOoooOOOoooo! Spooky!";

@@ -1,15 +1,13 @@
 package io.unlegit.modules.impl.gui.keystrokes;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import io.unlegit.gui.font.IFont;
-import io.unlegit.utils.render.Animation;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
+
+import java.awt.*;
 
 public class RenderClick extends RenderKey
 {

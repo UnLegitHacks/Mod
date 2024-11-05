@@ -1,14 +1,15 @@
 package io.unlegit.utils.entity;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-
-import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
-import io.unlegit.modules.impl.combat.killaura.KillAura;
+import io.unlegit.modules.impl.misc.Teams;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class TargetUtil implements IMinecraft
 {
@@ -18,10 +19,8 @@ public class TargetUtil implements IMinecraft
         
         for (Entity entity : mc.level.entitiesForRendering())
         {
-            if (entity instanceof LivingEntity)
+            if (entity instanceof LivingEntity target)
             {
-                LivingEntity target = (LivingEntity) entity;
-                
                 if (player.distanceTo(target) <= distance && valid(target, player))
                     targets.add(target);
             }
@@ -36,21 +35,42 @@ public class TargetUtil implements IMinecraft
                 break;
                 
             case "Distance":
-                targets.sort(Comparator.comparingDouble(entity -> player.distanceTo(entity)));
+                targets.sort(Comparator.comparingDouble(player::distanceTo));
                 break;
                 
             case "Health":
-                targets.sort(Comparator.comparingDouble(entity -> entity.getHealth()));
+                targets.sort(Comparator.comparingDouble(LivingEntity::getHealth));
                 break;
         }
-        
-        return targets.get(0);
+
+        if (hasMobs(targets))
+        {
+            // Prioritize players
+            for (LivingEntity entity : targets)
+            {
+                if (entity instanceof Player)
+                    return entity;
+            }
+        }
+
+        return targets.getFirst();
     }
     
     public static boolean valid(LivingEntity entity, LocalPlayer player)
     {
-        KillAura killAura = (KillAura) UnLegit.modules.get("Kill Aura");
         return !entity.is(player) && entity.isAlive() && !entity.isInvisibleTo(player)
-                && (entity.getTeam() == null || player.getTeam() == null || (!entity.getTeam().isAlliedTo(player.getTeam()) || !killAura.teams.enabled));
+                && !(entity instanceof Slime) && (entity.getTeam() == null || player.getTeam() == null
+                || (!entity.getTeam().isAlliedTo(player.getTeam()) || !Teams.active()));
+    }
+
+    private static boolean hasMobs(ArrayList<LivingEntity> targets)
+    {
+        for (LivingEntity entity : targets)
+        {
+            if (!(entity instanceof Player))
+                return true;
+        }
+
+        return false;
     }
 }

@@ -54,7 +54,10 @@ public class ClickGui extends Screen implements IGui
         {
             poseStack.pushPose();
             poseStack.scale(scale, scale, scale);
-        } else if (closingGui) minecraft.setScreen(null);
+        }
+
+        else if (closingGui)
+            minecraft.setScreen(null);
         
         if (renderSettings != null)
         {

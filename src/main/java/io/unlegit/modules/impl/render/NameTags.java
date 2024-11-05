@@ -1,12 +1,7 @@
 package io.unlegit.modules.impl.render;
 
-import java.awt.Color;
-
-import org.joml.Matrix4f;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import io.unlegit.UnLegit;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
@@ -24,9 +19,14 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityAttachment;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
+
+import java.awt.*;
 
 @IModule(name = "Name Tags", description = "Allows you to customize name tags.")
 public class NameTags extends ModuleU implements IGui
@@ -55,7 +55,7 @@ public class NameTags extends ModuleU implements IGui
         if (vec3 != null)
         {
             float scale = this.scale.enabled && entity instanceof Player ?
-                    (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1,
+                    Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1,
                   
                     health = entity.getHealth();
             
@@ -88,17 +88,17 @@ public class NameTags extends ModuleU implements IGui
             if (entity instanceof Player)
             {
                 // Health
-                poseStack.translate(-stringWidth / 2, 0, 0);
+                poseStack.translate(-stringWidth / 2F, 0, 0);
                 graphics.fill(RenderType.guiOverlay(), 0, 42, (int) (stringWidth * Math.min(health / entity.getMaxHealth(), 1)), 44, healthColor);
-                poseStack.translate(stringWidth / 2, 0, 0);
+                poseStack.translate(stringWidth / 2F, 0, 0);
                 
                 GlStateManager._disableDepthTest();
                 IFont.NORMAL.drawString(graphics, healthText, -stringWidth / 2 + 5, 27, -1);
             } else GlStateManager._disableDepthTest();
-            
+
             if (component != null && component.getString() != null)
                 IFont.LARGE.drawCenteredString(graphics, ChatFormatting.stripFormatting(component.getString()), -1, entity instanceof Player ? 4 : 10, new Color(colorRGB).getRGB());
-            
+
             GlStateManager._disableBlend();
             poseStack.popPose();
         }
@@ -115,7 +115,7 @@ public class NameTags extends ModuleU implements IGui
             if (vec3 != null)
             {
                 int j = "deadmau5".equals(component.getString()) ? -10 : 0;
-                float scale = this.scale.enabled && entity instanceof Player ? (float) Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1;
+                float scale = this.scale.enabled && entity instanceof Player ? Math.max(1, smoothDistanceTo(entity, partialTicks) / 5) : 1;
                 
                 poseStack.pushPose();
                 poseStack.translate(vec3.x, vec3.y + Math.max(0.5, (0.25 * scale)), vec3.z);
@@ -125,7 +125,7 @@ public class NameTags extends ModuleU implements IGui
                 
                 float g = mc.options.getBackgroundOpacity(0.25F);
                 int k = (int) (g * 255) << 24;
-                float h = -mc.font.width(component) / 2;
+                float h = -mc.font.width(component) / 2F;
                 mc.font.drawInBatch(component, h, j, -1, false, matrix4f, multiBufferSource, Font.DisplayMode.SEE_THROUGH, k, i);
                 poseStack.popPose();
             }

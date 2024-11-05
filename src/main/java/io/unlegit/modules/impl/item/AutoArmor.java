@@ -7,5 +7,6 @@ import io.unlegit.modules.settings.impl.ToggleSetting;
 @IModule(name = "Auto Armor", description = "Automatically equips armor for you.")
 public class AutoArmor extends ModuleU
 {
+    // TODO: Implement this
     public ToggleSetting invOpen = new ToggleSetting("Inv Open Only", "Only equips armor when the inventory is open", true);
 }

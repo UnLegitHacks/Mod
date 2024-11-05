@@ -1,8 +1,8 @@
 package io.unlegit.utils;
 
-import com.ibm.icu.util.Calendar;
-
 import io.unlegit.utils.client.Holidays;
+
+import java.util.Calendar;
 
 public class ElapTime
 {

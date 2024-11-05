@@ -29,10 +29,13 @@ public class PacketBlocker extends ModuleU
         for (Setting setting : UnLegit.settings.get(this))
         {
             ToggleSetting toggle = (ToggleSetting) setting;
-            
+
             if (toggle.enabled && toggle.name.equals(
                     e.packet.getClass().getSimpleName().replace("Serverbound", "").replace("Packet", "P")))
+            {
                 e.cancelled = true;
+                break;
+            }
         }
     }
 }

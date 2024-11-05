@@ -1,8 +1,5 @@
 package io.unlegit.modules.impl.item;
 
-import java.util.Deque;
-import java.util.concurrent.ConcurrentLinkedDeque;
-
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.utils.entity.InvUtil;
@@ -13,10 +10,14 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.world.item.Items;
 
+import java.util.Collections;
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
+
 @IModule(name = "Auto Totem", description = "Automatically equips a totem in your offhand.")
 public class AutoTotem extends ModuleU
 {
-    private Deque<Packet<?>> packetDeque = new ConcurrentLinkedDeque<>();
+    private final Deque<Packet<?>> packetDeque = new ConcurrentLinkedDeque<>();
     
     public void onUpdate()
     {
@@ -29,7 +30,7 @@ public class AutoTotem extends ModuleU
             {
                 if (totemSlot < 9)
                 {
-                    /**
+                    /*
                      * Queues the slot of the item, the swap packet, and then back to
                      * the slot of the player's currently held item.
                      */
@@ -40,7 +41,7 @@ public class AutoTotem extends ModuleU
                 
                 else
                 {
-                    /**
+                    /*
                      * Queues the open inventory packet, the swap packet
                      * the pick item packet, and then the inventory close packet.
                      */
@@ -58,6 +59,6 @@ public class AutoTotem extends ModuleU
     
     public void queue(Packet<?>... packets)
     {
-        for (Packet<?> packet : packets) packetDeque.add(packet);
+        Collections.addAll(packetDeque, packets);
     }
 }

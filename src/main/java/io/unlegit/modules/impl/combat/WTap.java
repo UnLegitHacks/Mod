@@ -1,7 +1,5 @@
 package io.unlegit.modules.impl.combat;
 
-import static org.lwjgl.glfw.GLFW.glfwGetKey;
-
 import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.interfaces.IModule;
@@ -10,6 +8,8 @@ import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ModeSetting;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+
+import static org.lwjgl.glfw.GLFW.glfwGetKey;
 
 @IModule(name = "W-Tap", description = "Deals more knockback to entities.")
 public class WTap extends ModuleU
@@ -24,7 +24,7 @@ public class WTap extends ModuleU
     
     public void onAttack(AttackE e)
     {
-        if (mc.crosshairPickEntity != null && mc.crosshairPickEntity instanceof LivingEntity)
+        if (mc.crosshairPickEntity instanceof LivingEntity)
         {
             entity = mc.crosshairPickEntity;
             

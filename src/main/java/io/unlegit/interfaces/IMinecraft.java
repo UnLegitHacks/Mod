@@ -12,4 +12,9 @@ public interface IMinecraft
     {
         mc.gui.getChat().addMessage(Component.literal("\n" + UnLegit.PREFIX + message + "\n"));
     }
+
+    default void clientLog(String message)
+    {
+        mc.player.displayClientMessage(Component.literal("\n" + UnLegit.PREFIX + message + "\n"), true);
+    }
 }

@@ -16,8 +16,8 @@ public class InvUtil
         return -1;
     }
     
-    public static abstract interface ItemFilter
+    public interface ItemFilter
     {
-        public abstract boolean process(ItemStack item);
+        boolean process(ItemStack item);
     }
 }

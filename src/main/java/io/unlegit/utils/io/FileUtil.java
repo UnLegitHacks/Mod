@@ -11,7 +11,7 @@ public class FileUtil
         try (FileOutputStream fileOutputStream = new FileOutputStream(destination))
         {
             byte[] buffer = new byte[4096];
-            int read = 0;
+            int read;
             
             while ((read = inputStream.read(buffer)) != -1)
                 fileOutputStream.write(buffer, 0, read);

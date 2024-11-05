@@ -1,12 +1,12 @@
 package io.unlegit.events;
 
-import static io.unlegit.events.EventHandler.handleEvent;
-
-import java.util.ArrayList;
-
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.modules.impl.misc.Rotations;
+
+import java.util.ArrayList;
+
+import static io.unlegit.events.EventHandler.handleEvent;
 
 /**
  * Google's EventBus is kind of slow,
@@ -14,7 +14,7 @@ import io.unlegit.modules.impl.misc.Rotations;
  */
 public class EventBus
 {
-    private ArrayList<EventListener> listeners = new ArrayList<>();
+    private final ArrayList<EventListener> listeners = new ArrayList<>();
     
     public void register(EventListener listener)
     {

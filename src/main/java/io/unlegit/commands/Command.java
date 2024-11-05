@@ -6,7 +6,7 @@ import net.minecraft.ChatFormatting;
 
 public abstract class Command implements IMinecraft
 {
-    private ICommand iCommand = getClass().getAnnotation(ICommand.class);
+    private final ICommand iCommand = getClass().getAnnotation(ICommand.class);
     public String name = iCommand.name(), shortForm = iCommand.shortForm(), usage = iCommand.usage();
     public abstract void onExecute(String[] args);
 

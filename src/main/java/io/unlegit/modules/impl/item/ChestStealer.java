@@ -1,7 +1,5 @@
 package io.unlegit.modules.impl.item;
 
-import java.util.ArrayList;
-
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.SliderSetting;
@@ -12,15 +10,20 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.Items;
 
+import java.util.ArrayList;
+
 @IModule(name = "Chest Stealer", description = "Automatically steals chests.")
 public class ChestStealer extends ModuleU
 {
     public SliderSetting minDelay = new SliderSetting("Min Delay (ms)", "The minimum delay in randomization.", 0, 50, 1000),
                          maxDelay = new SliderSetting("Max Delay (ms)", "The maximum delay in randomization.", 0, 100, 1000);
     
-    public ToggleSetting autoClose = new ToggleSetting("Auto Close", "Automatically closes the chest.", true);
-    private ArrayList<BlockPos> lootedChests = new ArrayList<>();
-    private ElapTime elapTime = new ElapTime();
+    public ToggleSetting autoClose = new ToggleSetting("Auto Close", "Automatically closes the chest.", true),
+                         aura = new ToggleSetting("Chest Aura", "Automatically opens chests around you.", false);
+
+    // TODO: Implement chest aura
+    private final ArrayList<BlockPos> lootedChests = new ArrayList<>();
+    private final ElapTime elapTime = new ElapTime();
     public int delay = 0;
     
     public void onUpdate()
@@ -31,7 +34,7 @@ public class ChestStealer extends ModuleU
             
             for (int i = 0; i < 36; i++)
             {
-                if (chest.getSlot(i) != null && !chest.getSlot(i).getItem().is(Items.AIR))
+                if (!chest.getSlot(i).getItem().is(Items.AIR))
                 {
                     if (elapTime.passed(delay))
                     {

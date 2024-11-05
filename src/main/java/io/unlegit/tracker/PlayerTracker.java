@@ -21,7 +21,7 @@ import net.minecraft.world.item.Items;
 public class PlayerTracker implements EventListener, IMinecraft
 {
     public HashMap<Player, ArrayList<ItemStack>> items = new HashMap<>();
-    private static PlayerTracker instance = new PlayerTracker();
+    private static final PlayerTracker instance = new PlayerTracker();
     private static boolean changed = false;
     
     public void onUpdate()
@@ -30,7 +30,7 @@ public class PlayerTracker implements EventListener, IMinecraft
         {
             if (entity instanceof Player entityPlayer && !(entityPlayer instanceof LocalPlayer))
             {
-                // For example, respawns
+                // Respawns
                 if (teleported(entityPlayer) && items.containsKey(entityPlayer))
                 {
                     items.get(entityPlayer).clear();
@@ -39,7 +39,7 @@ public class PlayerTracker implements EventListener, IMinecraft
                 
                 ItemStack heldItem = entityPlayer.getMainHandItem();
                 
-                if (heldItem != null && heldItem.getItem() != null && !heldItem.is(Items.AIR) && !heldItem.getDisplayName().getString().contains("Air"))
+                if (!heldItem.is(Items.AIR) && !heldItem.getDisplayName().getString().contains("Air"))
                 {
                     if (!items.containsKey(entityPlayer))
                         items.put(entityPlayer, new ArrayList<>());

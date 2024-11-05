@@ -13,9 +13,8 @@ public class FPSBooster extends ModuleU
     public void onPacketReceive(PacketReceiveE e)
     {
         if (e.packet instanceof ClientboundLevelParticlesPacket) e.cancelled = true;
-        else if (e.packet instanceof ClientboundAddEntityPacket)
+        else if (e.packet instanceof ClientboundAddEntityPacket packet)
         {
-            ClientboundAddEntityPacket packet = (ClientboundAddEntityPacket) e.packet;
             if (packet.getType() == EntityType.ARMOR_STAND) e.cancelled = true;
         }
     }

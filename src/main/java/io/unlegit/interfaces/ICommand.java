@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 public @interface ICommand
 {
-    public String name();
-    public String shortForm();
-    public String usage();
+    String name();
+    String shortForm();
+    String usage();
 }

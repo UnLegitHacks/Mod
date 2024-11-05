@@ -13,8 +13,8 @@ public class Spammer extends ModuleU
     public TextSetting message = new TextSetting("Message", "The message to spam.", "Hacking is bad for health guys!");
     public SliderSetting delay = new SliderSetting("Delay (ms)", "The delay.", 250, 5000, 10000);
     public ToggleSetting bypassRestriction = new ToggleSetting("Bypass Restriction", "Bypasses the \"You sent the same message twice!\".", true);
-    private char[] randomLetters = " ,'.".toCharArray();
-    private ElapTime elapTime = new ElapTime();
+    private final char[] randomLetters = " ,'.".toCharArray();
+    private final ElapTime elapTime = new ElapTime();
     
     public void onUpdate()
     {
@@ -30,7 +30,7 @@ public class Spammer extends ModuleU
                     message.insert(i, randomLetters[(int) (Math.random() * randomLetters.length)]);
                 }
                 
-                message.append(" " + (int) (Math.random() * 100));
+                message.append(" ").append((int) (Math.random() * 100));
             }
             
             mc.getConnection().sendChat(message.toString());

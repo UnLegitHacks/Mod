@@ -1,9 +1,6 @@
 package io.unlegit.modules.impl.movement.scaffold;
 
-import static io.unlegit.modules.impl.movement.scaffold.HelperBlock.*;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.events.impl.network.PacketSendE;
@@ -23,8 +20,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.protocol.game.*;
+import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket.Action;
+import net.minecraft.network.protocol.game.ServerboundSetCarriedItemPacket;
+import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,6 +31,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+
+import static io.unlegit.modules.impl.movement.scaffold.HelperBlock.*;
 
 // You thought this was going to be named Block Fly? lol
 @IModule(name = "Scaffold", description = "Automatically bridges for you.")
@@ -60,7 +61,6 @@ public class Scaffold extends ModuleU implements IGui
     private ResourceLocation background;
     protected ItemStack prevItem;
     private Animation animation;
-    private MutableBlockPos pos;
     private float yaw, pitch;
     private double y = 0;
     
@@ -106,7 +106,7 @@ public class Scaffold extends ModuleU implements IGui
         if (!getDirection().equals(Direction.UP))
         {
             Vec3 block = new Vec3(getBlockX(), y, getBlockZ());
-            pos = new BlockPos((int) Math.floor(mc.player.getX()), (int) block.y - 1, (int) Math.floor(mc.player.getZ())).relative(getDirection()).mutable();
+            MutableBlockPos pos = new BlockPos((int) Math.floor(mc.player.getX()), (int) block.y - 1, (int) Math.floor(mc.player.getZ())).relative(getDirection()).mutable();
             
             if (mc.level.isEmptyBlock(pos.relative(getDirection().getOpposite())))
             {

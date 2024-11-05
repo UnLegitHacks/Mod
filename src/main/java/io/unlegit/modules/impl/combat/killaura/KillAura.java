@@ -27,7 +27,6 @@ public class KillAura extends ModuleU
     
     public ToggleSetting swingHand = new ToggleSetting("Swing Hand", "Swings the hand normally.", true),
                          smartRange = new ToggleSetting("Smart Range", "Increases the range depending on your ping.", false),
-                         teams = new ToggleSetting("Teams", "Don't attack players on your team.", false),
                          predict = new ToggleSetting("Predict Pos", "Predicts the movement of the target.", true),
                          rayTrace = new ToggleSetting("Ray Trace", "Helps bypass anti-cheats.", true);
                          // targetESP = new ToggleSetting("Target ESP", true);
@@ -44,7 +43,7 @@ public class KillAura extends ModuleU
     priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
     autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
     
-    private ElapTime elapTime = new ElapTime();
+    private final ElapTime elapTime = new ElapTime();
     private boolean stopBlocking = false;
     public float CPS = 0, yaw, pitch;
     public LivingEntity target;
@@ -89,11 +88,9 @@ public class KillAura extends ModuleU
             if (mc.player.distanceTo(target) <= range && (elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || (cooldown.isEnabled() && !cooldown.cancelHit()))
             {
                 if (autoBlock.equals("Vanilla")) AutoBlock.unblock();
-                
                 if (rayTrace.enabled && !RotationUtil.rayTrace(target, yaw, pitch, range)) return;
                 
                 UnLegit.events.post(AttackE.get());
-                
                 mc.gameMode.attack(mc.player, target);
                 swingItem();
                 
@@ -111,7 +108,7 @@ public class KillAura extends ModuleU
     {
         if (target != null)
         {
-            float[] rotations = RotationUtil.rotations(target);
+            float[] rotations = RotationUtil.rotations(target, predict.enabled);
             
             if (this.rotations.equals("Smooth")) smoothenRotations(rotations);
             
@@ -188,25 +185,25 @@ public class KillAura extends ModuleU
         
         if (yaw < rotations[0])
         {
-            yaw += 48 * Math.random();
+            yaw += (float) (48 * Math.random());
             if (rotations[0] < yaw) yaw = rotations[0];
         }
         
         else if (yaw > rotations[0])
         {
-            yaw -= 48 * Math.random();
+            yaw -= (float) (48 * Math.random());
             if (rotations[0] > yaw) yaw = rotations[0];
         }
         
         if (pitch < rotations[1])
         {
-            pitch += 48 * Math.random();
+            pitch += (float) (48 * Math.random());
             if (rotations[1] < pitch) pitch = rotations[1];
         }
         
         else if (pitch > rotations[1])
         {
-            pitch -= 48 * Math.random();
+            pitch -= (float) (48 * Math.random());
             if (rotations[1] > pitch) pitch = rotations[1];
         }
     }

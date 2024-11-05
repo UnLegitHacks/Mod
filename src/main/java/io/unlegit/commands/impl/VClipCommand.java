@@ -10,7 +10,7 @@ public class VClipCommand extends Command
     public void onExecute(String[] args)
     {
         if (!validateArgs(args, 1)) return;
-        int height = 0;
+        int height;
         
         try { height = Integer.parseInt(args[0]); }
         catch (NumberFormatException e)

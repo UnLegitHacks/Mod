@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface IModule
 {
-    public String name();
-    public String description();
+    String name();
+    String description();
 }

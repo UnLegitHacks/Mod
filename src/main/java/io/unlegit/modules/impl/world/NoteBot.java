@@ -1,12 +1,9 @@
-package io.unlegit.modules.impl.player;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map.Entry;
+package io.unlegit.modules.impl.world;
 
 import com.xxmicloxx.NoteBlockAPI.NBSDecoder;
-import com.xxmicloxx.NoteBlockAPI.model.*;
-
+import com.xxmicloxx.NoteBlockAPI.model.Layer;
+import com.xxmicloxx.NoteBlockAPI.model.Note;
+import com.xxmicloxx.NoteBlockAPI.model.Song;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
@@ -25,6 +22,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 @IModule(name = "Note Bot", description = "Plays note blocks! Needs a 5x5 floor & NBS files.")
 public class NoteBot extends ModuleU
 {
@@ -38,7 +39,7 @@ public class NoteBot extends ModuleU
                          highNotesOnly = new ToggleSetting("High Notes Only", "Reduces the notes being played by only playing medium-high ones.", false);
     
     public static final File nbsDirectory = new File("unlegit/nbs");
-    private HashMap<Integer, RelativeCoord> notes = new HashMap<>();
+    private final HashMap<Integer, RelativeCoord> notes = new HashMap<>();
     private volatile boolean running = true;
     private volatile BlockPos pos = null;
     public float yaw, pitch;
@@ -133,7 +134,7 @@ public class NoteBot extends ModuleU
                 {
                     try { Thread.sleep(Math.max(difference - makeUpTime, 0)); } catch (InterruptedException e) {}
                     makeUpTime = 0;
-                } else makeUpTime += -difference;
+                } else makeUpTime -= difference;
                 
                 timeSlept = 0;
             }
@@ -155,7 +156,7 @@ public class NoteBot extends ModuleU
                 int blockX = (int) Math.round(x + mc.player.getX()), blockY = (int) Math.round(mc.player.getY()) - 1, blockZ = (int) Math.round(z + mc.player.getZ());
                 BlockPos pos = new BlockPos(blockX, blockY, blockZ);
                 BlockState block = mc.level.getBlockState(pos);
-                int notePitch = block.getValue(NoteBlock.NOTE).intValue();
+                int notePitch = block.getValue(NoteBlock.NOTE);
                 
                 while (notePitch != note)
                 {

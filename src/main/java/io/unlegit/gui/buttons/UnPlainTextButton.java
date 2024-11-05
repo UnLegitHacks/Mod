@@ -1,9 +1,6 @@
 package io.unlegit.gui.buttons;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import io.unlegit.gui.font.IFont;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.utils.SoundUtil;
@@ -11,15 +8,17 @@ import io.unlegit.utils.render.Animation;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 
+import java.awt.*;
+
 public class UnPlainTextButton implements IGui
 {
     private Animation hoverAnimation = null;
     public boolean special = false;
+    private final Runnable action;
     private boolean flag = false;
-    private Runnable action;
-    private UnStyle style;
-    private String name;
-    private int x, y;
+    private final UnStyle style;
+    private final String name;
+    private final int x, y;
     
     public UnPlainTextButton(String name, int x, int y, UnStyle style, Runnable action)
     {
@@ -31,7 +30,7 @@ public class UnPlainTextButton implements IGui
     
     public void render(GuiGraphics graphics, int mouseX, int mouseY)
     {
-        if (mouseOver((int) mouseX, (int) mouseY, x, y, x + IFont.NORMAL.getStringWidth(name), y + 13))
+        if (mouseOver(mouseX, mouseY, x, y, x + IFont.NORMAL.getStringWidth(name), y + 13))
         {
             if (!flag)
             {
@@ -80,5 +79,5 @@ public class UnPlainTextButton implements IGui
         }
     }
     
-    public static enum UnStyle { UNDERLINE, FADE }
+    public enum UnStyle { UNDERLINE, FADE }
 }

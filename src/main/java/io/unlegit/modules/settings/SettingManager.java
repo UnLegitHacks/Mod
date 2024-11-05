@@ -1,15 +1,17 @@
 package io.unlegit.modules.settings;
 
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.Map.Entry;
-
 import io.unlegit.modules.ModuleManager;
 import io.unlegit.modules.ModuleU;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
 public class SettingManager
 {
-    private HashMap<ModuleU, List<Setting>> settings = new HashMap<>();
+    private final HashMap<ModuleU, List<Setting>> settings = new HashMap<>();
     
     public void call(ModuleManager modules)
     {
@@ -24,7 +26,7 @@ public class SettingManager
         {
             if (module.equals(entry.getKey()))
             {
-                for (Setting setting : entry.getValue()) result.add(setting);
+                result.addAll(entry.getValue());
             }
         }
         

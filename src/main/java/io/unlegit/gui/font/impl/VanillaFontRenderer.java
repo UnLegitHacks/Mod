@@ -1,14 +1,13 @@
 package io.unlegit.gui.font.impl;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import io.unlegit.gui.font.GlyphPage;
 import io.unlegit.mixins.gui.AccGraphics;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.Font.DisplayMode;
 import net.minecraft.client.gui.GuiGraphics;
+
+import java.awt.*;
 
 public class VanillaFontRenderer extends FontRenderer
 {
@@ -45,7 +44,7 @@ public class VanillaFontRenderer extends FontRenderer
         
         pose.pushPose();
         pose.scale(scale, scale, scale);
-        x /= scale; y /= scale;
+        x = (int) (x / scale); y = (int) (y / scale);
         y += 2; x += 1;
         
         int colorRGB = Colorer.RGB(color.getRed(), color.getGreen(), color.getBlue(), Math.max(color.getAlpha(), 4)),

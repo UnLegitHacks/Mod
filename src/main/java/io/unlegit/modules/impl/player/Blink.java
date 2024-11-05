@@ -1,14 +1,14 @@
 package io.unlegit.modules.impl.player;
 
-import java.util.Deque;
-import java.util.concurrent.ConcurrentLinkedDeque;
-
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.network.PacketSendE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.utils.network.Packets;
 import net.minecraft.network.protocol.Packet;
+
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 /**
  * This class also behaves as a component,
@@ -17,7 +17,7 @@ import net.minecraft.network.protocol.Packet;
 @IModule(name = "Blink", description = "Freezes you serverside.")
 public class Blink extends ModuleU
 {
-    private Deque<Packet<?>> packets = new ConcurrentLinkedDeque<>();
+    private final Deque<Packet<?>> packets = new ConcurrentLinkedDeque<>();
     private static boolean on = false;
     
     public void onEnable()

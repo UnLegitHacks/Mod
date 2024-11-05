@@ -23,31 +23,25 @@ public class HelperBlock implements IMinecraft
     public static double getBlockX()
     {
         double playerX = mc.player.getX();
-        
-        switch (getDirection())
+
+        return switch (getDirection())
         {
-            case WEST:
-                return (int) Math.floor(playerX);
-            case EAST:
-                return (int) Math.floor(playerX + 1);
-            default:
-                return playerX;
-        }
+            case WEST -> (int) Math.floor(playerX);
+            case EAST -> (int) Math.floor(playerX + 1);
+            default -> playerX;
+        };
     }
     
     public static double getBlockZ()
     {
         double playerZ = mc.player.getZ();
-        
-        switch (getDirection())
+
+        return switch (getDirection())
         {
-            case NORTH:
-                return (int) Math.floor(playerZ);
-            case SOUTH:
-                return (int) Math.floor(playerZ + 1);
-            default:
-                return playerZ;
-        }
+            case NORTH -> (int) Math.floor(playerZ);
+            case SOUTH -> (int) Math.floor(playerZ + 1);
+            default -> playerZ;
+        };
     }
     
     public static void preSwitchItem()

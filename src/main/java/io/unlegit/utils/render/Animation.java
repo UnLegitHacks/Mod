@@ -5,10 +5,10 @@ import io.unlegit.utils.client.ConvTime;
 
 public class Animation
 {
-    private long time = ConvTime.millis();
+    private final long time = ConvTime.millis();
     public boolean reverse = false;
-    public int interval = 0;
     private float value = 0;
+    public int interval;
     
     public int wrap(int input)
     {

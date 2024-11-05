@@ -1,7 +1,5 @@
 package io.unlegit.modules.impl.misc;
 
-import java.util.ArrayList;
-
 import io.unlegit.events.impl.client.MessageE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
@@ -11,6 +9,8 @@ import io.unlegit.utils.entity.InvUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Items;
+
+import java.util.ArrayList;
 
 @IModule(name = "Game Play", description = "Manages your experience for you.")
 public class GamePlay extends ModuleU
@@ -22,10 +22,10 @@ public class GamePlay extends ModuleU
         "Sweaty", "UnLeague"
     });
     
-    private String[] sweaty = new String[]
+    private final String[] sweaty = new String[]
     {
         "get gud",
-        "lol",
+        "LOL",
         "imagine dying",
         "xD",
         "L",
@@ -34,7 +34,7 @@ public class GamePlay extends ModuleU
         "learn how2 play",
     };
     
-    private String[] unLeague = new String[]
+    private final String[] unLeague = new String[]
     {
         "UnLegit users belike: Hit or miss I guess I never miss!",
         "UnLegitHacks . github. io is your new home",
@@ -68,7 +68,7 @@ public class GamePlay extends ModuleU
         "In need of a cute present for Christmas? UnLegit is all you need!"
     };
     
-    private ArrayList<String> alreadySaidMessages = new ArrayList<>();
+    private final ArrayList<String> alreadySaidMessages = new ArrayList<>();
     private int attemptLimit = 0;
     
     public void onUpdate()
@@ -90,8 +90,10 @@ public class GamePlay extends ModuleU
     {
         String message = ChatFormatting.stripFormatting(e.message.getString().replaceAll("\r", "\\\\r").replaceAll("\n", "\\\\n"));
         attemptLimit = 0;
-        
-        if (autoL.enabled && !mc.hasSingleplayerServer() && message.contains(" by " + mc.getUser().getName()))
+
+        if (autoL.enabled && !mc.hasSingleplayerServer() &&
+                message.contains(" by " + mc.getUser().getName()) &&
+                !(message.toLowerCase().contains(" bed") || message.toLowerCase().contains("bed ")))
         {
             String msgToSend = getMessage();
             mc.getConnection().sendChat(msgToSend);

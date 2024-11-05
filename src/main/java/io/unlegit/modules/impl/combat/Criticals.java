@@ -16,7 +16,7 @@ public class Criticals extends ModuleU
         "Jump", "Hop", "Packet"
     });
     
-    private double[] packetJumps = new double[] { 0.0625D, 0 };
+    private final double[] packetJumps = new double[] { 0.0625D, 0 };
     private int tick = packetJumps.length;
     private boolean jumped = false;
     

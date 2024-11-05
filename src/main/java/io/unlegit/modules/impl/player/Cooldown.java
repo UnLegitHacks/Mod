@@ -18,8 +18,7 @@ public class Cooldown extends ModuleU
     public boolean cancelHit()
     {
         float cooldown = mc.player.getAttackStrengthScale(0);
-        if (!blockSelected() && cooldown != 1) return true;
-        else return false;
+        return !blockSelected() && cooldown != 1;
     }
     
     public boolean blockSelected()

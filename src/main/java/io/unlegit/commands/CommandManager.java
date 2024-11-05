@@ -1,15 +1,15 @@
 package io.unlegit.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import io.unlegit.commands.impl.*;
 import io.unlegit.interfaces.IMinecraft;
 import net.minecraft.ChatFormatting;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class CommandManager implements IMinecraft
 {
-    private ArrayList<Command> commands = new ArrayList<>();
+    private final ArrayList<Command> commands = new ArrayList<>();
     
     public CommandManager()
     {
@@ -31,7 +31,7 @@ public class CommandManager implements IMinecraft
     
     private void add(Command... commands)
     {
-        for (Command command : commands) this.commands.add(command);
+        this.commands.addAll(Arrays.asList(commands));
     }
     
     public Command getCommand(String name)

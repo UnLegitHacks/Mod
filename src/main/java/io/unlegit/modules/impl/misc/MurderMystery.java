@@ -1,15 +1,16 @@
 package io.unlegit.modules.impl.misc;
 
-import static net.minecraft.world.item.Items.*;
-
-import java.util.ArrayList;
-
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.tracker.PlayerTracker;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static net.minecraft.world.item.Items.*;
 
 @IModule(name = "Murder Mystery", description = "Reveals the murderer in the game.")
 public class MurderMystery extends ModuleU
@@ -21,7 +22,7 @@ public class MurderMystery extends ModuleU
     {
         if (murderer == null)
         {
-            Player player = PlayerTracker.get().findPlayerWithItem(stack -> illegal(stack));
+            Player player = PlayerTracker.get().findPlayerWithItem(this::illegal);
             
             if (player != null)
             {
@@ -38,7 +39,7 @@ public class MurderMystery extends ModuleU
         return stack.getItem() instanceof SwordItem || stack.getItem() instanceof ShovelItem
                 || stack.getItem() instanceof AxeItem || stack.getItem() instanceof PickaxeItem
                 || stack.getItem() instanceof HoeItem || stack.getItem() instanceof BoatItem
-                || swordItems.stream().filter(item -> stack.is(item)).count() != 0;
+                || swordItems.stream().anyMatch(stack::is);
     }
     
     public void onWorldChange()
@@ -48,7 +49,7 @@ public class MurderMystery extends ModuleU
     
     public void add(Item... items)
     {
-        for (Item item : items) swordItems.add(item);
+        swordItems.addAll(Arrays.asList(items));
     }
     
     public MurderMystery()

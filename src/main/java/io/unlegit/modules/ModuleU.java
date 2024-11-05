@@ -4,12 +4,13 @@ import io.unlegit.UnLegit;
 import io.unlegit.events.EventListener;
 import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.interfaces.IModule;
+import io.unlegit.bots.AutoPlay;
 import io.unlegit.utils.SoundUtil;
 
 /** Module -> ModuleU to prevent clashing with java.lang.Module */
 public class ModuleU implements IMinecraft, EventListener
 {
-    private IModule iModule = getClass().getAnnotation(IModule.class);
+    private final IModule iModule = getClass().getAnnotation(IModule.class);
     public String name = iModule.name(), description = iModule.description();
     public boolean noStart = false, hidden = false;
     public CategoryM category = getCategory();
@@ -47,12 +48,16 @@ public class ModuleU implements IMinecraft, EventListener
     
     /**
      * Gets the category from the package the module is in.
-     * Though, if the package is renamed this will break.
+     * This may break and so you need to add exceptions
+     * for certain modules, such as Auto Play.
      */
     private CategoryM getCategory()
     {
+        if (this instanceof AutoPlay)
+            return CategoryM.PLAYER;
+
         String packageName = getClass().getName();
-        packageName = packageName.substring(24, packageName.length());
+        packageName = packageName.substring(24);
         packageName = packageName.substring(0, packageName.indexOf("."));
         return CategoryM.valueOf(packageName.toUpperCase());
     }

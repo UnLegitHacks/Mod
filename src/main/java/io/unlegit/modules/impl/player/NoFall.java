@@ -10,7 +10,7 @@ public class NoFall extends ModuleU
 {
     public ModeSetting mode = new ModeSetting("Mode", "The mode for No Fall.", new String[]
     {
-        /**
+        /*
          * Legit makes you take a bit of fall damage so that
          * you do not appear suspicious to staff and others,
          * though it mostly does not bypass.

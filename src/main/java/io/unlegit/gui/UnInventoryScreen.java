@@ -1,7 +1,5 @@
 package io.unlegit.gui;
 
-import java.util.ArrayList;
-
 import io.unlegit.tracker.PlayerTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenPosition;
@@ -16,11 +14,13 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 /** Non-editable version of the Inventory with tweaks */
 public class UnInventoryScreen extends AbstractRecipeBookScreen<InventoryMenu>
 {
     private float xMouse, yMouse;
-    private Player player;
+    private final Player player;
     
     public UnInventoryScreen(Player player)
     {

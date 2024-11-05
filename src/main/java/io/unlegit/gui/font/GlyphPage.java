@@ -1,5 +1,16 @@
 package io.unlegit.gui.font;
 
+import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import io.unlegit.interfaces.IMinecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -9,27 +20,13 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
-
-import org.joml.Matrix4f;
-import org.lwjgl.BufferUtils;
-
-import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-
-import io.unlegit.interfaces.IMinecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-
 public class GlyphPage implements IMinecraft
 {
-    private HashMap<Character, Glyph> glyphCharacterMap = new HashMap<>();
+    private final HashMap<Character, Glyph> glyphCharacterMap = new HashMap<>();
     public int imageSize, maxFontHeight = -1;
     private AbstractTexture loadedTexture;
     private BufferedImage bufferedImage;
-    private Font font;
+    private final Font font;
     
     public GlyphPage(Font font)
     {

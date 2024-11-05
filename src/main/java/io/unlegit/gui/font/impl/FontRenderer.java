@@ -1,24 +1,20 @@
 package io.unlegit.gui.font.impl;
 
-import java.awt.Font;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-
 import io.unlegit.gui.font.GlyphPage;
 import io.unlegit.interfaces.IGui;
 import io.unlegit.interfaces.IMinecraft;
-import io.unlegit.modules.impl.gui.Compass;
 import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
+import java.awt.*;
+
 public class FontRenderer implements IMinecraft, IGui
 {
-    private ResourceLocation shadowLeft, shadowCenter, shadowRight;
+    private final ResourceLocation shadowLeft, shadowCenter, shadowRight;
     private float prevScaleFactor, posX, posY;
     private GlyphPage page;
     private String path;
