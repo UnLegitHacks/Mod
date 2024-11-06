@@ -1,9 +1,9 @@
 package io.unlegit.modules.impl.world;
 
-import com.xxmicloxx.NoteBlockAPI.NBSDecoder;
-import com.xxmicloxx.NoteBlockAPI.model.Layer;
-import com.xxmicloxx.NoteBlockAPI.model.Note;
-import com.xxmicloxx.NoteBlockAPI.model.Song;
+import io.unlegit.utils.nbs.NBSDecoder;
+import io.unlegit.utils.nbs.model.Layer;
+import io.unlegit.utils.nbs.model.Note;
+import io.unlegit.utils.nbs.model.Song;
 import io.unlegit.events.impl.entity.MotionE;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
@@ -81,17 +81,17 @@ public class NoteBot extends ModuleU
             clientMessage(ChatFormatting.GREEN +
                     "Now playing: " + file.getName().replace(".nbs", ""));
             
-            for (int i = 0; i < song.getLength(); i++)
+            for (int i = 0; i < song.length(); i++)
             {
-                for (Entry<Integer, Layer> layer : song.getLayerHashMap().entrySet())
+                for (Entry<Integer, Layer> layer : song.layerHashMap().entrySet())
                 {
                     Layer lays = layer.getValue();
                     Note note = lays.getNote(i);
                     
                     // Instruments 3 and 4 are percussion
-                    if (note != null && note.getInstrument() != 3 && note.getInstrument() != 4)
+                    if (note != null && note.instrument() != 3 && note.instrument() != 4)
                     {
-                        int noteBlock = note.getKey() - 33;
+                        int noteBlock = note.key() - 33;
                         
                         if (!(highNotesOnly.enabled && noteBlock < 8))
                         {
@@ -127,7 +127,7 @@ public class NoteBot extends ModuleU
                 
                 if (!running) break;
                 
-                int shouldSleep = (int) (1000 / (20 / song.getDelay())),
+                int shouldSleep = (int) (1000 / (song.speed())),
                     difference = shouldSleep - timeSlept;
                 
                 if (difference > 0)

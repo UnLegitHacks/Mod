@@ -2,10 +2,10 @@ package io.unlegit.bots.impl;
 
 import io.unlegit.UnLegit;
 import io.unlegit.bots.Bot;
+import io.unlegit.bots.StrafeEntity;
 import io.unlegit.events.impl.client.MessageE;
 import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.events.impl.entity.MotionE;
-import io.unlegit.modules.impl.combat.killaura.KillAura;
 import io.unlegit.modules.impl.player.Cooldown;
 import io.unlegit.utils.ElapTime;
 import io.unlegit.utils.entity.RotationUtil;
@@ -23,8 +23,7 @@ public class SumoBot extends Bot
 
     public void onUpdate()
     {
-        KillAura killAura = (KillAura) UnLegit.modules.get("Kill Aura");
-        target = gameStarted ? TargetUtil.getTarget(mc.player, 128, killAura.priority.selected) : null;
+        target = gameStarted ? TargetUtil.getTarget(mc.player, 128, "Distance") : null;
 
         if (target != null)
         {
@@ -35,20 +34,33 @@ public class SumoBot extends Bot
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             mc.crosshairPickEntity = target;
 
-            if (mc.player.distanceTo(target) <= 3 && (elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || (cooldown.isEnabled() && !cooldown.cancelHit()))
+            if (mc.player.distanceTo(target) <= 3)
             {
-                if (!RotationUtil.rayTrace(target, yaw, pitch, 3)) return;
-                UnLegit.events.post(AttackE.get());
+                StrafeEntity.tick();
 
-                mc.gameMode.attack(mc.player, target);
-                mc.player.swing(InteractionHand.MAIN_HAND);
+                if ((elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || (cooldown.isEnabled() && !cooldown.cancelHit()))
+                {
+                    if (!RotationUtil.rayTrace(target, yaw, pitch, 3)) return;
+                    UnLegit.events.post(AttackE.get());
 
-                CPS = updateCPS();
+                    mc.gameMode.attack(mc.player, target);
+                    mc.player.swing(InteractionHand.MAIN_HAND);
+
+                    CPS = updateCPS();
+                }
             }
+
+            else if (mc.player.distanceTo(target) <= 5)
+                StrafeEntity.tick();
+            else
+                StrafeEntity.stop();
         }
 
         else if (down)
+        {
             mc.options.keyUp.setDown(down = false);
+            StrafeEntity.stop();
+        }
     }
 
     public void onMotion(MotionE e)
