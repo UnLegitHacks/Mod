@@ -4,7 +4,7 @@ import io.unlegit.events.Event;
 
 public class KeyE implements Event
 {
-    private static KeyE e = new KeyE();
+    private static final KeyE e = new KeyE();
     public int key;
     
     public static KeyE get(int key)

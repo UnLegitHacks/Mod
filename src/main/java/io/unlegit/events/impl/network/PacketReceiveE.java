@@ -5,7 +5,7 @@ import net.minecraft.network.protocol.Packet;
 
 public class PacketReceiveE implements Event
 {
-    private static PacketReceiveE e = new PacketReceiveE();
+    private static final PacketReceiveE e = new PacketReceiveE();
     public boolean cancelled = false;
     public Packet<?> packet;
     

@@ -6,6 +6,7 @@ import io.unlegit.bots.StrafeEntity;
 import io.unlegit.events.impl.client.MessageE;
 import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.events.impl.entity.MotionE;
+import io.unlegit.events.impl.render.GuiRenderE;
 import io.unlegit.modules.impl.player.Cooldown;
 import io.unlegit.utils.ElapTime;
 import io.unlegit.utils.entity.RotationUtil;
@@ -24,23 +25,21 @@ public class SumoBot extends Bot
     public void onUpdate()
     {
         target = gameStarted ? TargetUtil.getTarget(mc.player, 128, "Distance") : null;
+        float reach = mc.getCurrentServer().ip.endsWith(":19132") /* Bedrock */ ? 4 : 3;
 
         if (target != null)
         {
             mc.options.keyUp.setDown(down = true);
-            mc.player.setYRot(yaw);
-            mc.player.setXRot(pitch);
-
             Cooldown cooldown = (Cooldown) UnLegit.modules.get("Cooldown");
             mc.crosshairPickEntity = target;
 
-            if (mc.player.distanceTo(target) <= 3)
+            if (mc.player.distanceTo(target) <= reach)
             {
                 StrafeEntity.tick();
 
                 if ((elapTime.passed((long) (1000 / CPS)) && !cooldown.isEnabled()) || (cooldown.isEnabled() && !cooldown.cancelHit()))
                 {
-                    if (!RotationUtil.rayTrace(target, yaw, pitch, 3)) return;
+                    if (!RotationUtil.rayTrace(target, yaw, pitch, reach) && reach != 4) return;
                     UnLegit.events.post(AttackE.get());
 
                     mc.gameMode.attack(mc.player, target);
@@ -50,7 +49,7 @@ public class SumoBot extends Bot
                 }
             }
 
-            else if (mc.player.distanceTo(target) <= 5)
+            else if (mc.player.distanceTo(target) <= (reach + 2))
                 StrafeEntity.tick();
             else
                 StrafeEntity.stop();
@@ -60,6 +59,15 @@ public class SumoBot extends Bot
         {
             mc.options.keyUp.setDown(down = false);
             StrafeEntity.stop();
+        }
+    }
+
+    public void onGuiRender(GuiRenderE e)
+    {
+        if (target != null)
+        {
+            mc.player.setYRot(yaw);
+            mc.player.setXRot(pitch);
         }
     }
 

@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 
 public class GuiRenderE implements Event
 {
-    private static GuiRenderE e = new GuiRenderE();
+    private static final GuiRenderE e = new GuiRenderE();
     public GuiGraphics graphics;
     public float partialTicks;
     

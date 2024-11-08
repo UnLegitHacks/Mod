@@ -4,7 +4,7 @@ import io.unlegit.events.Event;
 
 public class AttackE implements Event
 {
-    private static AttackE e = new AttackE();
+    private static final AttackE e = new AttackE();
     public boolean cancelled = false;
     
     public static AttackE get()

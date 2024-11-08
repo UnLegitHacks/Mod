@@ -4,7 +4,7 @@ import io.unlegit.events.Event;
 
 public class StrafeE implements Event
 {
-    private static StrafeE e = new StrafeE();
+    private static final StrafeE e = new StrafeE();
     public boolean changed = false;
     public float yaw;
     

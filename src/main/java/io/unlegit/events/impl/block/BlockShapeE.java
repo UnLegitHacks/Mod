@@ -7,7 +7,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BlockShapeE implements Event
 {
-    private static BlockShapeE e = new BlockShapeE();
+    private static final BlockShapeE e = new BlockShapeE();
     public boolean changed = false;
     public VoxelShape shape;
     public BlockState state;

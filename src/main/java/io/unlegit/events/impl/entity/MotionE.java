@@ -5,7 +5,7 @@ import io.unlegit.events.Event;
 public class MotionE implements Event
 {
     public boolean onGround, sprinting, changed = false;
-    private static MotionE e = new MotionE();
+    private static final MotionE e = new MotionE();
     public float yaw, pitch;
     public double x, y, z;
     

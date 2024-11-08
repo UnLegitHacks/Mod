@@ -5,7 +5,7 @@ import net.minecraft.network.protocol.Packet;
 
 public class PacketSendE implements Event
 {
-    private static PacketSendE e = new PacketSendE();
+    private static final PacketSendE e = new PacketSendE();
     public boolean cancelled = false;
     public Packet<?> packet;
     

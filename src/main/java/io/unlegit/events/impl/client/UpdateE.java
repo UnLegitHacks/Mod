@@ -4,6 +4,6 @@ import io.unlegit.events.Event;
 
 public class UpdateE implements Event
 {
-    private static UpdateE e = new UpdateE();
+    private static final UpdateE e = new UpdateE();
     public static UpdateE get() { return e; }
 }

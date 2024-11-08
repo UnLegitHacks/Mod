@@ -7,7 +7,7 @@ import net.minecraft.client.Camera;
 
 public class WorldRenderE implements Event
 {
-    private static WorldRenderE e = new WorldRenderE();
+    private static final WorldRenderE e = new WorldRenderE();
     public float partialTicks;
     public Matrix4f matrix;
     public Camera camera;
