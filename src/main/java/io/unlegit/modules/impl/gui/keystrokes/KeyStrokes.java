@@ -38,8 +38,8 @@ public class KeyStrokes extends ModuleU implements IGui
                 new RenderClick(this, mc.options.keyAttack, -2, y + 52),
                 new RenderClick(this, mc.options.keyUse, 37, y + 52));
             
-            keyShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/keystrokes/key.png"));
-            clickShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/keystrokes/click.png"));
+            keyShadow = get(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/keystrokes/key.png"));
+            clickShadow = get(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/keystrokes/click.png"));
         }
         
         for (RenderKey key : keys) key.render(e.graphics, partialTicks);

@@ -213,7 +213,7 @@ public class Scaffold extends ModuleU implements IGui
         if (showBlocks.enabled)
         {
             if (background == null)
-                background = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/scaffold/background.png"));
+                background = get(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/scaffold/background.png"));
             
             int items = 0;
             

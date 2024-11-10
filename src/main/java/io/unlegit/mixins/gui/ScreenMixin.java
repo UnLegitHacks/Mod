@@ -3,6 +3,7 @@ package io.unlegit.mixins.gui;
 import net.minecraft.client.renderer.RenderType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,18 +25,21 @@ import net.minecraft.resources.ResourceLocation;
 @Mixin(Screen.class)
 public class ScreenMixin implements IGui
 {
+    @Unique
     private static final boolean nightMode = ElapTime.getHour() > 17 // 6 P.M.
                                           || ElapTime.getHour() < 6; // 6 A.M.
     
+    @Unique
     private static ResourceLocation background = nightMode ?
             ResourceLocation.fromNamespaceAndPath("unlegit", "night.png") :
             ResourceLocation.fromNamespaceAndPath("unlegit", "day.png");
     
+    @Unique
     private boolean flag = true;
     
     @Shadow
     public int width, height;
-    @Shadow public Minecraft minecraft;
+    @Shadow protected Minecraft minecraft;
     
     @Inject(method = "renderPanorama", at = @At(value = "HEAD"), cancellable = true)
     public void renderPanorama(GuiGraphics graphics, float f, CallbackInfo info)
@@ -48,7 +52,7 @@ public class ScreenMixin implements IGui
             poseStack.pushPose();
             poseStack.last().pose().scale(1 / scale);
             
-            if (flag) { background = withLinearScaling(background); flag = false; }
+            if (flag) { background = get(background); flag = false; }
             int bH, bW, mouseX = (int) minecraft.mouseHandler.xpos();
             
             if (nightMode)

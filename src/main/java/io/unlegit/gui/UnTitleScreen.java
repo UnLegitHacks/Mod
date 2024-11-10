@@ -102,7 +102,7 @@ public class UnTitleScreen extends Screen implements IGui
         exitButton = new UnPlainTextButton(quitText.getString(), 3, 2,
                 UnStyle.FADE, () -> minecraft.stop());
         
-        logo = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/unlegit.png"));
+        logo = get(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/unlegit.png"));
     }
     
     protected void init() { repositionElements(); }

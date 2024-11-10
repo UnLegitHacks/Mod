@@ -1,17 +1,16 @@
 package io.unlegit.mixins.gui;
 
-import java.awt.Color;
-
-import io.unlegit.utils.render.Colorer;
-import net.minecraft.util.ARGB;
-import org.spongepowered.asm.mixin.*;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import io.unlegit.gui.font.IFont;
+import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.LogoRenderer;
+import net.minecraft.util.ARGB;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(LogoRenderer.class)
 public class LogoRenderMixin

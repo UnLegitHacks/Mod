@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RenderKey implements IGui, IMinecraft
 {
-    protected ResourceLocation circle = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/circle.png"));
+    protected ResourceLocation circle = get(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/circle.png"));
     protected boolean prevPressed = false;
     protected Animation animation = null;
     protected KeyMapping keyMapping;

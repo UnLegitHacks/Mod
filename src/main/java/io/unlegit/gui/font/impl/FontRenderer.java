@@ -153,8 +153,8 @@ public class FontRenderer implements IMinecraft, IGui
     public FontRenderer(GlyphPage page)
     {
         this.page = page;
-        shadowLeft = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/left.png"));
-        shadowCenter = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/center.png"));
-        shadowRight = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/right.png"));
+        shadowLeft = get(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/left.png"));
+        shadowCenter = get(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/center.png"));
+        shadowRight = get(ResourceLocation.fromNamespaceAndPath("unlegit", "shadow/right.png"));
     }
 }

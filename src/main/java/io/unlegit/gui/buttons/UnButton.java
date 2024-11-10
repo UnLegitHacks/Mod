@@ -11,16 +11,16 @@ import net.minecraft.resources.ResourceLocation;
 
 public class UnButton implements IGui
 {
-    private ResourceLocation buttonTexture;
+    private final ResourceLocation buttonTexture;
     private Animation animation = null;
     private boolean prevHover = false;
-    private String displayName;
-    private Runnable action;
-    private int x, y;
+    private final String displayName;
+    private final Runnable action;
+    private final int x, y;
     
     public UnButton(String displayName, String textureName, int x, int y, Runnable action)
     {
-        buttonTexture = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/buttons/" + textureName + ".png"));
+        buttonTexture = get(ResourceLocation.fromNamespaceAndPath("unlegit", "mainmenu/buttons/" + textureName + ".png"));
         this.displayName = displayName;
         this.action = action;
         this.x = x;

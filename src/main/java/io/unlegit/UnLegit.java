@@ -1,10 +1,6 @@
 package io.unlegit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.mojang.blaze3d.platform.InputConstants;
-
 import io.unlegit.commands.CommandManager;
 import io.unlegit.config.UnConfig;
 import io.unlegit.events.EventBus;
@@ -22,6 +18,8 @@ import io.unlegit.utils.SoundUtil;
 import io.unlegit.utils.render.Colorer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.ChatFormatting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UnLegit implements ModInitializer, EventListener, IMinecraft
 {

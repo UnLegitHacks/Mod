@@ -1,5 +1,6 @@
 package io.unlegit.utils.render;
 
+import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import io.unlegit.UnLegit;
 import io.unlegit.interfaces.IMinecraft;
@@ -9,30 +10,55 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
+
+import javax.imageio.ImageIO;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.glfwGetKeyName;
 
 public class ScreenUtil implements IMinecraft
 {
     private static final ResourceLocation BLUR_POST_CHAIN_ID = ResourceLocation.withDefaultNamespace("blur");
+    private static final ArrayList<ResourceLocation> cache = new ArrayList<>();
 
     /**
      * Makes the texture use linear scaling when scaled up, instead of nearest scaling.
+     * The reason for a DynamicTexture being used is to not have broken textures when exported.
      */
-    public static ResourceLocation withLinearScaling(ResourceLocation location)
+    public static ResourceLocation get(ResourceLocation location)
     {
-        TextureManager textureManager = mc.getTextureManager();
-        textureManager.getTexture(location).setFilter(true, false);
+        if (!cache.contains(location))
+        {
+            try (InputStream stream = ScreenUtil.class.getClassLoader().getResourceAsStream( "assets/" + location.getNamespace() + "/" + location.getPath()))
+            {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                ImageIO.write(ImageIO.read(stream), "png", outputStream);
+                byte[] bytes = outputStream.toByteArray();
+                ByteBuffer data = BufferUtils.createByteBuffer(bytes.length).put(bytes).flip();
+                AbstractTexture loadedTexture = new DynamicTexture(NativeImage.read(data));
+                mc.getTextureManager().register(location, loadedTexture);
+                loadedTexture.setFilter(true, false);
+                loadedTexture.getDefaultBlur();
+            } catch (Exception e) {}
+
+            cache.add(location);
+        }
+
         return location;
     }
 
     /**
      * Whenever you want to draw a shadow, use this method.
      * It makes it so that it doesn't render a shadow when
-     * the theme is vanilla  automatically for you.
+     * the theme is vanilla, automatically for you.
      */
     public static void drawShadow(GuiGraphics graphics, ResourceLocation resourceLocation, int i, int j, float f, float g, int k, int l, int m, int n, int tint)
     {

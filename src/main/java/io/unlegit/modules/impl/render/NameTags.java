@@ -134,9 +134,9 @@ public class NameTags extends ModuleU implements IGui
     
     public void drawShadows(int stringWidth)
     {
-        if (leftShadow == null) leftShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/left.png"));
-        if (centerShadow == null) centerShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/center.png"));
-        if (rightShadow == null) rightShadow = withLinearScaling(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/right.png"));
+        if (leftShadow == null) leftShadow = get(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/left.png"));
+        if (centerShadow == null) centerShadow = get(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/center.png"));
+        if (rightShadow == null) rightShadow = get(ResourceLocation.fromNamespaceAndPath("unlegit", "modules/nametags/right.png"));
         
         GlStateManager._enableBlend();
         GlStateManager._blendFuncSeparate(770, 771, 1, 1);
