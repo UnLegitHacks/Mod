@@ -38,7 +38,8 @@ public class ModuleManager
             new NoHurtCam(), new TimeChanger(), new WTap(), new Blink(),
             new Fly(), new Rotations(), new NoFall(), new MurderMystery(),
             new AutoArmor(), new TabGui(), new Reach(), new Minimap(),
-            new PacketBlocker(), new Jargon(), new AutoPlay(), new Teams());
+            new PacketBlocker(), new Jargon(), new AutoPlay(), new Teams(),
+            new AutoClicker());
         
         PlayerTracker.get().start();
         UnLegit.settings.call(this);

@@ -24,7 +24,7 @@ public class KillAura extends ModuleU
     public SliderSetting minCPS = new SliderSetting("Min CPS", "The minimum CPS in randomization.", 1, 8, 20),
                          maxCPS = new SliderSetting("Max CPS", "The maximum CPS in randomization.", 1, 12, 20),
                          distance = new SliderSetting("Distance", "The distance the target should be in.", 3, 3, 5);
-    
+
     public ToggleSetting swingHand = new ToggleSetting("Swing Hand", "Swings the hand normally.", true),
                          smartRange = new ToggleSetting("Smart Range", "Increases the range depending on your ping.", false),
                          predict = new ToggleSetting("Predict Pos", "Predicts the movement of the target.", true),
@@ -42,7 +42,7 @@ public class KillAura extends ModuleU
     }),
     priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
     autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
-    
+
     private final ElapTime elapTime = new ElapTime();
     private boolean stopBlocking = false;
     public float CPS = 0, yaw, pitch;

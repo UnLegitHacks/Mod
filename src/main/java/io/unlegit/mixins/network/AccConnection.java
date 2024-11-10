@@ -11,5 +11,5 @@ import net.minecraft.network.protocol.Packet;
 public interface AccConnection
 {
     @Invoker("genericsFtw")
-    public static <T extends PacketListener> void genericsFtw(Packet<T> packet, PacketListener packetListener) {}
+    static <T extends PacketListener> void genericsFtw(Packet<T> packet, PacketListener packetListener) {}
 }

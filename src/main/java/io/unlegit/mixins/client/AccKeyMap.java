@@ -11,5 +11,5 @@ import net.minecraft.client.KeyMapping;
 public interface AccKeyMap
 {
     @Accessor
-    public InputConstants.Key getKey();
+    InputConstants.Key getKey();
 }

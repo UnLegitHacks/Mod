@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface AccGraphics
 {
     @Mutable @Accessor("pose")
-    public void setPose(PoseStack pose);
+    void setPose(PoseStack pose);
 
     @Accessor
     MultiBufferSource.BufferSource getBufferSource();
