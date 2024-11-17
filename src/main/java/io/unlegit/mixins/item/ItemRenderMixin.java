@@ -38,7 +38,7 @@ public class ItemRenderMixin
     {
         OldHitting oldHitting = (OldHitting) UnLegit.modules.get("Old Hitting");
         
-        if (interactionHand == InteractionHand.MAIN_HAND)
+        if (oldHitting.isEnabled() && interactionHand == InteractionHand.MAIN_HAND)
             oldHitting.performAnimation(poseStack, swingProgress, equipProgress);
     }
     

@@ -37,7 +37,7 @@ public class ScreenUtil implements IMinecraft
     {
         if (!cache.contains(location))
         {
-            try (InputStream stream = ScreenUtil.class.getClassLoader().getResourceAsStream( "assets/" + location.getNamespace() + "/" + location.getPath()))
+            try (InputStream stream = ScreenUtil.class.getClassLoader().getResourceAsStream("assets/" + location.getNamespace() + "/" + location.getPath()))
             {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 ImageIO.write(ImageIO.read(stream), "png", outputStream);
