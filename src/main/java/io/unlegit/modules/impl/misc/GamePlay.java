@@ -5,10 +5,14 @@ import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.impl.ModeSetting;
 import io.unlegit.modules.settings.impl.ToggleSetting;
+import io.unlegit.tracker.PlayerTracker;
 import io.unlegit.utils.entity.InvUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
 
 import java.util.ArrayList;
 
@@ -67,9 +71,20 @@ public class GamePlay extends ModuleU
         "Look a divinity! He definitely uses UnLegit!",
         "In need of a cute present for Christmas? UnLegit is all you need!"
     };
-    
+
+    public ToggleSetting bedwars = new ToggleSetting("Bedwars", "Enable options for Bedwars.", false),
+                         notifyInvis = new ToggleSetting("Notify Invis Pot", "Notifies you when someone gets a potion of invisibilty.", false),
+                         notifyObby = new ToggleSetting("Notify Obsidian", "Notifies you when someone gets obsidian.", false);
+
+
     private final ArrayList<String> alreadySaidMessages = new ArrayList<>();
+    private final ArrayList<Player> invisPlayers = new ArrayList<>(), obsidianPlayers = new ArrayList<>();
     private int attemptLimit = 0;
+
+    public GamePlay()
+    {
+        bedwars.setAction(() -> notifyInvis.hidden = notifyObby.hidden = !bedwars.enabled);
+    }
     
     public void onUpdate()
     {
@@ -83,9 +98,38 @@ public class GamePlay extends ModuleU
                 mc.gameMode.useItem(mc.player, InteractionHand.MAIN_HAND);
             }
         }
+
+        if (bedwars.enabled)
+        {
+            if (notifyInvis.enabled)
+            {
+                Player player = PlayerTracker.get().findPlayerWithItem(item -> item.is((Item) Potions.INVISIBILITY));
+
+                if (player != null && !invisPlayers.contains(player))
+                {
+                    clientMessage(ChatFormatting.GOLD +
+                            "Has invisibility: " + player.getName().getString());
+
+                    invisPlayers.add(player);
+                }
+            }
+
+            if (notifyObby.enabled)
+            {
+                Player player = PlayerTracker.get().findPlayerWithItem(item -> item.getDisplayName().getString().toLowerCase().contains("obsidian"));
+
+                if (player != null && !obsidianPlayers.contains(player))
+                {
+                    clientMessage(ChatFormatting.GOLD +
+                            "Has obsidian: " + player.getName().getString());
+
+                    obsidianPlayers.add(player);
+                }
+            }
+        }
     }
     
-    // Should work with most English servers
+    // Works with most English servers
     public void onMessageReceive(MessageE e)
     {
         String message = ChatFormatting.stripFormatting(e.message.getString().replaceAll("\r", "\\\\r").replaceAll("\n", "\\\\n"));

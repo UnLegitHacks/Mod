@@ -1,15 +1,8 @@
 package io.unlegit.mixins.client;
 
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.platform.Window;
-
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.client.UpdateE;
 import io.unlegit.events.impl.client.WorldChangeE;
@@ -18,13 +11,26 @@ import io.unlegit.gui.UnThemePicker;
 import io.unlegit.gui.UnTitleScreen;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.modules.impl.combat.killaura.AutoBlock;
+import io.unlegit.modules.impl.render.ESP;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.*;
+import net.minecraft.client.gui.screens.ReceivingLevelScreen;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin
@@ -33,7 +39,7 @@ public class MinecraftMixin
     @Shadow private volatile boolean pause;
     @Shadow @Final private Window window;
     @Shadow public LocalPlayer player;
-    
+
     @Inject(method = "tick", at = @At(value = "HEAD"))
     public void updateEvent(CallbackInfo info)
     {
@@ -50,7 +56,7 @@ public class MinecraftMixin
     }
     
     @Inject(method = "setScreen", at = @At(value = "HEAD"))
-    private void useUnTitleScreen(CallbackInfo info, @Local LocalRef<Screen> screen)
+    private void useUnTitleScreen(CallbackInfo info, @Local(argsOnly = true) LocalRef<Screen> screen)
     {
         if (screen.get() instanceof TitleScreen)
         {
@@ -82,5 +88,14 @@ public class MinecraftMixin
     public void worldChangeEvent(ClientLevel clientLevel, ReceivingLevelScreen.Reason reason, CallbackInfo info)
     {
         UnLegit.events.post(WorldChangeE.get());
+    }
+
+    @Inject(method = "shouldEntityAppearGlowing", at = @At(value = "HEAD"), cancellable = true)
+    public void shouldEntityAppearGlowing(Entity entity, CallbackInfoReturnable<Boolean> glowing)
+    {
+        ESP esp = (ESP) UnLegit.modules.get("ESP");
+
+        if (esp.isEnabled() && esp.mode.equals("Outline") && entity instanceof LivingEntity && !(entity instanceof LocalPlayer) && !entity.isInvisibleTo(player))
+            glowing.setReturnValue(true);
     }
 }

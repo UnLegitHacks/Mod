@@ -21,10 +21,11 @@ public class AutoClicker extends ModuleU
     public void onUpdate()
     {
         if (glfwGetMouseButton(mc.getWindow().getWindow(), 0) == 1 &&
-                (mc.hitResult == null || mc.hitResult.getType() != HitResult.Type.BLOCK))
+                (mc.hitResult == null || mc.hitResult.getType() != HitResult.Type.BLOCK) && mc.screen == null)
         {
             if (elapTime.passed((long) (1000 / CPS)))
             {
+                ((AccMinecraft) mc).setMissTime(0);
                 ((AccMinecraft) mc).invokeStartAttack();
                 CPS = updateCPS();
             }

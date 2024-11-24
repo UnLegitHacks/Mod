@@ -9,6 +9,6 @@ public class ESP extends ModuleU
 {
     public ModeSetting mode = new ModeSetting("Mode", "The mode for ESP.", new String[]
     {
-        "Chams", "Outline" // TODO: Modes other than Chams
+        "Chams", "Outline"
     });
 }

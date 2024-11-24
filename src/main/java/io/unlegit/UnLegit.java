@@ -14,7 +14,6 @@ import io.unlegit.interfaces.IMinecraft;
 import io.unlegit.modules.ModuleManager;
 import io.unlegit.modules.ModuleU;
 import io.unlegit.modules.settings.SettingManager;
-import io.unlegit.utils.SoundUtil;
 import io.unlegit.utils.render.Colorer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.ChatFormatting;
@@ -44,9 +43,7 @@ public class UnLegit implements ModInitializer, EventListener, IMinecraft
         setFirstLaunch(!UnConfig.config.exists());
         events.register(this);
         UnConfig.init();
-        
-        // Fixes an issue.
-        SoundUtil.playActionSound();
+
         LOGGER.info("Successfully loaded up.");
     }
     

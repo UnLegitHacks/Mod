@@ -1,10 +1,6 @@
 package io.unlegit.modules.impl.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.mojang.blaze3d.platform.GlStateManager;
-
 import io.unlegit.events.impl.render.GuiRenderE;
 import io.unlegit.gui.font.IFont;
 import io.unlegit.gui.font.impl.FontRenderer;
@@ -15,6 +11,9 @@ import io.unlegit.utils.render.Colorer;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @IModule(name = "Compass", description = "A simplistic compass that shows directions.")
 public class Compass extends ModuleU implements IGui
@@ -27,7 +26,7 @@ public class Compass extends ModuleU implements IGui
     public Compass()
     {
         add("S", "E", "N", "W", "_",
-            
+
             "SE", "NE", "NW", "SW", "_",
             
             "165", "150", "120", "105",
@@ -51,7 +50,7 @@ public class Compass extends ModuleU implements IGui
             
             if (type == CARDINALS)
             {
-                drawString(graphics, width, direction, offset + (int) ((width / 2) + (rotation * 640)), 10, 1);
+                drawString(graphics, width, direction, offset + (int) ((width / 2F) + (rotation * 640)), 10, 1);
                 offset += 160;
             }
             
@@ -62,7 +61,7 @@ public class Compass extends ModuleU implements IGui
                     switchFont(IFont.MEDIUM); offset = 80;
                 }
                 
-                drawString(graphics, width, direction, offset + (int) ((width / 2) + (rotation * 640)), 13, 0.9F);
+                drawString(graphics, width, direction, offset + (int) ((width / 2F) + (rotation * 640)), 13, 0.9F);
                 offset += 160;
             }
             
@@ -73,7 +72,7 @@ public class Compass extends ModuleU implements IGui
                     switchFont(IFont.NORMAL); offset = 26;
                 }
                 
-                drawString(graphics, width, direction, offset + (int) ((width / 2) + (rotation * 640)), 17, 0.8F);
+                drawString(graphics, width, direction, offset + (int) ((width / 2F) + (rotation * 640)), 17, 0.8F);
                 if (++count % 4 == 0) offset += 53;
                 else if (count % 2 == 0) offset += 57;
                 else offset += 25;
@@ -88,7 +87,7 @@ public class Compass extends ModuleU implements IGui
     
     public int getColor(int width, float x, float alphaMultiplier)
     {
-        float alpha = 255 - Math.abs((width / 2) - x) * 1.75F;
+        float alpha = 255 - Math.abs((width / 2F) - x) * 1.75F;
         if (alpha < 0) alpha = 0; if (alpha > 255) alpha = 255;
         return Colorer.RGB(255, 255, 255, (int) (alpha * alphaMultiplier));
     }
