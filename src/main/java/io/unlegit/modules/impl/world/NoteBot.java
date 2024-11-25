@@ -81,7 +81,7 @@ public class NoteBot extends ModuleU
             clientMessage(ChatFormatting.GREEN +
                     "Now playing: " + file.getName().replace(".nbs", ""));
             
-            for (int i = 0; i < song.length(); i++)
+            for (int i = 0; i <= song.length(); i++)
             {
                 for (Entry<Integer, Layer> layer : song.layerHashMap().entrySet())
                 {
