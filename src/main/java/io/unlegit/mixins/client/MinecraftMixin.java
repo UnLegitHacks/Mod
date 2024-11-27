@@ -7,6 +7,7 @@ import io.unlegit.UnLegit;
 import io.unlegit.events.impl.client.UpdateE;
 import io.unlegit.events.impl.client.WorldChangeE;
 import io.unlegit.events.impl.entity.AttackE;
+import io.unlegit.events.impl.entity.PlayerTurnE;
 import io.unlegit.gui.UnThemePicker;
 import io.unlegit.gui.UnTitleScreen;
 import io.unlegit.gui.font.IFont;
@@ -45,6 +46,12 @@ public class MinecraftMixin
     {
         if (player != null && !pause)
             UnLegit.events.post(UpdateE.get());
+    }
+
+    @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MouseHandler;handleAccumulatedMovement()V", shift = At.Shift.AFTER))
+    public void playerTurn(CallbackInfo info)
+    {
+        UnLegit.events.post(PlayerTurnE.get());
     }
     
     @Inject(method = "startAttack", at = @At(value = "HEAD"), cancellable = true)

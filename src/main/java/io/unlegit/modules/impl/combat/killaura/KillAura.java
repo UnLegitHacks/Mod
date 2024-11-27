@@ -43,6 +43,7 @@ public class KillAura extends ModuleU
     priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
     autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
 
+    public ToggleSetting lockView = new ToggleSetting("Lock View", "Makes rotations client-side helping it bypass.", false);
     private final ElapTime elapTime = new ElapTime();
     private boolean stopBlocking = false;
     public float CPS = 0, yaw, pitch;
@@ -108,34 +109,20 @@ public class KillAura extends ModuleU
     {
         if (target != null)
         {
-            float[] rotations = RotationUtil.rotations(target, predict.enabled);
-            
-            if (this.rotations.equals("Smooth")) smoothenRotations(rotations);
-            
-            else if (this.rotations.equals("Snap"))
-            {
-                float yawDifference = Math.abs(yaw - rotations[0]), pitchDifference = Math.abs(pitch - rotations[1]);
-                if (yawDifference > 10) yaw = rotations[0];
-                if (pitchDifference > 10) pitch = rotations[1];
-            }
-            
-            else if (this.rotations.equals("Legit"))
-                legitenRotations(rotations);
-            
-            else if (this.rotations.equals("None"))
-            {
-                yaw = mc.player.getYRot();
-                pitch = mc.player.getXRot();
-            }
-            
-            else { yaw = rotations[0]; pitch = rotations[1]; }
-            
-            e.yaw = yaw; e.pitch = pitch; e.changed = true;
+            e.yaw = yaw;
+            e.pitch = pitch;
+            e.changed = true;
         }
-        
-        else if (rotations.equals("Smooth"))
+    }
+
+    public void onPlayerTurn()
+    {
+        updateRotations();
+
+        if (lockView.enabled && target != null && !rotations.equals("None"))
         {
-            yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
+            mc.player.setYRot(yaw);
+            mc.player.setXRot(pitch);
         }
     }
     
@@ -205,6 +192,39 @@ public class KillAura extends ModuleU
         {
             pitch -= (float) (48 * Math.random());
             if (rotations[1] > pitch) pitch = rotations[1];
+        }
+    }
+
+    public void updateRotations()
+    {
+        if (target != null)
+        {
+            float[] rotations = RotationUtil.rotations(target, predict.enabled);
+
+            if (this.rotations.equals("Smooth")) smoothenRotations(rotations);
+
+            else if (this.rotations.equals("Snap"))
+            {
+                float yawDifference = Math.abs(yaw - rotations[0]), pitchDifference = Math.abs(pitch - rotations[1]);
+                if (yawDifference > 10) yaw = rotations[0];
+                if (pitchDifference > 10) pitch = rotations[1];
+            }
+
+            else if (this.rotations.equals("Legit"))
+                legitenRotations(rotations);
+
+            else if (this.rotations.equals("None"))
+            {
+                yaw = mc.player.getYRot();
+                pitch = mc.player.getXRot();
+            }
+
+            else { yaw = rotations[0]; pitch = rotations[1]; }
+        }
+
+        else if (rotations.equals("Smooth"))
+        {
+            yaw = mc.player.getYRot(); pitch = mc.player.getXRot();
         }
     }
     

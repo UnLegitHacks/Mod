@@ -20,4 +20,5 @@ public interface EventListener
     default void onPacketSend(PacketSendE e) {} default void onPacketReceive(PacketReceiveE e) {}
     default void onMessageReceive(MessageE e) {} default void onWorldRender(WorldRenderE e) {}
     default void onStrafe(StrafeE e) {} default void onWorldChange() {} default void onBlockShape(BlockShapeE e) {}
+    default void onPlayerTurn() {}
 }

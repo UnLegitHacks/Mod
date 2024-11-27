@@ -12,7 +12,7 @@ public class EventHandler
 {
     public static void handleEvent(EventListener listener, Event e)
     {
-        // This syntax will force people to use Java 21. LOL
+        // This syntax forces people to use Java 21 :D
         switch (e)
         {
             case GuiRenderE g: listener.onGuiRender(g); break;
@@ -28,6 +28,7 @@ public class EventHandler
             case StrafeE s: listener.onStrafe(s); break;
             case WorldChangeE w: listener.onWorldChange(); break;
             case BlockShapeE b: listener.onBlockShape(b); break;
+            case PlayerTurnE p: listener.onPlayerTurn(); break;
             default: break;
         }
     }
