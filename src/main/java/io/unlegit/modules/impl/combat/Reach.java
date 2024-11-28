@@ -40,7 +40,7 @@ public class Reach extends ModuleU
             if (mc.player.tickCount % delay == 0)
             {
                 while (!packets.isEmpty())
-                    Packets.send(packets.poll());
+                    Packets.sendNoEvent(packets.poll());
             }
         }
     }

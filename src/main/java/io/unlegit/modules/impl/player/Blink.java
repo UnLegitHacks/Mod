@@ -46,7 +46,7 @@ public class Blink extends ModuleU
         on = false;
         
         while (!packets.isEmpty())
-            Packets.send(packets.poll());
+            Packets.sendNoEvent(packets.poll());
     }
     
     /** Switches on the Blink module silently. */
