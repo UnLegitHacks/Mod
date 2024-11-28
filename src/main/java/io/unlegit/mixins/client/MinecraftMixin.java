@@ -51,7 +51,8 @@ public class MinecraftMixin
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MouseHandler;handleAccumulatedMovement()V", shift = At.Shift.AFTER))
     public void playerTurn(CallbackInfo info)
     {
-        UnLegit.events.post(PlayerTurnE.get());
+        if (player != null)
+            UnLegit.events.post(PlayerTurnE.get());
     }
     
     @Inject(method = "startAttack", at = @At(value = "HEAD"), cancellable = true)
