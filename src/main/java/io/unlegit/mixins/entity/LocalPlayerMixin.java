@@ -21,13 +21,13 @@ import net.minecraft.world.phys.Vec3;
 public class LocalPlayerMixin
 {
     @Shadow @Final protected Minecraft minecraft;
-    private boolean sprinting, onGround;
+    @Unique private boolean sprinting, onGround;
     @Shadow public ClientInput input;
-    private float yaw, pitch;
-    private double x, y, z;
+    @Unique private float yaw, pitch;
+    @Unique private double x, y, z;
     
     @Inject(method = "move", at = @At(value = "HEAD"))
-    public void moveEvent(CallbackInfo info, @Local LocalRef<Vec3> vec3)
+    public void moveEvent(CallbackInfo info, @Local(argsOnly = true) LocalRef<Vec3> vec3)
     {
         MoveE e = MoveE.get(vec3.get());
         UnLegit.events.post(e);

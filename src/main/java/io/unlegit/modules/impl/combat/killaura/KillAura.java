@@ -3,6 +3,7 @@ package io.unlegit.modules.impl.combat.killaura;
 import io.unlegit.UnLegit;
 import io.unlegit.events.impl.entity.AttackE;
 import io.unlegit.events.impl.entity.MotionE;
+import io.unlegit.events.impl.entity.StrafeE;
 import io.unlegit.gui.clickgui.ClickGui;
 import io.unlegit.interfaces.IModule;
 import io.unlegit.modules.ModuleU;
@@ -43,7 +44,9 @@ public class KillAura extends ModuleU
     priority = new ModeSetting("Priority", "The priority for the target.", new String[] {"Hurt Time", "Distance", "Health"}),
     autoBlock = new ModeSetting("Auto Block", "The mode for auto block.", new String[] {"None", "Vanilla", "Fake"});
 
-    public ToggleSetting lockView = new ToggleSetting("Lock View", "Makes rotations client-side helping it bypass.", false);
+    public ToggleSetting lockView = new ToggleSetting("Lock View", "Makes rotations client-side helping it bypass.", false),
+                         strafeFix = new ToggleSetting("Move Fix", "If not Lock View, this also helps KillAura bypass.", false);
+
     private final ElapTime elapTime = new ElapTime();
     private boolean stopBlocking = false;
     public float CPS = 0, yaw, pitch;
@@ -111,6 +114,15 @@ public class KillAura extends ModuleU
         {
             e.yaw = yaw;
             e.pitch = pitch;
+            e.changed = true;
+        }
+    }
+
+    public void onStrafe(StrafeE e)
+    {
+        if (strafeFix.enabled && target != null && !rotations.equals("None"))
+        {
+            e.yaw = yaw;
             e.changed = true;
         }
     }
