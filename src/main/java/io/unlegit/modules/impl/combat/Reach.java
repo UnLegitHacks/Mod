@@ -9,6 +9,7 @@ import io.unlegit.modules.settings.impl.SliderSetting;
 import io.unlegit.utils.network.Packets;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
+import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 
 import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -47,7 +48,7 @@ public class Reach extends ModuleU
 
     public void onPacketSend(PacketSendE e)
     {
-        if (attackTick != null && (mc.player.tickCount - attackTick) < 15 && !(e.packet instanceof ServerboundInteractPacket))
+        if (attackTick != null && (mc.player.tickCount - attackTick) < 15 && !(e.packet instanceof ServerboundInteractPacket) && !(e.packet instanceof ServerboundSwingPacket))
         {
             packets.add(e.packet);
             e.cancelled = true;
