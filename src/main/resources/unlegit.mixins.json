@@ -10,7 +10,8 @@
 		"client.ChatCompMixin", "render.FogRenderMixin", "render.ScreenEffectMixin", "network.AccConnection",
 		"gui.AccGraphics", "render.LivingRenderMixin", "entity.EntityMixin", "entity.LivingEntityMixin",
 		"render.GameRenderMixin", "client.LevelDataMixin", "client.WindowMixin", "render.LivingEntityRenderMixin",
-		"gui.LogoRenderMixin", "gui.ChatMixin", "client.level.BlockBehaviourMixin", "client.AccMinecraft"
+		"gui.LogoRenderMixin", "gui.ChatMixin", "client.level.BlockBehaviourMixin", "client.AccMinecraft",
+		"client.level.ClientLevelMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

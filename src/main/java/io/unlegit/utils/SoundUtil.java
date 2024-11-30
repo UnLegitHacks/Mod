@@ -38,14 +38,17 @@ public class SoundUtil implements IMinecraft
         // If multiple modules are turned on at once, don't play several sounds at once
         if (System.currentTimeMillis() - time < 100) return;
         
-        try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream))
+        new Thread(() ->
         {
-            Clip clip = AudioSystem.getClip();
-            clip.addLineListener(e -> { if (e.getType() == LineEvent.Type.STOP) clip.close(); });
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception e) {}
+            try (InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputStream))
+            {
+                Clip clip = AudioSystem.getClip();
+                clip.addLineListener(e -> { if (e.getType() == LineEvent.Type.STOP) clip.close(); });
+                clip.open(audioInputStream);
+                clip.start();
+            } catch (Exception e) {}
+        }).start();
         
         time = System.currentTimeMillis();
     }

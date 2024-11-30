@@ -45,8 +45,6 @@ public class ScreenUtil implements IMinecraft
                 ByteBuffer data = BufferUtils.createByteBuffer(bytes.length).put(bytes).flip();
                 AbstractTexture loadedTexture = new DynamicTexture(NativeImage.read(data));
                 mc.getTextureManager().register(location, loadedTexture);
-                loadedTexture.setFilter(true, false);
-                loadedTexture.getDefaultBlur();
             } catch (Exception e) {}
 
             cache.add(location);

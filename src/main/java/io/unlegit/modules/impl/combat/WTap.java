@@ -20,6 +20,6 @@ public class WTap extends ModuleU
 
     public void command(ServerboundPlayerCommandPacket.Action action)
     {
-        Packets.sendNoEvent(new ServerboundPlayerCommandPacket(mc.player, action));
+        Packets.send(new ServerboundPlayerCommandPacket(mc.player, action));
     }
 }
