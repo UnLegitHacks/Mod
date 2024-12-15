@@ -15,6 +15,7 @@ import io.unlegit.modules.impl.movement.*;
 import io.unlegit.modules.impl.movement.scaffold.Scaffold;
 import io.unlegit.modules.impl.player.*;
 import io.unlegit.modules.impl.render.*;
+import io.unlegit.modules.impl.world.Disabler;
 import io.unlegit.modules.impl.world.NoteBot;
 import io.unlegit.modules.impl.world.TimeChanger;
 import io.unlegit.tracker.PlayerTracker;
@@ -39,7 +40,7 @@ public class ModuleManager
             new Fly(), new Rotations(), new NoFall(), new MurderMystery(),
             new AutoArmor(), new TabGui(), new Reach(), new Minimap(),
             new PacketBlocker(), new Jargon(), new AutoPlay(), new Teams(),
-            new AutoClicker(), new TrueSight());
+            new AutoClicker(), new TrueSight(), new Disabler());
         
         PlayerTracker.get().start();
         UnLegit.settings.call(this);
